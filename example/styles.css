@@ -1,0 +1,137 @@
+.box-address {
+  display: block;
+  background: rgba(251, 251, 255, 1);;
+  height: 32px;
+  width: 144px;
+  padding: 0px;
+  /* border: 1px solid rgb(230, 237, 251); */
+  border:  1px solid rgb(237, 242, 251);
+  border-radius: 3px;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+  font-family:  Arial, sans-serif;
+  /*  Remove */
+  margin: 130px  75px;
+  float: left;
+  position: relative;
+  cursor: pointer;
+}
+
+.box-address .box-img {
+  background: rgb(7, 73, 136);
+  height: 32px;
+  width: 32px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 3px 0px 0px 3px;
+  /* float: left; */
+  display: block;
+  overflow: hidden;
+}
+
+.box-short-address {
+  position: absolute;
+  /* padding-left: 40px;
+  padding-top: 6px; */
+  left: 43px;
+  top: 8px;
+  display: block;
+  color: rgb(124, 138, 167);
+  /* rgb(124, 134, 156); */
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.015em;
+}
+
+.hover-profile {
+  display: none;
+ /* height: 140px; */
+  position: relative;
+  bottom: -43px;
+  left: -15px;
+  padding: 15px 19px 15px 19px;
+  border-radius: 3px;
+  border: 1px solid rgb(237, 242, 251);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+  background: rgba(251, 251, 255, 1);
+  color: rgb(124, 138, 167);
+  width: 180px;
+  z-index: 1111;
+}
+
+.hover-profile .profile-value {
+  width: inherit;
+  padding: 5px;
+}
+
+.hover-profile .profile-value a {
+  text-decoration: none;
+  color: rgb(72, 125, 236);
+  font-size: 15px;
+}
+
+
+.hover-profile .profile-value .profile-text{
+  padding-left: 6px;
+}
+
+
+
+.hover-profile .profile-value-name {
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(237, 242, 251);
+  font-weight: 600;
+  font-size: 17px;
+  margin-bottom:10px;
+}
+
+
+.hover-profile .profile-value-name .profile-text{
+  padding-left:4px;
+}
+
+/* Complete hack, fix this up */
+.hover-profile .box-link{
+  background: rgba(245, 245, 253, 0.9);
+  border-top: 1px solid rgb(237, 242, 255);
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-size: 12px;
+  text-align: center;
+  position: relative;
+  left: -19px;
+  width: 218px;
+  bottom: -15px;
+  border-radius: 0px 0px 3px 3px;
+}
+
+.hover-profile .box-link a {
+  text-decoration: none;
+  color: rgb(72, 125, 236);
+  font-weight: 600;
+}
+
+.hover-profile .box-link i {
+  color: rgb(72, 125, 236);
+}
+
+.hover-profile:after{
+    content:'';
+    position:absolute;
+    top:-6px;
+    width:10px;
+    height:10px;
+    border-bottom:1px solid rgb(237, 242, 251);
+    border-right:1px solid rgb(237, 242, 251);
+    /* background:rgb(245, 248, 255); */
+    background: rgba(251, 251, 255, 1);
+    left:50%;
+    margin-left:-10px;
+    -moz-transform:rotate(225deg);
+    -webkit-transform:rotate(225deg);
+    transform:rotate(225deg);
+}
+
+.box-address:hover .hover-profile {
+  display:block;
+}
