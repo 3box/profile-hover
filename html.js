@@ -19,7 +19,7 @@ const baseTemplate = (data = {}) => `
   </div>
 
     <div class=${style.hoverProfile}>
-
+    <div class=${style.paddingWrap}>
         <div class=${style.profileValueName}>
           <span class=${style.profileText}> ${data.name}  </span>
           <span> ${data.emoji} </span>
@@ -50,6 +50,8 @@ const baseTemplate = (data = {}) => `
               ${data.website}
             </a>
           </span>
+        </div>
+
         </div>
         <div class=${style.boxLink}>
           <span> Profile at <a href="${'https://3box.io/' + data.address}" target="_blank">3box.io</a></span>
