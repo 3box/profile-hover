@@ -12,7 +12,7 @@ const baseTemplate = (data = {}) => `
     </div>
 
     <div class=${style.addressCopy} onClick='boxCopyAddress_f1kx("${data.address}")'>
-      <i class="far fa-clone"></i>
+      <i class="far fa-clone" id=${data.shortAddress.substring(2,6)}></i>
     </div>
 
     <div class=${style.hoverProfile}>

@@ -52,6 +52,19 @@ window['boxCopyAddress_f1kx'] = (address) => {
   el.select();
   document.execCommand('copy');
   document.body.removeChild(el);
+
+  const icon = document.getElementById(address.substring(2,6))
+  icon.classList.remove('far')
+  icon.classList.remove('fa-clone')
+  icon.classList.add('fas')
+  icon.classList.add('fa-check')
+
+  setTimeout(function(){
+    icon.classList.remove('fas')
+    icon.classList.remove('fa-check')
+    icon.classList.add('far')
+    icon.classList.add('fa-clone')
+  }, 2000);
 }
 
 // This will load all ccs, but for now write css in css colum
