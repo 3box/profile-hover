@@ -1,6 +1,15 @@
 import { getProfile, getProfiles, getVerifiedAccounts} from '3box/lib/api'
 import baseTemplate from './html.js'
 
+import style from './style.less';
+const css = style.toString()
+
+const sheet = document.createElement('style')
+sheet.type = 'text/css';
+sheet.appendChild(document.createTextNode(css));
+document.body.appendChild(sheet);
+
+
 // now fetch data, get all data in one request, add the images to each, add the hover items to each
 //TODO change to getProfiles Request
 window.addEventListener('load', async () => {

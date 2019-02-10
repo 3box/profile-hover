@@ -1,4 +1,4 @@
-.box-address {
+.boxAddress {
   display: block;
   background: rgba(251, 251, 255, 1);;
   height: 32px;
@@ -16,7 +16,7 @@
   cursor: pointer;
 }
 
-.box-address .box-img {
+.boxAddress .boxImg {
   background: rgb(7, 73, 136);
   height: 32px;
   width: 32px;
@@ -29,7 +29,7 @@
   overflow: hidden;
 }
 
-.box-short-address {
+.boxShortAddress {
   position: absolute;
   /* padding-left: 40px;
   padding-top: 6px; */
@@ -43,7 +43,7 @@
   letter-spacing: 0.015em;
 }
 
-.hover-profile {
+.hoverProfile {
   display: none;
  /* height: 140px; */
   position: relative;
@@ -59,25 +59,25 @@
   z-index: 1111;
 }
 
-.hover-profile .profile-value {
+.hoverProfile .profileValue {
   width: inherit;
   padding: 5px;
 }
 
-.hover-profile .profile-value a {
+.hoverProfile .profileValue a {
   text-decoration: none;
   color: rgb(72, 125, 236);
   font-size: 15px;
 }
 
 
-.hover-profile .profile-value .profile-text{
+.hoverProfile .profileValue .profileText{
   padding-left: 6px;
 }
 
 
 
-.hover-profile .profile-value-name {
+.hoverProfile .profileValueName {
   padding-bottom: 10px;
   border-bottom: 1px solid rgb(237, 242, 251);
   font-weight: 600;
@@ -86,12 +86,12 @@
 }
 
 
-.hover-profile .profile-value-name .profile-text{
+.hoverProfile .profileValueName .profileText{
   padding-left:4px;
 }
 
 /* Complete hack, fix this up */
-.hover-profile .box-link{
+.hoverProfile .boxLink{
   background: rgba(245, 245, 253, 0.9);
   border-top: 1px solid rgb(237, 242, 255);
   padding-top: 12px;
@@ -105,17 +105,17 @@
   border-radius: 0px 0px 3px 3px;
 }
 
-.hover-profile .box-link a {
+.hoverProfile .boxLink a {
   text-decoration: none;
   color: rgb(72, 125, 236);
   font-weight: 600;
 }
 
-.hover-profile .box-link i {
+.hoverProfile .boxLink i {
   color: rgb(72, 125, 236);
 }
 
-.hover-profile:after{
+.hoverProfile:after{
     content:'';
     position:absolute;
     top:-6px;
@@ -132,6 +132,6 @@
     transform:rotate(225deg);
 }
 
-.box-address:hover .hover-profile {
+.boxAddress:hover .hoverProfile {
   display:block;
 }
