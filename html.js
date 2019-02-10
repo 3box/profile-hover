@@ -8,6 +8,11 @@ const baseTemplate = (data = {}) => `
 
     <div class=${style.boxShortAddress}>
         ${data.shortAddress}
+
+    </div>
+
+    <div class=${style.addressCopy} onClick='boxCopyAddress_f1kx("${data.address}")'>
+      <i class="far fa-clone"></i>
     </div>
 
     <div class=${style.hoverProfile}>

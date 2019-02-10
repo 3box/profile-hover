@@ -45,6 +45,15 @@ const getShortAddress = (address) => {
 }
 
 
+window['boxCopyAddress_f1kx'] = (address) => {
+  const el = document.createElement('textarea');
+  el.value = address
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+}
+
 // This will load all ccs, but for now write css in css colum
 //  This inject all html and styling of empty state
 
