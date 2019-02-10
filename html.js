@@ -56,4 +56,28 @@ const baseTemplate = (data = {}) => `
   </div>
 `
 
-export default baseTemplate
+const loadingTemplate = (data = {}) => `
+  <div class=${style.boxAddress}>
+    <div class=${style.boxImg}>
+    </div>
+
+    <div class=${style.boxShortAddress}>
+        ${data.shortAddress}
+
+    </div>
+
+    <div class=${style.addressCopy} onClick='boxCopyAddress_f1kx("${data.address}")'>
+      <i class="far fa-clone" id=${data.shortAddress.substring(2,6)}></i>
+    </div>
+
+    <div class=${style.hoverProfile}>
+        Loading ....
+        <div class=${style.boxLink}>
+          <span> Profile data from <a href="${'https://3box.io/' + data.address}" target="_blank">3box.io</a></span>
+          <i class="fas fa-arrow-right"></i>
+        </div>
+    </div>
+  </div>
+`
+
+export { baseTemplate, loadingTemplate }

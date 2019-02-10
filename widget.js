@@ -1,5 +1,5 @@
 import { getProfile, getProfiles, getVerifiedAccounts} from '3box/lib/api'
-import baseTemplate from './html.js'
+import { baseTemplate, loadingTemplate } from './html.js'
 
 import style from './style.less';
 const css = style.toString()
@@ -76,7 +76,7 @@ const loadPlugins = () => {
       for (let i = 0; i < buttonArray.length; i++) {
         let { address } = buttonArray[i].dataset
         const shortAddress = getShortAddress(address).toLowerCase()
-        buttonArray[i].innerHTML = baseTemplate({shortAddress: shortAddress})
+        buttonArray[i].innerHTML = loadingTemplate({address, shortAddress: shortAddress})
       }
     })
 }
