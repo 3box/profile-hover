@@ -1,6 +1,8 @@
 const style = require('style-loader!./style.less')
 
 const baseTemplate = (data = {}) => `
+<div class=${style.boxAddressWrap}>
+
   <div class=${style.boxAddress}>
     <div class=${style.boxImg}>
       <img src='${data.imgSrc}'  height='32px' width='32px'/>
@@ -8,12 +10,13 @@ const baseTemplate = (data = {}) => `
 
     <div class=${style.boxShortAddress}>
         ${data.shortAddress}
-
     </div>
 
     <div class=${style.addressCopy} onClick='boxCopyAddress_f1kx("${data.address}")'>
       <i class="far fa-clone" id=${data.shortAddress.substring(2,6)}></i>
     </div>
+
+  </div>
 
     <div class=${style.hoverProfile}>
 
@@ -53,21 +56,24 @@ const baseTemplate = (data = {}) => `
           <i class="fas fa-arrow-right"></i>
         </div>
     </div>
-  </div>
+</div>
+
 `
 
 const loadingTemplate = (data = {}) => `
-  <div class=${style.boxAddress}>
-    <div class=${style.boxImg}>
-    </div>
+  <div class=${style.boxAddressWrap}>
+    <div class=${style.boxAddress}>
+      <div class=${style.boxImg}>
+      </div>
 
-    <div class=${style.boxShortAddress}>
-        ${data.shortAddress}
+      <div class=${style.boxShortAddress}>
+          ${data.shortAddress}
 
-    </div>
+      </div>
 
-    <div class=${style.addressCopy} onClick='boxCopyAddress_f1kx("${data.address}")'>
-      <i class="far fa-clone" id=${data.shortAddress.substring(2,6)}></i>
+      <div class=${style.addressCopy} onClick='boxCopyAddress_f1kx("${data.address}")'>
+        <i class="far fa-clone" id=${data.shortAddress.substring(2,6)}></i>
+      </div>
     </div>
 
     <div class=${style.hoverProfile}>

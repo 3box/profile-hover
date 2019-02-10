@@ -1,17 +1,17 @@
+.boxAddressWrap {
+  display: inline-block;
+  font-family:  Arial, sans-serif;
+}
+
 .boxAddress {
-  display: block;
+  display: inline-block;
   background: rgba(251, 251, 255, 1);;
   height: 32px;
-  width: 167px;
   padding: 0px;
-  /* border: 1px solid rgb(230, 237, 251); */
   border:  1px solid rgb(237, 242, 251);
   border-radius: 3px;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
   font-family:  Arial, sans-serif;
-  /*  Remove */
-  margin: 130px  75px;
-  float: left;
   position: relative;
 }
 
@@ -23,30 +23,22 @@
   top: 0;
   left: 0;
   border-radius: 3px 0px 0px 3px;
-  /* float: left; */
   display: block;
   overflow: hidden;
 }
 
 .boxShortAddress {
-  position: absolute;
-  /* padding-left: 40px;
-  padding-top: 6px; */
   cursor: default;
-  left: 43px;
-  top: 8px;
-  display: block;
   color: rgb(124, 138, 167);
-  /* rgb(124, 134, 156); */
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.015em;
+  display: inline-block;
+  margin: 8px 0px 0px 43px;
 }
 
 .addressCopy {
-  position: absolute;
-  left: 137px;
-  display: block;
+  display: inline-block;
   color: #b7bece;
   border-left: 1px solid #edf2fb;
   padding: 9px 4px 4px 9px;
@@ -66,9 +58,8 @@
 
 .hoverProfile {
   display: none;
- /* height: 140px; */
   position: relative;
-  bottom: -43px;
+  bottom: -11px;
   left: -15px;
   padding: 15px 19px 15px 19px;
   border-radius: 3px;
@@ -96,8 +87,6 @@
   padding-left: 6px;
 }
 
-
-
 .hoverProfile .profileValueName {
   padding-bottom: 10px;
   border-bottom: 1px solid rgb(237, 242, 251);
@@ -105,7 +94,6 @@
   font-size: 17px;
   margin-bottom:10px;
 }
-
 
 .hoverProfile .profileValueName .profileText{
   padding-left:4px;
@@ -144,7 +132,6 @@
     height:10px;
     border-bottom:1px solid rgb(237, 242, 251);
     border-right:1px solid rgb(237, 242, 251);
-    /* background:rgb(245, 248, 255); */
     background: rgba(251, 251, 255, 1);
     left:50%;
     margin-left:-10px;
@@ -153,6 +140,6 @@
     transform:rotate(225deg);
 }
 
-.boxAddress:hover .hoverProfile {
+.boxAddressWrap:hover .hoverProfile {
   display:block;
 }
