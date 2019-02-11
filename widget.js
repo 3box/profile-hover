@@ -1,5 +1,5 @@
 import { getProfile, getProfiles, getVerifiedAccounts} from '3box/lib/api'
-import { baseTemplate, loadingTemplate, noThemeTemplate, noThemeLoadingTemplate, emptyProfileTemplate } from './html.js'
+import { baseTemplate, loadingTemplate, emptyProfileTemplate } from './html.js'
 
 import style from './style.less';
 const css = style.toString()
@@ -9,7 +9,6 @@ sheet.type = 'text/css';
 sheet.appendChild(document.createTextNode(css));
 document.body.appendChild(sheet);
 
-
 // now fetch data, get all data in one request, add the images to each, add the hover items to each
 //TODO change to getProfiles Request
 window.addEventListener('load', async () => {
@@ -17,6 +16,7 @@ window.addEventListener('load', async () => {
     for (let i = 0; i < buttonArray.length; i++) {
       // get addresss, maybe do map instead, add other options here after
       let { address, display, theme } = buttonArray[i].dataset
+      theme = !(theme === 'none')
       const displayShort = !(display === 'full')
       const addressDisplay = displayShort ? getShortAddress(address) : address
       const profile = await getProfile(address)
@@ -37,17 +37,12 @@ window.addEventListener('load', async () => {
           name: profile.name,
           website: profile.website
         }
-        if (theme === 'none') {
-          const html = buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
-          buttonArray[i].innerHTML = noThemeTemplate(data, html)
-        } else {
-          buttonArray[i].innerHTML = baseTemplate(data)
-        }
+        const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
+        buttonArray[i].innerHTML = baseTemplate(data, {html})
       }
     }
   }
 )
-
 
 
 const getShortAddress = (address) => {
@@ -85,14 +80,11 @@ const loadPlugins = () => {
       const buttonArray = document.getElementsByTagName("box:address")
       for (let i = 0; i < buttonArray.length; i++) {
         let { address, display, theme } = buttonArray[i].dataset
+        theme = !(theme === 'none')
         const displayShort = !(display === 'full')
         const addressDisplay = displayShort ? getShortAddress(address) : address
-        if (theme === 'none') {
-          const html = buttonArray[i].innerHTML
-          buttonArray[i].innerHTML = noThemeLoadingTemplate({address, addressDisplay: addressDisplay.toLowerCase()}, html)
-        } else {
-          buttonArray[i].innerHTML = loadingTemplate({address, addressDisplay: addressDisplay.toLowerCase()})
-        }
+        const html = theme ? undefined : buttonArray[i].innerHTML
+        buttonArray[i].innerHTML = loadingTemplate({address, addressDisplay: addressDisplay.toLowerCase()}, {html})
       }
     })
 }
