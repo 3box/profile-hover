@@ -104,4 +104,46 @@ const loadingTemplate = (data = {}) => `
 `
 
 
-export { baseTemplate, loadingTemplate }
+const noThemeTemplate = (data = {}, html ) => `
+<div class=${style.boxAddressWrap}>
+
+  ${html}
+
+    <div class=${style.hoverProfile}>
+    <div class=${style.paddingWrap}>
+        ${data.name ? nameTemplate(data) : ''}
+        ${data.twitter ? twitterTemplate(data) : ''}
+        ${data.github ? githubTemplate(data) : ''}
+        ${data.website ? websiteTemplate(data) : ''}
+
+        </div>
+        <div class=${style.boxLink}>
+          <span> Profile at <a href="${'https://3box.io/' + data.address}" target="_blank">3box.io</a></span>
+          <i class="fas fa-arrow-right"></i>
+        </div>
+    </div>
+</div>
+`
+
+const noThemeLoadingTemplate = (data = {}, html ) => `
+<div class=${style.boxAddressWrap}>
+
+  <div id='orginal_html_f1kx' >
+    ${html}
+  </div>
+
+  <div class=${style.hoverProfile}>
+    <div class=${style.paddingWrap}>
+      Loading ....
+
+    </div>
+    <div class=${style.boxLink}>
+      <span> Profile at <a href="${'https://3box.io/' + data.address}" target="_blank">3box.io</a></span>
+      <i class="fas fa-arrow-right"></i>
+    </div>
+  </div>
+</div>
+`
+
+
+export { baseTemplate, loadingTemplate, noThemeTemplate, noThemeLoadingTemplate }
