@@ -16,17 +16,18 @@ window.addEventListener('load', async () => {
     const buttonArray = document.getElementsByTagName("box:address")
     for (let i = 0; i < buttonArray.length; i++) {
       // get addresss, maybe do map instead, add other options here after
-      let { address } = buttonArray[i].dataset
+      let { address, display } = buttonArray[i].dataset
+      const displayShort = !(display === 'full')
       const profile = await getProfile(address)
       const verified = await getVerifiedAccounts(profile)
       console.log(verified)
       console.log(profile)
       const imgSrc = (hash) => `https://ipfs.infura.io/ipfs/${hash}`
-      const shortAddress = getShortAddress(address).toLowerCase()
+      const addressDisplay = displayShort ? getShortAddress(address) : address
       const data = {
         imgSrc: imgSrc(profile.image[0].contentUrl['/']),
         address: address,
-        shortAddress: shortAddress,
+        addressDisplay: addressDisplay.toLowerCase(),
         github: verified.github ? verified.github.username : undefined,
         twitter: verified.twitter ? verified.twitter.username : undefined,
         emoji: profile.emoji,
@@ -74,9 +75,10 @@ const loadPlugins = () => {
     document.addEventListener("DOMContentLoaded", function(event) {
       const buttonArray = document.getElementsByTagName("box:address")
       for (let i = 0; i < buttonArray.length; i++) {
-        let { address } = buttonArray[i].dataset
-        const shortAddress = getShortAddress(address).toLowerCase()
-        buttonArray[i].innerHTML = loadingTemplate({address, shortAddress: shortAddress})
+        let { address, display } = buttonArray[i].dataset
+        const displayShort = !(display === 'full')
+        const addressDisplay = displayShort ? getShortAddress(address) : address
+        buttonArray[i].innerHTML = loadingTemplate({address, addressDisplay: addressDisplay.toLowerCase()})
       }
     })
 }

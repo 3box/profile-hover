@@ -9,11 +9,11 @@ const baseTemplate = (data = {}) => `
     </div>
 
     <div class=${style.boxShortAddress}>
-        ${data.shortAddress}
+        ${data.addressDisplay}
     </div>
 
     <div class=${style.addressCopy} onClick='boxCopyAddress_f1kx("${data.address}")'>
-      <i class="far fa-clone" id=${data.shortAddress.substring(2,6)}></i>
+      <i class="far fa-clone" id=${data.addressDisplay.substring(2,6)}></i>
     </div>
 
   </div>
@@ -75,28 +75,33 @@ const twitterTemplate = (data = {}) => `
 
 const loadingTemplate = (data = {}) => `
   <div class=${style.boxAddressWrap}>
+
     <div class=${style.boxAddress}>
       <div class=${style.boxImg}>
       </div>
 
       <div class=${style.boxShortAddress}>
-          ${data.shortAddress}
-
+          ${data.addressDisplay}
       </div>
 
       <div class=${style.addressCopy} onClick='boxCopyAddress_f1kx("${data.address}")'>
-        <i class="far fa-clone" id=${data.shortAddress.substring(2,6)}></i>
+        <i class="far fa-clone" id=${data.addressDisplay.substring(2,6)}></i>
       </div>
+
     </div>
 
-    <div class=${style.hoverProfile}>
-        Loading ....
+      <div class=${style.hoverProfile}>
+        <div class=${style.paddingWrap}>
+          Loading ....
+
+        </div>
         <div class=${style.boxLink}>
-          <span> Profile data from <a href="${'https://3box.io/' + data.address}" target="_blank">3box.io</a></span>
+          <span> Profile at <a href="${'https://3box.io/' + data.address}" target="_blank">3box.io</a></span>
           <i class="fas fa-arrow-right"></i>
         </div>
-    </div>
+      </div>
   </div>
 `
+
 
 export { baseTemplate, loadingTemplate }
