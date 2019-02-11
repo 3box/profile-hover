@@ -2,7 +2,7 @@
   "name": "3box-hover",
   "version": "0.0.1",
   "description": "Drop in profile hover for any ethereum address",
-  "main": "index.js",
+  "main": "dist/widget.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:dist": "./node_modules/.bin/webpack --config webpack.config.js --mode=development",
@@ -19,8 +19,7 @@
   },
   "homepage": "https://github.com/3box/profile-hover#readme",
   "dependencies": {
-    "3box": "^1.3.0",
-    "injected-css": "^0.4.1"
+    "3box": "^1.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",

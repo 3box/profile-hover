@@ -72,8 +72,6 @@ const loadPluginData = async () => {
         buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase()})
     } else {
       const verified = await getVerifiedAccounts(profile)
-      console.log(verified)
-      console.log(profile)
       const imgSrc = (hash) => `https://ipfs.infura.io/ipfs/${hash}`
       const data = {
         imgSrc: imgSrc(profile.image[0].contentUrl['/']),

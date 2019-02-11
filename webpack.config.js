@@ -1,13 +1,10 @@
 const path = require('path');
 
 module.exports = {
-  entry: './widget.js',
+  entry: './src/widget.js',
   output: {
     filename: 'widget.js',
     path: path.resolve(__dirname, 'dist'),
-    library: 'Box',
-    libraryTarget: 'umd',
-    umdNamedDefine: true
   },
   watch: true,
   module: {
