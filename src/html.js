@@ -37,7 +37,7 @@ const addressBarTemplate = (data={}) => `
     </div>
 
     <div class=${style.addressCopy} onClick='boxCopyAddress_f1kx("${data.address}")'>
-      <i class="far fa-clone" id=${data.addressDisplay.substring(2,6)}></i>
+      <i class="far fa-clone" id=${data.address.substring(2,6)}></i>
     </div>
   </div>
 `

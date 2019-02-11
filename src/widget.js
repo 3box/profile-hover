@@ -10,6 +10,7 @@ const getShortAddress = (address) => {
 }
 
 const copyAddress = (address) => {
+  // console.log(address)
   const el = document.createElement('textarea');
   el.value = address
   document.body.appendChild(el);
@@ -20,7 +21,7 @@ const copyAddress = (address) => {
   const icon = document.getElementById(address.substring(2,6))
   copyToCheck(icon)
 
-  setTimeout(checkToCopy, 2000);
+  setTimeout(() => { checkToCopy(icon) }, 2000);
 }
 
 // For these funcs, mayb swap entire icon element instead
