@@ -1,5 +1,5 @@
 import { getProfile, getProfiles, getVerifiedAccounts} from '3box/lib/api'
-import { baseTemplate, loadingTemplate, noThemeTemplate, noThemeLoadingTemplate } from './html.js'
+import { baseTemplate, loadingTemplate, noThemeTemplate, noThemeLoadingTemplate, emptyProfileTemplate } from './html.js'
 
 import style from './style.less';
 const css = style.toString()
@@ -18,27 +18,31 @@ window.addEventListener('load', async () => {
       // get addresss, maybe do map instead, add other options here after
       let { address, display, theme } = buttonArray[i].dataset
       const displayShort = !(display === 'full')
-      const profile = await getProfile(address)
-      const verified = await getVerifiedAccounts(profile)
-      // console.log(verified)
-      // console.log(profile)
-      const imgSrc = (hash) => `https://ipfs.infura.io/ipfs/${hash}`
       const addressDisplay = displayShort ? getShortAddress(address) : address
-      const data = {
-        imgSrc: imgSrc(profile.image[0].contentUrl['/']),
-        address: address,
-        addressDisplay: addressDisplay.toLowerCase(),
-        github: verified.github ? verified.github.username : undefined,
-        twitter: verified.twitter ? verified.twitter.username : undefined,
-        emoji: profile.emoji,
-        name: profile.name,
-        website: profile.website
-      }
-      if (theme === 'none') {
-        const html = buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
-        buttonArray[i].innerHTML = noThemeTemplate(data, html)
+      const profile = await getProfile(address)
+      if (profile.status === 'error') {
+          buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase()})
       } else {
-        buttonArray[i].innerHTML = baseTemplate(data)
+        const verified = await getVerifiedAccounts(profile)
+        console.log(verified)
+        console.log(profile)
+        const imgSrc = (hash) => `https://ipfs.infura.io/ipfs/${hash}`
+        const data = {
+          imgSrc: imgSrc(profile.image[0].contentUrl['/']),
+          address: address,
+          addressDisplay: addressDisplay.toLowerCase(),
+          github: verified.github ? verified.github.username : undefined,
+          twitter: verified.twitter ? verified.twitter.username : undefined,
+          emoji: profile.emoji,
+          name: profile.name,
+          website: profile.website
+        }
+        if (theme === 'none') {
+          const html = buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
+          buttonArray[i].innerHTML = noThemeTemplate(data, html)
+        } else {
+          buttonArray[i].innerHTML = baseTemplate(data)
+        }
       }
     }
   }

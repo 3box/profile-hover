@@ -145,5 +145,30 @@ const noThemeLoadingTemplate = (data = {}, html ) => `
 </div>
 `
 
+const emptyProfileTemplate = (data) => `
+<div class=${style.boxAddressWrap}>
 
-export { baseTemplate, loadingTemplate, noThemeTemplate, noThemeLoadingTemplate }
+  <div class=${style.boxAddress}>
+    <div class=${style.boxImg}>
+    </div>
+
+    <div class=${style.boxShortAddress}>
+        ${data.addressDisplay}
+    </div>
+
+    <div class=${style.addressCopy} onClick='boxCopyAddress_f1kx("${data.address}")'>
+      <i class="far fa-clone" id=${data.addressDisplay.substring(2,6)}></i>
+    </div>
+
+  </div>
+
+  <div class=${style.hoverProfile}>
+    <div class=${style.boxLink}>
+      <span> Create a profile at <a href="${'https://3box.io/'}" target="_blank">3box.io</a></span>
+      <i class="fas fa-arrow-right"></i>
+    </div>
+  </div>
+</div>
+`
+
+export { baseTemplate, loadingTemplate, noThemeTemplate, noThemeLoadingTemplate, emptyProfileTemplate }
