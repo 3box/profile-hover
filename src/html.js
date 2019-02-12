@@ -25,7 +25,7 @@ const hoverFooterTemplate = (data={}) => `
   </div>
 `
 
-const addressBarTemplate = (data={}, opts) => `
+const addressBarTemplate = (data={}, opts ={}) => `
   ${(data.addressDisplay.length < 15) ? `<div class=${style.boxAddress}>` : `<div class='${style.boxAddress} ${style.boxAddressFull}'>` }
     <div class=${style.boxImg}>
       ${data.imgSrc ? `<img src='${data.imgSrc}'  height='32px' width='32px'/>` : ``}

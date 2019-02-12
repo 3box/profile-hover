@@ -1,6 +1,11 @@
 import { getProfile, getProfiles, getVerifiedAccounts} from '3box/lib/api'
 import { baseTemplate, loadingTemplate, emptyProfileTemplate } from './html.js'
 
+import { library, dom } from "@fortawesome/fontawesome-svg-core"
+import { faCheck, faArrowRight, faGlobeAmericas } from "@fortawesome/free-solid-svg-icons"
+import { faTwitter, faGithub } from "@fortawesome/free-brands-svg-icons"
+import { faClone } from '@fortawesome/free-regular-svg-icons'
+
 import style from './style.less';
 const css = style.toString()
 
@@ -87,13 +92,21 @@ const loadPluginData = async () => {
       const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
       buttonArray[i].innerHTML = baseTemplate(data, {html})
     } catch (e) {
+      console.log(e)
       buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase()})
     }
   }
 }
 
+
+const injectIcons = () => {
+  library.add(faCheck, faArrowRight, faGithub, faTwitter, faGlobeAmericas, faClone);
+  dom.watch()
+}
+
 const createPlugins = () => {
   injectCSS()
+  injectIcons()
 
   window['boxCopyAddress_f1kx'] = copyAddress
 
@@ -105,5 +118,6 @@ const createPlugins = () => {
     loadPluginData()
   })
 }
+
 
 createPlugins()
