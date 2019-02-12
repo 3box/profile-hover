@@ -68,24 +68,26 @@ const loadPluginData = async () => {
     theme = !(theme === 'none')
     const displayShort = !(display === 'full')
     const addressDisplay = displayShort ? getShortAddress(address) : address
-    const profile = await getProfile(address)
-    if (profile.status === 'error') {
-        buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase()})
-    } else {
+    try {
+      const profile = await getProfile(address)
       const verified = await getVerifiedAccounts(profile)
       const imgSrc = (hash) => `https://ipfs.infura.io/ipfs/${hash}`
+      const websiteUrl = profile.website.includes('http') ?  profile.website : `http://${profile.website}`
       const data = {
-        imgSrc: imgSrc(profile.image[0].contentUrl['/']),
+        imgSrc: profile.image ? imgSrc(profile.image[0].contentUrl['/']) : undefined,
         address: address,
         addressDisplay: addressDisplay.toLowerCase(),
         github: verified.github ? verified.github.username : undefined,
         twitter: verified.twitter ? verified.twitter.username : undefined,
         emoji: profile.emoji,
         name: profile.name,
-        website: profile.website
+        website: profile.website,
+        websiteUrl: websiteUrl
       }
       const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
       buttonArray[i].innerHTML = baseTemplate(data, {html})
+    } catch (e) {
+      buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase()})
     }
   }
 }

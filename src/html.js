@@ -8,7 +8,7 @@ const baseTemplate = (data = {}, opts={}) => `
 const hoverTemplate = (data={}, opts={}) => `
 <div class=${style.hoverProfile}>
   <div class=${style.paddingWrap}>
-      ${opts.loading ? 'Loading ...' : ''}
+      ${opts.loading ? `<div class=${style.loadingText}> Loading ... </div>` : ''}
       ${data.name ? nameTemplate(data) : ''}
       ${data.twitter ? twitterTemplate(data) : ''}
       ${data.github ? githubTemplate(data) : ''}
@@ -25,7 +25,7 @@ const hoverFooterTemplate = (data={}) => `
   </div>
 `
 
-const addressBarTemplate = (data={}) => `
+const addressBarTemplate = (data={}, opts) => `
   ${(data.addressDisplay.length < 15) ? `<div class=${style.boxAddress}>` : `<div class='${style.boxAddress} ${style.boxAddressFull}'>` }
     <div class=${style.boxImg}>
       ${data.imgSrc ? `<img src='${data.imgSrc}'  height='32px' width='32px'/>` : ``}
@@ -38,7 +38,7 @@ const addressBarTemplate = (data={}) => `
     <div class=${style.addressCopy} onClick='boxCopyAddress_f1kx("${data.address}")'>
       <i class="far fa-clone" id=${data.address.substring(2,6)}></i>
     </div>
-    ${hoverTemplate(data)}
+    ${opts.empty ? emptyHoverTemplate(data) : hoverTemplate(data, opts)}
   </div>
 `
 
@@ -53,7 +53,7 @@ const websiteTemplate = (data = {}) => `
   <div class=${style.profileValue}>
     <i class="fas fa-globe-americas"></i>
     <span class=${style.profileText}>
-      <a href="${data.website}" target="_blank">
+      <a href="${data.websiteUrl}" target="_blank">
         ${data.website}
       </a>
     </span>
@@ -83,42 +83,24 @@ const twitterTemplate = (data = {}) => `
 
 const loadingTemplate = (data = {}, opts={}) => `
   <div class=${style.boxAddressWrap}>
-    ${opts.html ? `<div id='orginal_html_f1kx' >${opts.html}</div>` : addressBarTemplate(data)}
-    ${hoverTemplate(data, {loading: true})}
+    ${opts.html ? `<div id='orginal_html_f1kx' >${opts.html}</div>` : addressBarTemplate(data, {loading: true})}
   </div>
 `
 
 
-// const noThemeTemplate = (data = {}, html ) => `
-// <div class=${style.boxAddressWrap}>
-//   ${html}
-//   ${hoverTemplate(data)}
-// </div>
-// `
-//
-// const noThemeLoadingTemplate = (data = {}, html ) => `
-// <div class=${style.boxAddressWrap}>
-//
-//   <div id='orginal_html_f1kx' >
-//     ${html}
-//   </div>
-//
-//   ${hoverTemplate(data, {loading: true})}
-// </div>
-// `
-
 const emptyProfileTemplate = (data) => `
 <div class=${style.boxAddressWrap}>
+  ${addressBarTemplate(data, {empty:true})}
+</div>
+`
 
-  ${addressBarTemplate(data)}
-
+const emptyHoverTemplate = (data) => `
   <div class=${style.hoverProfile}>
-    <div class=${style.boxLink}>
+    <div class=${style.boxLinkEmpty}>
       <span> Create a profile at <a href="${'https://3box.io/'}" target="_blank">3box.io</a></span>
       <i class="fas fa-arrow-right"></i>
     </div>
   </div>
-</div>
 `
 
 export { baseTemplate, loadingTemplate, emptyProfileTemplate }
