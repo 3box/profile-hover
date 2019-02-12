@@ -3,7 +3,6 @@ const style = require('style-loader!./style.less')
 const baseTemplate = (data = {}, opts={}) => `
   <div class=${style.boxAddressWrap}>
     ${opts.html ? opts.html : addressBarTemplate(data)}
-    ${hoverTemplate(data)}
   </div>
 `
 const hoverTemplate = (data={}, opts={}) => `
@@ -27,7 +26,7 @@ const hoverFooterTemplate = (data={}) => `
 `
 
 const addressBarTemplate = (data={}) => `
-  <div class=${style.boxAddress}>
+  ${(data.addressDisplay.length < 15) ? `<div class=${style.boxAddress}>` : `<div class='${style.boxAddress} ${style.boxAddressFull}'>` }
     <div class=${style.boxImg}>
       ${data.imgSrc ? `<img src='${data.imgSrc}'  height='32px' width='32px'/>` : ``}
     </div>
@@ -39,6 +38,7 @@ const addressBarTemplate = (data={}) => `
     <div class=${style.addressCopy} onClick='boxCopyAddress_f1kx("${data.address}")'>
       <i class="far fa-clone" id=${data.address.substring(2,6)}></i>
     </div>
+    ${hoverTemplate(data)}
   </div>
 `
 
