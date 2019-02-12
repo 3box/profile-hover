@@ -15,37 +15,28 @@ const getShortAddress = (address) => {
 }
 
 const copyAddress = (address) => {
-  // console.log(address)
   const el = document.createElement('textarea');
   el.value = address
   document.body.appendChild(el);
   el.select();
   document.execCommand('copy');
   document.body.removeChild(el);
-
-  const icon = document.getElementById(address.substring(2,6))
-  copyToCheck(icon)
-
-  setTimeout(() => { checkToCopy(icon) }, 2000);
+  const iconId = address.substring(2,6)
+  copyToCheck(iconId)
+  setTimeout(() => { checkToCopy(iconId) }, 2000);
 }
 
-// For these funcs, mayb swap entire icon element instead
-const copyToCheck = (icon) => {
-  icon.classList.remove('far')
-  icon.classList.remove('fa-clone')
-  icon.classList.add('fas')
-  icon.classList.add('fa-check')
+const copyToCheck = (iconId) => {
+  document.getElementById(iconId + 'Clone').style = 'display: none;'
+  document.getElementById(iconId + 'Check').style = 'display: block;'
 }
 
-const checkToCopy = (icon) => {
-  icon.classList.remove('fas')
-  icon.classList.remove('fa-check')
-  icon.classList.add('far')
-  icon.classList.add('fa-clone')
+const checkToCopy = (iconId) => {
+  document.getElementById(iconId + 'Check').style = 'display: none;'
+  document.getElementById(iconId + 'Clone').style = 'display: block;'
 }
 
  // Plugin
-
 const injectCSS = () => {
   const sheet = document.createElement('style')
   sheet.type = 'text/css';
@@ -92,7 +83,6 @@ const loadPluginData = async () => {
       const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
       buttonArray[i].innerHTML = baseTemplate(data, {html})
     } catch (e) {
-      console.log(e)
       buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase()})
     }
   }

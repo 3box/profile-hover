@@ -36,7 +36,8 @@ const addressBarTemplate = (data={}, opts ={}) => `
     </div>
 
     <div class=${style.addressCopy} onClick='boxCopyAddress_f1kx("${data.address}")'>
-      <i class="far fa-clone" id=${data.address.substring(2,6)}></i>
+      <i class="far fa-clone" id=${data.address.substring(2,6) + 'Clone'}></i>
+      <i class="fas fa-check" id=${data.address.substring(2,6) + 'Check'} style='display: none;'></i>
     </div>
     ${opts.empty ? emptyHoverTemplate(data) : hoverTemplate(data, opts)}
   </div>
