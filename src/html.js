@@ -2,7 +2,7 @@ const style = require('style-loader!./style.less')
 
 const baseTemplate = (data = {}, opts={}) => `
   <div class=${style.boxAddressWrap}>
-    ${opts.html ? opts.html : addressBarTemplate(data)}
+    ${opts.html ? `<div>${opts.html}</div>${opts.empty ? emptyHoverTemplate(data) : hoverTemplate(data, opts)}` : addressBarTemplate(data)}
   </div>
 `
 const hoverTemplate = (data={}, opts={}) => `
@@ -84,7 +84,7 @@ const twitterTemplate = (data = {}) => `
 
 const loadingTemplate = (data = {}, opts={}) => `
   <div class=${style.boxAddressWrap}>
-    ${opts.html ? `<div id='orginal_html_f1kx' >${opts.html}</div>` : addressBarTemplate(data, {loading: true})}
+    ${opts.html ? `<div id='orginal_html_f1kx' >${opts.html}</div> ${opts.empty ? emptyHoverTemplate(data) : hoverTemplate(data, {loading: true})} ` : addressBarTemplate(data, {loading: true})}
   </div>
 `
 

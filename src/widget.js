@@ -45,7 +45,7 @@ const injectCSS = () => {
 }
 
 const initPlugins = () => {
-  const buttonArray = document.getElementsByTagName("box:address")
+  const buttonArray = document.getElementsByTagName("threebox-address")
   for (let i = 0; i < buttonArray.length; i++) {
     let { address, display, theme } = buttonArray[i].dataset
     theme = !(theme === 'none')
@@ -57,7 +57,7 @@ const initPlugins = () => {
 }
 
 const loadPluginData = async () => {
-  const buttonArray = document.getElementsByTagName("box:address")
+  const buttonArray = document.getElementsByTagName("threebox-address")
   for (let i = 0; i < buttonArray.length; i++) {
     // get addresss, maybe do map instead, add other options here after
     let { address, display, theme } = buttonArray[i].dataset
