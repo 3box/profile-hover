@@ -1,6 +1,6 @@
 {
-  "name": "3box-hover",
-  "version": "0.0.1",
+  "name": "profile-hover",
+  "version": "0.1.0",
   "description": "Drop in profile hover for any ethereum address",
   "main": "dist/widget.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "git+https://github.com/3box/profile-hover.git"
   },
-  "author": "",
+  "author": "3box.io",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/3box/profile-hover/issues"
