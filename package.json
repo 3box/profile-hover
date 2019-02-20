@@ -1,6 +1,6 @@
 {
   "name": "profile-hover",
-  "version": "0.1.0",
+  "version": "0.1.0-beta.1",
   "description": "Drop in profile hover for any ethereum address",
   "main": "dist/widget.js",
   "scripts": {

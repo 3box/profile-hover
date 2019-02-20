@@ -107,6 +107,11 @@ const createPlugins = () => {
   window.addEventListener('load', async () => {
     loadPluginData()
   })
+
+  window.renderProfileHovers = () => {
+      initPlugins()
+      loadPluginData()
+  }
 }
 
 
