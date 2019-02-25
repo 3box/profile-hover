@@ -1,5 +1,6 @@
 import { getProfile, getProfiles, getVerifiedAccounts} from '3box/lib/api'
 import { baseTemplate, loadingTemplate, emptyProfileTemplate } from './html.js'
+import store from 'store'
 
 import { library, dom } from "@fortawesome/fontawesome-svg-core"
 import { faCheck, faArrowRight, faGlobeAmericas } from "@fortawesome/free-solid-svg-icons"
@@ -8,6 +9,13 @@ import { faClone } from '@fortawesome/free-regular-svg-icons'
 
 import style from './style.less';
 const css = style.toString()
+
+
+// local store settings, cache for profile requests
+const expirePlugin = require('store/plugins/expire')
+store.addPlugin(expirePlugin)
+const ttl = 1000 * 60 * 15
+const expireAt = () => new Date().getTime() + ttl
 
 //Utils
 const getShortAddress = (address) => {
@@ -56,7 +64,7 @@ const initPlugins = (buttonArray) => {
 }
 
 const loadPluginData = async (buttonArray) => {
-
+  store.removeExpiredKeys()
   for (let i = 0; i < buttonArray.length; i++) {
     // get addresss, maybe do map instead, add other options here after
     let { address, display, theme } = buttonArray[i].dataset
@@ -64,8 +72,17 @@ const loadPluginData = async (buttonArray) => {
     const displayShort = !(display === 'full')
     const addressDisplay = displayShort ? getShortAddress(address) : address
     try {
-      const profile = await getProfile(address)
-      const verified = await getVerifiedAccounts(profile)
+      const cacheProfile = await store.get(address)
+      let profile, verified
+      if (!cacheProfile) {
+        profile = await getProfile(address)
+        verified = await getVerifiedAccounts(profile)
+        const setCacheProfile = Object.assign(profile, { verified })
+        store.set(address, JSON.stringify(setCacheProfile), expireAt())
+      } else {
+        profile = JSON.parse(cacheProfile)
+        verified = profile.verified
+      }
       const imgSrc = (hash) => `https://ipfs.infura.io/ipfs/${hash}`
       const websiteUrl = profile.website.includes('http') ?  profile.website : `http://${profile.website}`
       const data = {
@@ -86,7 +103,6 @@ const loadPluginData = async (buttonArray) => {
     }
   }
 }
-
 
 const injectIcons = () => {
   library.add(faCheck, faArrowRight, faGithub, faTwitter, faGlobeAmericas, faClone);
