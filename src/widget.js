@@ -4,9 +4,12 @@ import store from 'store'
 import makeBlockie from 'ethereum-blockies-base64';
 
 import { library, dom } from "@fortawesome/fontawesome-svg-core"
-import { faCheck, faArrowRight, faGlobeAmericas } from "@fortawesome/free-solid-svg-icons"
-import { faTwitter, faGithub } from "@fortawesome/free-brands-svg-icons"
-import { faClone } from '@fortawesome/free-regular-svg-icons'
+import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck"
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight"
+import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons/faGlobeAmericas"
+import { faTwitter } from "@fortawesome/free-brands-svg-icons/faTwitter"
+import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub"
+import { faClone } from '@fortawesome/free-regular-svg-icons/faClone'
 
 import style from './style.less';
 const css = style.toString()
