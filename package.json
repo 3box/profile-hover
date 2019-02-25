@@ -1,11 +1,12 @@
 {
   "name": "profile-hover",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Drop in profile hover for any ethereum address",
   "main": "dist/widget.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:dist": "./node_modules/.bin/webpack --config webpack.config.js --mode=development",
+    "build:dist:prod": "./node_modules/.bin/webpack --config webpack.config.js --mode=production",
     "example:start": "node example/server.js | npm run build:dist"
   },
   "repository": {
