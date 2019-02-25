@@ -71,36 +71,38 @@ const loadPluginData = async (buttonArray) => {
     theme = !(theme === 'none')
     const displayShort = !(display === 'full')
     const addressDisplay = displayShort ? getShortAddress(address) : address
+    // TODO clean up and seperate all this if try etc stuff
     try {
       const cacheProfile = await store.get(address)
       let profile, verified
-      if (!cacheProfile) {
-        profile = await getProfile(address)
-        verified = await getVerifiedAccounts(profile)
-        const setCacheProfile = Object.assign(profile, { verified })
-        store.set(address, JSON.stringify(setCacheProfile), expireAt())
-      } else if (cacheProfile === '404') {
+      if (cacheProfile === '404') {
         buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase(), imgSrc: makeBlockie(address)})
-        return
       } else {
-        profile = JSON.parse(cacheProfile)
-        verified = profile.verified
+        if (!cacheProfile) {
+          profile = await getProfile(address)
+          verified = await getVerifiedAccounts(profile)
+          const setCacheProfile = Object.assign(profile, { verified })
+          store.set(address, JSON.stringify(setCacheProfile), expireAt())
+        } else {
+          profile = JSON.parse(cacheProfile)
+          verified = profile.verified
+        }
+        const imgSrc = (hash) => `https://ipfs.infura.io/ipfs/${hash}`
+        const websiteUrl = profile.website.includes('http') ?  profile.website : `http://${profile.website}`
+        const data = {
+          imgSrc: profile.image ? imgSrc(profile.image[0].contentUrl['/']) : makeBlockie(address),
+          address: address,
+          addressDisplay: addressDisplay.toLowerCase(),
+          github: verified.github ? verified.github.username : undefined,
+          twitter: verified.twitter ? verified.twitter.username : undefined,
+          emoji: profile.emoji,
+          name: profile.name,
+          website: profile.website,
+          websiteUrl: websiteUrl
+        }
+        const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
+        buttonArray[i].innerHTML = baseTemplate(data, {html})
       }
-      const imgSrc = (hash) => `https://ipfs.infura.io/ipfs/${hash}`
-      const websiteUrl = profile.website.includes('http') ?  profile.website : `http://${profile.website}`
-      const data = {
-        imgSrc: profile.image ? imgSrc(profile.image[0].contentUrl['/']) : makeBlockie(address),
-        address: address,
-        addressDisplay: addressDisplay.toLowerCase(),
-        github: verified.github ? verified.github.username : undefined,
-        twitter: verified.twitter ? verified.twitter.username : undefined,
-        emoji: profile.emoji,
-        name: profile.name,
-        website: profile.website,
-        websiteUrl: websiteUrl
-      }
-      const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
-      buttonArray[i].innerHTML = baseTemplate(data, {html})
     } catch (e) {
       store.set(address, '404', expireAt())
       buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase(), imgSrc: makeBlockie(address)})
