@@ -11,7 +11,6 @@ import { faClone } from '@fortawesome/free-regular-svg-icons'
 import style from './style.less';
 const css = style.toString()
 
-
 // local store settings, cache for profile requests
 const expirePlugin = require('store/plugins/expire')
 store.addPlugin(expirePlugin)
@@ -80,6 +79,9 @@ const loadPluginData = async (buttonArray) => {
         verified = await getVerifiedAccounts(profile)
         const setCacheProfile = Object.assign(profile, { verified })
         store.set(address, JSON.stringify(setCacheProfile), expireAt())
+      } else if (cacheProfile === '404') {
+        buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase(), imgSrc: makeBlockie(address)})
+        return
       } else {
         profile = JSON.parse(cacheProfile)
         verified = profile.verified
@@ -100,6 +102,7 @@ const loadPluginData = async (buttonArray) => {
       const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
       buttonArray[i].innerHTML = baseTemplate(data, {html})
     } catch (e) {
+      store.set(address, '404', expireAt())
       buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase(), imgSrc: makeBlockie(address)})
     }
   }
