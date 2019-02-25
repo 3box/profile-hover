@@ -44,8 +44,7 @@ const injectCSS = () => {
   document.body.appendChild(sheet);
 }
 
-const initPlugins = () => {
-  const buttonArray = document.getElementsByTagName("threebox-address")
+const initPlugins = (buttonArray) => {
   for (let i = 0; i < buttonArray.length; i++) {
     let { address, display, theme } = buttonArray[i].dataset
     theme = !(theme === 'none')
@@ -56,8 +55,8 @@ const initPlugins = () => {
   }
 }
 
-const loadPluginData = async () => {
-  const buttonArray = document.getElementsByTagName("threebox-address")
+const loadPluginData = async (buttonArray) => {
+
   for (let i = 0; i < buttonArray.length; i++) {
     // get addresss, maybe do map instead, add other options here after
     let { address, display, theme } = buttonArray[i].dataset
@@ -101,13 +100,36 @@ const createPlugins = () => {
   window['boxCopyAddress_f1kx'] = copyAddress
 
   document.addEventListener("DOMContentLoaded", function(event) {
-    initPlugins()
-  })
-
-  window.addEventListener('load', async () => {
-    loadPluginData()
+    const buttonArray = document.getElementsByTagName("threebox-address")
+    initPlugins(buttonArray)
+    window.addEventListener('load', async () => {
+      loadPluginData(buttonArray)
+    })
   })
 }
 
+const pluginAddedListener = () => {
+  const target = document.body
+  const config = {
+    childList: true,
+  }
+  function subscriber(mutations) {
+    const node = mutations.addedNodes ? mutations.addedNodes[0] : null
+    mutations.forEach((mutation) => {
+      if (mutation.addedNodes.length > 0) {
+        const newElements = Array.from(mutation.addedNodes)
+        const addressTags = newElements.filter(el => el.tagName === 'THREEBOX-ADDDRESS')
+        initPlugins(addressTags)
+        loadPluginData(addressTags)
+      }
+    })
+  }
+
+  const observer = new MutationObserver(subscriber);
+
+  observer.observe(target, config);
+}
+
+pluginAddedListener()
 
 createPlugins()
