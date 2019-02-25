@@ -1,6 +1,7 @@
 import { getProfile, getProfiles, getVerifiedAccounts} from '3box/lib/api'
 import { baseTemplate, loadingTemplate, emptyProfileTemplate } from './html.js'
 import store from 'store'
+import makeBlockie from 'ethereum-blockies-base64';
 
 import { library, dom } from "@fortawesome/fontawesome-svg-core"
 import { faCheck, faArrowRight, faGlobeAmericas } from "@fortawesome/free-solid-svg-icons"
@@ -59,7 +60,7 @@ const initPlugins = (buttonArray) => {
     const displayShort = !(display === 'full')
     const addressDisplay = displayShort ? getShortAddress(address) : address
     const html = theme ? undefined : buttonArray[i].innerHTML
-    buttonArray[i].innerHTML = loadingTemplate({address, addressDisplay: addressDisplay.toLowerCase()}, {html})
+    buttonArray[i].innerHTML = loadingTemplate({address, addressDisplay: addressDisplay.toLowerCase(), imgSrc: makeBlockie(address)}, {html})
   }
 }
 
@@ -86,7 +87,7 @@ const loadPluginData = async (buttonArray) => {
       const imgSrc = (hash) => `https://ipfs.infura.io/ipfs/${hash}`
       const websiteUrl = profile.website.includes('http') ?  profile.website : `http://${profile.website}`
       const data = {
-        imgSrc: profile.image ? imgSrc(profile.image[0].contentUrl['/']) : undefined,
+        imgSrc: profile.image ? imgSrc(profile.image[0].contentUrl['/']) : makeBlockie(address),
         address: address,
         addressDisplay: addressDisplay.toLowerCase(),
         github: verified.github ? verified.github.username : undefined,
@@ -99,7 +100,7 @@ const loadPluginData = async (buttonArray) => {
       const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
       buttonArray[i].innerHTML = baseTemplate(data, {html})
     } catch (e) {
-      buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase()})
+      buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase(), imgSrc: makeBlockie(address)})
     }
   }
 }

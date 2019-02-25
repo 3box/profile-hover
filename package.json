@@ -24,6 +24,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.7.2",
     "@fortawesome/free-regular-svg-icons": "^5.7.2",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
+    "ethereum-blockies-base64": "^1.0.2",
     "store": "^2.0.12"
   },
   "devDependencies": {
