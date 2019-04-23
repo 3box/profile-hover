@@ -25,6 +25,13 @@ const getShortAddress = (address) => {
    return address.substr(0,6) + '...' + address.substr(-4);
 }
 
+const formatUrl = (url) => {
+  if (!url) {
+    return undefined;
+  }
+  return url.includes('http') ?  url : `http://${url}`;
+}
+
 const copyAddress = (address) => {
   const el = document.createElement('textarea');
   el.value = address
@@ -91,7 +98,7 @@ const loadPluginData = async (buttonArray) => {
           verified = profile.verified
         }
         const imgSrc = (hash) => `https://ipfs.infura.io/ipfs/${hash}`
-        const websiteUrl = profile.website.includes('http') ?  profile.website : `http://${profile.website}`
+        const websiteUrl = formatUrl(profile.website);
         const data = {
           imgSrc: profile.image ? imgSrc(profile.image[0].contentUrl['/']) : makeBlockie(address),
           address: address,
