@@ -1,5 +1,6 @@
-import { getProfile, getProfiles, getVerifiedAccounts} from '3box/lib/api'
-import { baseTemplate, loadingTemplate, emptyProfileTemplate } from './html.js'
+import { getProfile, getVerifiedAccounts } from "3box/lib/api";
+import { baseTemplate, loadingTemplate, emptyProfileTemplate } from "./html.js";
+import { getShortAddress, formatUrl, copyAddress } from './helperFunctions';
 import store from 'store'
 import makeBlockie from 'ethereum-blockies-base64';
 
@@ -19,40 +20,6 @@ const expirePlugin = require('store/plugins/expire')
 store.addPlugin(expirePlugin)
 const ttl = 1000 * 60 * 15
 const expireAt = () => new Date().getTime() + ttl
-
-//Utils
-const getShortAddress = (address) => {
-   return address.substr(0,6) + '...' + address.substr(-4);
-}
-
-const formatUrl = (url) => {
-  if (!url) {
-    return undefined;
-  }
-  return url.includes('http') ?  url : `http://${url}`;
-}
-
-const copyAddress = (address) => {
-  const el = document.createElement('textarea');
-  el.value = address
-  document.body.appendChild(el);
-  el.select();
-  document.execCommand('copy');
-  document.body.removeChild(el);
-  const iconId = address.substring(2,6)
-  copyToCheck(iconId)
-  setTimeout(() => { checkToCopy(iconId) }, 2000);
-}
-
-const copyToCheck = (iconId) => {
-  document.getElementById(iconId + 'Clone').style = 'display: none;'
-  document.getElementById(iconId + 'Check').style = 'display: block;'
-}
-
-const checkToCopy = (iconId) => {
-  document.getElementById(iconId + 'Check').style = 'display: none;'
-  document.getElementById(iconId + 'Clone').style = 'display: block;'
-}
 
  // Plugin
 const injectCSS = () => {
