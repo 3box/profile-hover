@@ -1,6 +1,6 @@
 import { getProfile, getVerifiedAccounts } from "3box/lib/api";
 import { baseTemplate, loadingTemplate, emptyProfileTemplate } from "./html.js";
-import { getShortAddress, formatProfileData, copyAddress } from './helperFunctions';
+import { getAddressDisplay, formatProfileData, copyAddress } from './utils';
 import store from 'store'
 import makeBlockie from 'ethereum-blockies-base64';
 
@@ -33,10 +33,9 @@ const initPlugins = (buttonArray) => {
   for (let i = 0; i < buttonArray.length; i++) {
     let { address, display, theme } = buttonArray[i].dataset
     theme = !(theme === 'none')
-    const displayShort = !(display === 'full')
-    const addressDisplay = displayShort ? getShortAddress(address) : address
+    const addressDisplay = getAddressDisplay(address, display)
     const html = theme ? undefined : buttonArray[i].innerHTML
-    buttonArray[i].innerHTML = loadingTemplate({address, addressDisplay: addressDisplay.toLowerCase(), imgSrc: makeBlockie(address)}, {html})
+    buttonArray[i].innerHTML = loadingTemplate({address, addressDisplay, imgSrc: makeBlockie(address)}, {html})
   }
 }
 
@@ -46,14 +45,13 @@ const loadPluginData = async (buttonArray) => {
     // get addresss, maybe do map instead, add other options here after
     let { address, display, theme } = buttonArray[i].dataset
     theme = !(theme === 'none')
-    const displayShort = !(display === 'full')
-    const addressDisplay = displayShort ? getShortAddress(address) : address
+    const addressDisplay = getAddressDisplay(address, display)
     // TODO clean up and seperate all this if try etc stuff
     try {
       const cacheProfile = await store.get(address)
       let profile, verified
       if (cacheProfile === '404') {
-        buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase(), imgSrc: makeBlockie(address)})
+        buttonArray[i].innerHTML = emptyProfileTemplate({ address, addressDisplay, imgSrc: makeBlockie(address)})
       } else {
         if (!cacheProfile) {
           profile = await getProfile(address)
@@ -70,7 +68,7 @@ const loadPluginData = async (buttonArray) => {
       }
     } catch (e) {
       store.set(address, '404', expireAt())
-      buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase(), imgSrc: makeBlockie(address)})
+      buttonArray[i].innerHTML = emptyProfileTemplate({ address, addressDisplay, imgSrc: makeBlockie(address)})
     }
   }
 }

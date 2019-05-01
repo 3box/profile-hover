@@ -1,5 +1,11 @@
-export const getShortAddress = (address) => {
-   return address.substr(0,6) + '...' + address.substr(-4);
+export const getAddressDisplay = (address, display) => {
+  const displayShort = display !== 'full'
+  const addressDisplay = displayShort ? getShortAddress(address) : address
+  return addressDisplay.toLowerCase();
+}
+
+const getShortAddress = (address) => {
+  return address.substr(0,6) + '...' + address.substr(-4);
 }
 
 const formatUrl = (url) => {
@@ -43,7 +49,7 @@ export const formatProfileData = (profile, verified, address, addressDisplay) =>
   return {
     imgSrc: getImgSrc(profile, address),
     address: address,
-    addressDisplay: addressDisplay.toLowerCase(),
+    addressDisplay: addressDisplay,
     github: verified.github ? verified.github.username : undefined,
     twitter: verified.twitter ? verified.twitter.username : undefined,
     emoji: profile.emoji,
