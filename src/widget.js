@@ -1,6 +1,6 @@
 import { getProfile, getVerifiedAccounts } from "3box/lib/api";
 import { baseTemplate, loadingTemplate, emptyProfileTemplate } from "./html.js";
-import { getShortAddress, formatUrl, copyAddress } from './helperFunctions';
+import { getShortAddress, formatProfileData, copyAddress } from './helperFunctions';
 import store from 'store'
 import makeBlockie from 'ethereum-blockies-base64';
 
@@ -64,19 +64,7 @@ const loadPluginData = async (buttonArray) => {
           profile = JSON.parse(cacheProfile)
           verified = profile.verified
         }
-        const imgSrc = (hash) => `https://ipfs.infura.io/ipfs/${hash}`
-        const websiteUrl = formatUrl(profile.website);
-        const data = {
-          imgSrc: profile.image ? imgSrc(profile.image[0].contentUrl['/']) : makeBlockie(address),
-          address: address,
-          addressDisplay: addressDisplay.toLowerCase(),
-          github: verified.github ? verified.github.username : undefined,
-          twitter: verified.twitter ? verified.twitter.username : undefined,
-          emoji: profile.emoji,
-          name: profile.name,
-          website: profile.website,
-          websiteUrl: websiteUrl
-        }
+        const data = formatProfileData(profile, verified, address, addressDisplay);
         const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
         buttonArray[i].innerHTML = baseTemplate(data, {html})
       }

@@ -2,12 +2,20 @@ export const getShortAddress = (address) => {
    return address.substr(0,6) + '...' + address.substr(-4);
 }
 
-export const formatUrl = (url) => {
+const formatUrl = (url) => {
   if (!url) {
     return undefined;
   }
   return url.includes('http') ?  url : `http://${url}`;
 }
+
+const getImgSrc = (profile, address) => {
+  if (!profile.image) {
+    return makeBlockie(address);
+  }
+  const hash = profile.image[0].contentUrl["/"];
+  return `https://ipfs.infura.io/ipfs/${hash}`;
+};
 
 export const copyAddress = (address) => {
   const el = document.createElement('textarea');
@@ -30,4 +38,18 @@ const checkToCopy = (iconId) => {
   document.getElementById(iconId + 'Check').style = 'display: none;'
   document.getElementById(iconId + 'Clone').style = 'display: block;'
 }
+
+export const formatProfileData = (profile, verified, address, addressDisplay) => {
+  return {
+    imgSrc: getImgSrc(profile, address),
+    address: address,
+    addressDisplay: addressDisplay.toLowerCase(),
+    github: verified.github ? verified.github.username : undefined,
+    twitter: verified.twitter ? verified.twitter.username : undefined,
+    emoji: profile.emoji,
+    name: profile.name,
+    website: profile.website,
+    websiteUrl: formatUrl(profile.website)
+  };
+};
 
