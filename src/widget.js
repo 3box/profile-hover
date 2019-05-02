@@ -99,7 +99,6 @@ const pluginAddedListener = () => {
     childList: true,
   }
   function subscriber(mutations) {
-    const node = mutations.addedNodes ? mutations.addedNodes[0] : null
     mutations.forEach((mutation) => {
       if (mutation.addedNodes.length > 0) {
         const newElements = Array.from(mutation.addedNodes)
