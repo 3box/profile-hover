@@ -1,7 +1,7 @@
 import React from 'react';
 import { getProfile, getVerifiedAccounts } from "3box/lib/api";
 
-export default class ProfileHover extends React.Component {
+export default class ProfileHover extends React.PureComponent {
   constructor(props) {
     super(props);
 
@@ -11,26 +11,39 @@ export default class ProfileHover extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    const {
-      address,
-    } = this.props;
+  componentDidCatch(error, info) {
+    console.error({ error, info });
+  }
 
-    const profile = await getProfile(address);
-    const verified = await getVerifiedAccounts(profile);
-    this.setState({ profile, verified });
+  componentDidMount() {
+    this._fetchProfile();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.address !== prevProps.address) {
+      this._fetchProfile();
+    }
+  }
+
+  async _fetchProfile() {
+    try {
+      const profile = await getProfile(this.props.address);
+      const verified = await getVerifiedAccounts(profile);
+      this.setState({ profile, verified });
+    } catch (error) {
+      console.error('3box profile fetch failed', error);
+    }
   }
 
   render() {
     const {
       address,
-      display,
-      theme
+      display
     } = this.props;
 
     const {
       profile,
-      verified,
+      verified
     } = this.state;
 
     console.log({ profile, verified });
