@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ProfileHover from '../src/ProfileHover';
+import ProfileHover from '../dist/reactBundle';
 
 const Example = ({}) => {
   return (

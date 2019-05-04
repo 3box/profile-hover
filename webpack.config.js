@@ -51,7 +51,6 @@ const nonReactConfig = createConfig({
   babelOptions: {
     presets: ["@babel/preset-env"],
     plugins: [
-      ["@babel/plugin-syntax-jsx"],
       ["@babel/plugin-transform-react-jsx", { pragma: "dom" }],
       ["@babel/plugin-transform-runtime", { regenerator: true }],
       ["@babel/plugin-proposal-object-rest-spread"]
@@ -62,8 +61,7 @@ const nonReactConfig = createConfig({
 const reactConfig = createConfig({
   entry: "./src/ProfileHover.jsx",
   output: {
-    library: "ProfileHover",
-    libraryTarget: "umd",
+    libraryTarget: "commonjs2",
     filename: "reactBundle.js",
     path: path.resolve(__dirname, "dist")
   },
@@ -86,6 +84,7 @@ const exampleConfig = createConfig({
   babelOptions: {
     presets: ["@babel/preset-env", "@babel/preset-react"],
     plugins: [
+      ["@babel/plugin-transform-modules-commonjs"],
       ["@babel/plugin-transform-react-jsx"],
       ["@babel/plugin-transform-runtime", { regenerator: true }]
     ]
