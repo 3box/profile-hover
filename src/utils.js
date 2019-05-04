@@ -1,3 +1,5 @@
+import makeBlockie from 'ethereum-blockies-base64';
+
 export const getAddressDisplay = (address, display) => {
   const displayShort = display !== 'full'
   const addressDisplay = displayShort ? getShortAddress(address) : address

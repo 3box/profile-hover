@@ -1,10 +1,11 @@
+import dom, { Fragment } from 'jsx-render';
 import { getProfile, getVerifiedAccounts } from "3box/lib/api";
-import { BaseTemplate, LoadingTemplate, EmptyProfileTemplate } from "./html";
 import { getAddressDisplay, formatProfileData, copyAddress } from './utils';
 import store from 'store'
 import makeBlockie from 'ethereum-blockies-base64';
+const { BaseTemplate, LoadingTemplate, EmptyProfileTemplate } = require('./html')({ dom, Fragment });
 
-import { library, dom } from "@fortawesome/fontawesome-svg-core"
+import { library, dom as faDom } from "@fortawesome/fontawesome-svg-core"
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck"
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight"
 import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons/faGlobeAmericas"
@@ -84,7 +85,7 @@ const loadPluginData = async (buttonArray) => {
 
 const injectIcons = () => {
   library.add(faCheck, faArrowRight, faGithub, faTwitter, faGlobeAmericas, faClone);
-  dom.watch()
+  faDom.watch()
 }
 
 const createPlugins = () => {
