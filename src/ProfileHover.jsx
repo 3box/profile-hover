@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { Fragment } from 'react'
+import makeBlockie from 'ethereum-blockies-base64';
 import { getProfile, getVerifiedAccounts } from "3box/lib/api";
+import { getAddressDisplay, formatProfileData, copyAddress } from './utils';
+const { BaseTemplate, LoadingTemplate, EmptyProfileTemplate } = require('./html')({ React, Fragment });
 
 export default class ProfileHover extends React.PureComponent {
   constructor(props) {
@@ -46,9 +49,15 @@ export default class ProfileHover extends React.PureComponent {
       verified
     } = this.state;
 
-    console.log({ profile, verified });
-
-    return null;
+    const addressDisplay = getAddressDisplay(address, display)
+    if (profile == null) {
+      return <LoadingTemplate data={{ address, addressDisplay, imgSrc: makeBlockie(address) }} />
+    } else if (profile == '404') {
+      return <EmptyProfileTemplate data={{ address, addressDisplay, imgSrc: makeBlockie(address) }} />
+    } else {
+      const data = formatProfileData(profile, verified, address, addressDisplay);
+      return <BaseTemplate data={data} />
+    }
   }
 }
 
