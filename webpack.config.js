@@ -10,16 +10,20 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
+        resolve: {
+          extensions: ['.js', '.jsx']
+        },
         use: {
           loader: 'babel-loader',
           options: {
+            babelrc: false,
             presets: ['@babel/preset-env'],
             plugins: [
-              ['@babel/plugin-transform-runtime', {
-                'regenerator': true
-              }],
+              ['@babel/plugin-syntax-jsx'],
+              ['@babel/plugin-transform-react-jsx', { pragma: 'dom' }],
+              ['@babel/plugin-transform-runtime', { regenerator: true }],
               ['@babel/plugin-proposal-object-rest-spread']
             ]
           }

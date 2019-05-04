@@ -1,5 +1,5 @@
 import { getProfile, getVerifiedAccounts } from "3box/lib/api";
-import { baseTemplate, loadingTemplate, emptyProfileTemplate } from "./html.js";
+import { BaseTemplate, LoadingTemplate, EmptyProfileTemplate } from "./html";
 import { getAddressDisplay, formatProfileData, copyAddress } from './utils';
 import store from 'store'
 import makeBlockie from 'ethereum-blockies-base64';
@@ -35,7 +35,10 @@ const initPlugins = (buttonArray) => {
     theme = !(theme === 'none')
     const addressDisplay = getAddressDisplay(address, display)
     const html = theme ? undefined : buttonArray[i].innerHTML
-    buttonArray[i].innerHTML = loadingTemplate({address, addressDisplay, imgSrc: makeBlockie(address)}, {html})
+    setProfileContent(buttonArray[i], LoadingTemplate({
+      data: {address, addressDisplay, imgSrc: makeBlockie(address)},
+      opts: {html}
+    }))
   }
 }
 
@@ -51,7 +54,10 @@ const loadPluginData = async (buttonArray) => {
       const cacheProfile = await store.get(address)
       let profile, verified
       if (cacheProfile === '404') {
-        buttonArray[i].innerHTML = emptyProfileTemplate({ address, addressDisplay, imgSrc: makeBlockie(address)})
+        setProfileContent(buttonArray[i], EmptyProfileTemplate({
+          data: { address, addressDisplay, imgSrc: makeBlockie(address)},
+          opts: {}
+        }))
       } else {
         if (!cacheProfile) {
           profile = await getProfile(address)
@@ -64,11 +70,14 @@ const loadPluginData = async (buttonArray) => {
         }
         const data = formatProfileData(profile, verified, address, addressDisplay);
         const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
-        buttonArray[i].innerHTML = baseTemplate(data, {html})
+        setProfileContent(buttonArray[i], BaseTemplate({ data, opts: {html} }))
       }
     } catch (e) {
       store.set(address, '404', expireAt())
-      buttonArray[i].innerHTML = emptyProfileTemplate({ address, addressDisplay, imgSrc: makeBlockie(address)})
+      setProfileContent(buttonArray[i], EmptyProfileTemplate({
+        data: { address, addressDisplay, imgSrc: makeBlockie(address)},
+        opts: {}
+      }))
     }
   }
 }
@@ -112,6 +121,11 @@ const pluginAddedListener = () => {
   const observer = new MutationObserver(subscriber);
 
   observer.observe(target, config);
+}
+
+const setProfileContent = (element, newChild) => {
+  element.childNodes.forEach(child => child.remove());
+  element.appendChild(newChild);
 }
 
 pluginAddedListener()
