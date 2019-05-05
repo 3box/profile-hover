@@ -1,5 +1,16 @@
 import makeBlockie from 'ethereum-blockies-base64';
 
+import { library, dom as faDom } from "@fortawesome/fontawesome-svg-core"
+import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck"
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight"
+import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons/faGlobeAmericas"
+import { faTwitter } from "@fortawesome/free-brands-svg-icons/faTwitter"
+import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub"
+import { faClone } from '@fortawesome/free-regular-svg-icons/faClone'
+
+library.add(faCheck, faArrowRight, faGithub, faTwitter, faGlobeAmericas, faClone);
+faDom.watch()
+
 export const getAddressDisplay = (address, display) => {
   const displayShort = display !== 'full'
   const addressDisplay = displayShort ? getShortAddress(address) : address

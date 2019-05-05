@@ -5,14 +5,6 @@ import store from 'store'
 import makeBlockie from 'ethereum-blockies-base64';
 const { BaseTemplate, LoadingTemplate, EmptyProfileTemplate } = require('./html')({ dom, Fragment });
 
-import { library, dom as faDom } from "@fortawesome/fontawesome-svg-core"
-import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck"
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight"
-import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons/faGlobeAmericas"
-import { faTwitter } from "@fortawesome/free-brands-svg-icons/faTwitter"
-import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub"
-import { faClone } from '@fortawesome/free-regular-svg-icons/faClone'
-
 import style from './style.less';
 const css = style.toString()
 
@@ -83,14 +75,8 @@ const loadPluginData = async (buttonArray) => {
   }
 }
 
-const injectIcons = () => {
-  library.add(faCheck, faArrowRight, faGithub, faTwitter, faGlobeAmericas, faClone);
-  faDom.watch()
-}
-
 const createPlugins = () => {
   injectCSS()
-  injectIcons()
 
   window['boxCopyAddress_f1kx'] = copyAddress
 

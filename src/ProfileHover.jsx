@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import makeBlockie from 'ethereum-blockies-base64';
 import { getProfile, getVerifiedAccounts } from "3box/lib/api";
 import { getAddressDisplay, formatProfileData } from './utils';
 const { BaseTemplate, LoadingTemplate, EmptyProfileTemplate } = require('./html')({ React, Fragment });
