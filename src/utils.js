@@ -46,7 +46,7 @@ const checkToCopy = (target) => {
   target.querySelector('.clone').style = 'display: block;'
 }
 
-export const formatProfileData = (profile, verified, address, addressDisplay) => {
+export const formatProfileData = (profile = {}, verified = {}, address, addressDisplay) => {
   return {
     imgSrc: getImgSrc(profile, address),
     address: address,

@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import makeBlockie from 'ethereum-blockies-base64';
 import { getProfile, getVerifiedAccounts } from "3box/lib/api";
-import { getAddressDisplay, formatProfileData, copyAddress } from './utils';
+import { getAddressDisplay, formatProfileData } from './utils';
 const { BaseTemplate, LoadingTemplate, EmptyProfileTemplate } = require('./html')({ React, Fragment });
 
 export default class ProfileHover extends React.PureComponent {
@@ -9,8 +9,8 @@ export default class ProfileHover extends React.PureComponent {
     super(props);
 
     this.state = {
-      profile: null,
-      verified: null
+      profile: undefined,
+      verified: undefined
     };
   }
 
@@ -41,7 +41,9 @@ export default class ProfileHover extends React.PureComponent {
   render() {
     const {
       address,
-      display
+      fullDisplay,
+      noTheme,
+      children
     } = this.props;
 
     const {
@@ -49,15 +51,20 @@ export default class ProfileHover extends React.PureComponent {
       verified
     } = this.state;
 
-    const addressDisplay = getAddressDisplay(address, display)
+    const opts = {
+      html: noTheme ? children : undefined
+    };
+
+    const addressDisplay = getAddressDisplay(address, fullDisplay ? 'full' : undefined)
+    const data = formatProfileData(profile, verified, address, addressDisplay);
     if (profile == null) {
-      return <LoadingTemplate data={{ address, addressDisplay, imgSrc: makeBlockie(address) }} />
-    } else if (profile == '404') {
-      return <EmptyProfileTemplate data={{ address, addressDisplay, imgSrc: makeBlockie(address) }} />
-    } else {
-      const data = formatProfileData(profile, verified, address, addressDisplay);
-      return <BaseTemplate data={data} />
+      return <LoadingTemplate data={data} opts={opts} />;
     }
+    if (profile == '404') {
+      return <EmptyProfileTemplate data={data} opts={opts} />;
+    }
+
+    return <BaseTemplate data={data} opts={opts} />;
   }
 }
 

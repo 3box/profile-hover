@@ -24,10 +24,10 @@ const Example = ({}) => {
         <ProfileHover address='0xff326878d13b33591d286372e67b4af05cd100bd' />
       </div>
       <div className='ethAddress'>
-        <ProfileHover address='0xa8ee0babe72cd9a80ae45dd74cd3eae7a82fd5d1' display='full' />
+        <ProfileHover address='0xa8ee0babe72cd9a80ae45dd74cd3eae7a82fd5d1' fullDisplay />
       </div>
       <div className='ethAddress'>
-        <ProfileHover address='0xa8ee0babe72cd9a80ae45dd74cd3eae7a82fd5d1' theme='none'>
+        <ProfileHover address='0xa8ee0babe72cd9a80ae45dd74cd3eae7a82fd5d1' noTheme>
           0xa8ee0babe72cd9a80ae45dd74cd3eae7a82fd5d1
         </ProfileHover>
       </div>
