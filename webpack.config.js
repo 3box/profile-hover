@@ -1,8 +1,9 @@
 const path = require("path");
 
-const createConfig = ({ entry, output, babelOptions }) => ({
+const createConfig = ({ entry, output, babelOptions = {}, externals = {} }) => ({
   entry,
   output,
+  externals,
   watch: true,
   module: {
     rules: [
@@ -42,53 +43,60 @@ const createConfig = ({ entry, output, babelOptions }) => ({
   }
 });
 
-const nonReactConfig = createConfig({
-  entry: "./src/widget.js",
-  output: {
-    filename: "widget.js",
-    path: path.resolve(__dirname, "dist")
-  },
-  babelOptions: {
-    presets: ["@babel/preset-env"],
-    plugins: [
-      ["@babel/plugin-transform-react-jsx", { pragma: "dom" }],
-      ["@babel/plugin-transform-runtime", { regenerator: true }],
-      ["@babel/plugin-proposal-object-rest-spread"]
-    ]
-  }
-});
+module.exports = (env, argv) => {
+  const production = argv.mode === 'production';
 
-const reactConfig = createConfig({
-  entry: "./src/ProfileHover.jsx",
-  output: {
-    libraryTarget: "commonjs2",
-    filename: "reactBundle.js",
-    path: path.resolve(__dirname, "dist")
-  },
-  babelOptions: {
-    presets: ["@babel/preset-env", "@babel/preset-react"],
-    plugins: [
-      ["@babel/plugin-transform-react-jsx"],
-      ["@babel/plugin-transform-runtime", { regenerator: true }]
-    ]
-  }
-});
+  const nonReactConfig = createConfig({
+    entry: "./src/widget.js",
+    output: {
+      filename: "widget.js",
+      path: path.resolve(__dirname, "dist")
+    },
+    babelOptions: {
+      presets: ["@babel/preset-env"],
+      plugins: [
+        ["@babel/plugin-transform-react-jsx", { pragma: "dom" }],
+        ["@babel/plugin-transform-runtime", { regenerator: true }],
+        ["@babel/plugin-proposal-object-rest-spread"]
+      ]
+    }
+  });
 
+  const reactConfig = createConfig({
+    entry: "./src/ProfileHover.jsx",
+    output: {
+      libraryTarget: "commonjs2",
+      filename: "reactBundle.js",
+      path: path.resolve(__dirname, "dist")
+    },
+    babelOptions: {
+      presets: ["@babel/preset-env", "@babel/preset-react"],
+      plugins: [
+        ["@babel/plugin-transform-react-jsx"],
+        ["@babel/plugin-transform-runtime", { regenerator: true }]
+      ]
+    },
+    externals: !production ? undefined : {
+      react: "react"
+    }
+  });
 
-const exampleConfig = createConfig({
-  entry: "./example/app.js",
-  output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "example")
-  },
-  babelOptions: {
-    presets: ["@babel/preset-env", "@babel/preset-react"],
-    plugins: [
-      ["@babel/plugin-transform-modules-commonjs"],
-      ["@babel/plugin-transform-react-jsx"],
-      ["@babel/plugin-transform-runtime", { regenerator: true }]
-    ]
-  }
-});
+  const exampleConfig = createConfig({
+    entry: "./example/app.js",
+    output: {
+      filename: "bundle.js",
+      path: path.resolve(__dirname, "example")
+    },
+    babelOptions: {
+      presets: ["@babel/preset-env", "@babel/preset-react"],
+      plugins: [
+        ["@babel/plugin-transform-modules-commonjs"],
+        ["@babel/plugin-transform-react-jsx"],
+        ["@babel/plugin-transform-runtime", { regenerator: true }]
+      ]
+    }
+  });
 
-module.exports = [nonReactConfig, reactConfig, exampleConfig];
+  return [nonReactConfig, reactConfig, exampleConfig];
+}
+
