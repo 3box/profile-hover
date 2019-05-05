@@ -25,26 +25,25 @@ const getImgSrc = (profile, address) => {
   return `https://ipfs.infura.io/ipfs/${hash}`;
 };
 
-export const copyAddress = (address) => {
+export const copyAddress = (target, address) => {
   const el = document.createElement('textarea');
   el.value = address
   document.body.appendChild(el);
   el.select();
   document.execCommand('copy');
   document.body.removeChild(el);
-  const iconId = address.substring(2,6)
-  copyToCheck(iconId)
-  setTimeout(() => { checkToCopy(iconId) }, 2000);
+  copyToCheck(target)
+  setTimeout(() => checkToCopy(target), 2000);
 }
 
-const copyToCheck = (iconId) => {
-  document.getElementById(iconId + 'Clone').style = 'display: none;'
-  document.getElementById(iconId + 'Check').style = 'display: block;'
+const copyToCheck = (target) => {
+  target.querySelector('.clone').style = 'display: none;'
+  target.querySelector('.check').style = 'display: block;'
 }
 
-const checkToCopy = (iconId) => {
-  document.getElementById(iconId + 'Check').style = 'display: none;'
-  document.getElementById(iconId + 'Clone').style = 'display: block;'
+const checkToCopy = (target) => {
+  target.querySelector('.check').style = 'display: none;'
+  target.querySelector('.clone').style = 'display: block;'
 }
 
 export const formatProfileData = (profile, verified, address, addressDisplay) => {

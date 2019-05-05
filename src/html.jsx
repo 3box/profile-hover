@@ -1,3 +1,4 @@
+const { copyAddress } = require('./utils')
 const style = require('style-loader!./style.less')
 
 module.exports = ({ dom, React, Fragment }) => {
@@ -39,6 +40,10 @@ module.exports = ({ dom, React, Fragment }) => {
   )
 
   const AddressBarTemplate = ({ data = {}, opts = {} }) => {
+    const onClick = React
+      ? ({ target }) => copyAddress(target, data.address)
+      : `boxCopyAddress_f1kx(this, '${data.address}')`
+
     return (
       <div className={`${style.boxAddress} ${data.addressDisplay.length >= 15 ? style.boxAddressFull : ''}`}>
         <div className={style.boxImg}>
@@ -49,9 +54,9 @@ module.exports = ({ dom, React, Fragment }) => {
           {data.addressDisplay}
         </div>
 
-        <div className={style.addressCopy} onClick={() => boxCopyAddress_f1kx(data.address)}>
-          <i className="far fa-clone" id={data.address.substring(2,6) + 'Clone'}></i>
-          <i className="fas fa-check" id={data.address.substring(2,6) + 'Check'} style={{display: 'none'}}></i>
+        <div className={style.addressCopy} onClick={onClick}>
+          <i className="far fa-clone clone"></i>
+          <i className="fas fa-check check" style={{display: 'none'}}></i>
         </div>
         {opts.empty ? <EmptyHoverTemplate data={data} /> : <HoverTemplate data={data} opts={opts} />}
       </div>
