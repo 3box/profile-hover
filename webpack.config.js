@@ -81,6 +81,10 @@ module.exports = (env, argv) => {
     }
   });
 
+  if (production) {
+    return [nonReactConfig, reactConfig];
+  }
+
   const exampleConfig = createConfig({
     entry: "./example/app.js",
     output: {
