@@ -63,7 +63,7 @@ export default class ProfileHover extends React.PureComponent {
     if (profile == null) {
       return <LoadingTemplate data={data} opts={opts} />;
     }
-    if (profile == '404') {
+    if (profile.status === 'error') {
       return <EmptyProfileTemplate data={data} opts={opts} />;
     }
 
