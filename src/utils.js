@@ -58,16 +58,24 @@ const checkToCopy = (target) => {
 }
 
 export const formatProfileData = (profile = {}, verified = {}, address, addressDisplay) => {
-  return {
-    imgSrc: getImgSrc(profile, address),
-    address: address,
-    addressDisplay: addressDisplay,
-    github: verified.github ? verified.github.username : undefined,
-    twitter: verified.twitter ? verified.twitter.username : undefined,
-    emoji: profile.emoji,
-    name: profile.name,
-    website: profile.website,
-    websiteUrl: formatUrl(profile.website)
-  };
+  try {
+    return {
+      imgSrc: getImgSrc(profile, address),
+      address: address,
+      addressDisplay: addressDisplay,
+      github: verified.github ? verified.github.username : undefined,
+      twitter: verified.twitter ? verified.twitter.username : undefined,
+      emoji: profile.emoji,
+      name: profile.name,
+      website: profile.website,
+      websiteUrl: formatUrl(profile.website)
+    };
+  } catch (e) {
+    return {
+      address,
+      addressDisplay: addressDisplay.toLowerCase(),
+      imgSrc: makeBlockie(address)
+    }
+  }
 };
 
