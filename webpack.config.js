@@ -1,6 +1,6 @@
 const path = require("path");
 
-const createConfig = ({ entry, output, babelOptions = {}, externals = {} }) => ({
+const createConfig = ({ target, entry, output, babelOptions = {}, externals = {} }) => ({
   entry,
   output,
   externals,
@@ -11,7 +11,7 @@ const createConfig = ({ entry, output, babelOptions = {}, externals = {} }) => (
         test: /\.(js|jsx)$/,
         exclude: /(node_modules)/,
         resolve: {
-          extensions: [".js", ".jsx"]
+          extensions: getExtensions(target)
         },
         use: [
           {
@@ -43,6 +43,18 @@ const createConfig = ({ entry, output, babelOptions = {}, externals = {} }) => (
   }
 });
 
+const getExtensions = (target) => {
+  const extensions = [".js", ".jsx"];
+
+  if (!target) {
+    return extensions;
+  }
+
+  return extensions
+    .map(extension => `_${target}${extension}`)
+    .concat(extensions);
+}
+
 module.exports = (env, argv) => {
   const production = argv.mode === 'production';
 
@@ -63,6 +75,7 @@ module.exports = (env, argv) => {
   });
 
   const reactConfig = createConfig({
+    target: "react",
     entry: "./src/ProfileHover.jsx",
     output: {
       libraryTarget: "commonjs2",
