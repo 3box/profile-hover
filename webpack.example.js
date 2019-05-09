@@ -1,10 +1,10 @@
 const path = require("path");
 
 module.exports = {
-  entry: "./example/app.js",
+  entry: "./example/react/app.js",
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "example")
+    path: path.resolve(__dirname, "example", "react")
   },
   watch: true,
   module: {
