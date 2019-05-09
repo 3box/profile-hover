@@ -81,26 +81,6 @@ module.exports = (env, argv) => {
     }
   });
 
-  if (production) {
-    return [nonReactConfig, reactConfig];
-  }
-
-  const exampleConfig = createConfig({
-    entry: "./example/app.js",
-    output: {
-      filename: "bundle.js",
-      path: path.resolve(__dirname, "example")
-    },
-    babelOptions: {
-      presets: ["@babel/preset-env", "@babel/preset-react"],
-      plugins: [
-        ["@babel/plugin-transform-modules-commonjs"],
-        ["@babel/plugin-transform-react-jsx"],
-        ["@babel/plugin-transform-runtime", { regenerator: true }]
-      ]
-    }
-  });
-
-  return [nonReactConfig, reactConfig, exampleConfig];
+  return [nonReactConfig, reactConfig];
 }
 

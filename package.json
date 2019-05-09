@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:dist": "./node_modules/.bin/webpack --config webpack.config.js --mode=development",
     "build:dist:prod": "./node_modules/.bin/webpack --config webpack.config.js --mode=production",
+    "build:example": "./node_modules/.bin/webpack --config webpack.example.js --mode=development",
     "example:start": "node example/server.js | npm run build:dist"
   },
   "repository": {
