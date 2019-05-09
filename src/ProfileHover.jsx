@@ -50,6 +50,10 @@ export default class ProfileHover extends React.PureComponent {
       verified
     } = this.state;
 
+    if (address == null) {
+      return null;
+    }
+
     const opts = {
       html: noTheme ? children : undefined
     };
