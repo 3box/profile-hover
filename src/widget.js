@@ -42,37 +42,32 @@ const loadPluginData = async (buttonArray) => {
     let { address, display, theme } = buttonArray[i].dataset
     theme = !(theme === 'none')
     const addressDisplay = getAddressDisplay(address, display)
-    // TODO clean up and seperate all this if try etc stuff
-    try {
-      const cacheProfile = await store.get(address)
-      let profile, verified
-      if (cacheProfile === '404') {
-        setProfileContent(buttonArray[i], EmptyProfileTemplate({
-          data: { address, addressDisplay, imgSrc: makeBlockie(address)},
-          opts: {}
-        }))
-      } else {
-        if (!cacheProfile) {
-          profile = await getProfile(address)
-          verified = await getVerifiedAccounts(profile)
-          const setCacheProfile = Object.assign(profile, { verified })
-          store.set(address, JSON.stringify(setCacheProfile), expireAt())
-        } else {
-          profile = JSON.parse(cacheProfile)
-          verified = profile.verified
-        }
-        const data = formatProfileData(profile, verified, address, addressDisplay);
-        const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
-        setProfileContent(buttonArray[i], BaseTemplate({ data, opts: {html} }))
-      }
-    } catch (e) {
-      store.set(address, '404', expireAt())
-      setProfileContent(buttonArray[i], EmptyProfileTemplate({
-        data: { address, addressDisplay, imgSrc: makeBlockie(address)},
-        opts: {}
-      }))
+
+    const profile = await retrieveProfile(address)
+    const verified = profile.verified
+    const data = formatProfileData(profile, verified, address, addressDisplay);
+    const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
+
+    if (profile.status === 'error') {
+      setProfileContent(buttonArray[i], EmptyProfileTemplate({ data }))
+    } else {
+      setProfileContent(buttonArray[i], BaseTemplate({ data, opts: {html} }))
     }
   }
+}
+
+const retrieveProfile = async (address) => {
+  const cacheProfile = await store.get(address)
+  if (profile) {
+    return JSON.parse(cacheProfile)
+  }
+
+  const profile = await getProfile(address)
+  const verified = await getVerifiedAccounts(profile)
+  const setCacheProfile = Object.assign(profile, { verified })
+  store.set(address, JSON.stringify(setCacheProfile), expireAt())
+
+  return profile
 }
 
 const copyAddress = (target, address) => {
