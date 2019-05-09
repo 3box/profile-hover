@@ -36,25 +36,13 @@ const getImgSrc = (profile, address) => {
   return `https://ipfs.infura.io/ipfs/${hash}`;
 };
 
-export const copyAddress = (target, address) => {
+export const addToClipboard = (address) => {
   const el = document.createElement('textarea');
   el.value = address
   document.body.appendChild(el);
   el.select();
   document.execCommand('copy');
   document.body.removeChild(el);
-  copyToCheck(target)
-  setTimeout(() => checkToCopy(target), 2000);
-}
-
-const copyToCheck = (target) => {
-  target.querySelector('.clone').style = 'display: none;'
-  target.querySelector('.check').style = 'display: block;'
-}
-
-const checkToCopy = (target) => {
-  target.querySelector('.check').style = 'display: none;'
-  target.querySelector('.clone').style = 'display: block;'
 }
 
 export const formatProfileData = (profile = {}, verified = {}, address, addressDisplay) => {

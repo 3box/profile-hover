@@ -26,6 +26,7 @@
     "@fortawesome/free-brands-svg-icons": "^5.7.2",
     "@fortawesome/free-regular-svg-icons": "^5.7.2",
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "ethereum-blockies-base64": "^1.0.2",
     "jsx-render": "^1.1.2",
     "store": "^2.0.12"

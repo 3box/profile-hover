@@ -1,6 +1,6 @@
 import dom, { Fragment } from 'jsx-render';
 import { getProfile, getVerifiedAccounts } from "3box/lib/api";
-import { getAddressDisplay, formatProfileData, copyAddress } from './utils';
+import { getAddressDisplay, formatProfileData, addToClipboard } from './utils';
 import store from 'store'
 import makeBlockie from 'ethereum-blockies-base64';
 const { BaseTemplate, LoadingTemplate, EmptyProfileTemplate } = require('./html')({ dom, Fragment });
@@ -73,6 +73,22 @@ const loadPluginData = async (buttonArray) => {
       }))
     }
   }
+}
+
+const copyAddress = (target, address) => {
+  addToClipboard(address)
+  copyToCheck(target)
+  setTimeout(() => checkToCopy(target), 2000)
+}
+
+const copyToCheck = (target) => {
+  target.querySelector('.clone').style = 'display: none;'
+  target.querySelector('.check').style = 'display: block;'
+}
+
+const checkToCopy = (target) => {
+  target.querySelector('.check').style = 'display: none;'
+  target.querySelector('.clone').style = 'display: block;'
 }
 
 const createPlugins = () => {
