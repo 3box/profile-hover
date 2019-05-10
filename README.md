@@ -11,13 +11,13 @@ A drop in profile hover for any ethereum address.
 ### React component
 Installation:
 
-```javascript
+```shell
 npm i -S profile-hover
 ```
 
 Usage:
 
-```javascript
+```jsx
 import ProfileHover from 'profile-hover';
 
 const MyComponent = () => (<ProfileHover address={'0xa8ee0babe72cd9a80ae45dd74cd3eae7a82fd5d1'} />);
@@ -25,13 +25,13 @@ const MyComponent = () => (<ProfileHover address={'0xa8ee0babe72cd9a80ae45dd74cd
 
 Add `displayFull` property to show the entire address instead of the shorten display.
 
-```javascript
+```jsx
 <ProfileHover address={'0xa8ee0...'} displayFull />
 ```
 
 Add `noTheme` property to not use any of our address bar styling. Allows you to wrap any existing elements in an address hover.
 
-```javascript
+```jsx
 <ProfileHover address={'0xa8ee0...'} noTheme>
   ... your own html and styling
 </ProfileHover>
