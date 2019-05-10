@@ -1,15 +1,9 @@
-import { getProfile, getProfiles, getVerifiedAccounts} from '3box/lib/api'
-import { baseTemplate, loadingTemplate, emptyProfileTemplate } from './html.js'
+import dom, { Fragment } from 'jsx-render';
+import { getProfile, getVerifiedAccounts } from "3box/lib/api";
+import { getAddressDisplay, formatProfileData, addToClipboard } from './utils';
 import store from 'store'
 import makeBlockie from 'ethereum-blockies-base64';
-
-import { library, dom } from "@fortawesome/fontawesome-svg-core"
-import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck"
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight"
-import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons/faGlobeAmericas"
-import { faTwitter } from "@fortawesome/free-brands-svg-icons/faTwitter"
-import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub"
-import { faClone } from '@fortawesome/free-regular-svg-icons/faClone'
+const { BaseTemplate, LoadingTemplate, EmptyProfileTemplate } = require('./html')({ dom, Fragment });
 
 import style from './style.less';
 const css = style.toString()
@@ -19,40 +13,6 @@ const expirePlugin = require('store/plugins/expire')
 store.addPlugin(expirePlugin)
 const ttl = 1000 * 60 * 15
 const expireAt = () => new Date().getTime() + ttl
-
-//Utils
-const getShortAddress = (address) => {
-   return address.substr(0,6) + '...' + address.substr(-4);
-}
-
-const formatUrl = (url) => {
-  if (!url) {
-    return undefined;
-  }
-  return url.includes('http') ?  url : `http://${url}`;
-}
-
-const copyAddress = (address) => {
-  const el = document.createElement('textarea');
-  el.value = address
-  document.body.appendChild(el);
-  el.select();
-  document.execCommand('copy');
-  document.body.removeChild(el);
-  const iconId = address.substring(2,6)
-  copyToCheck(iconId)
-  setTimeout(() => { checkToCopy(iconId) }, 2000);
-}
-
-const copyToCheck = (iconId) => {
-  document.getElementById(iconId + 'Clone').style = 'display: none;'
-  document.getElementById(iconId + 'Check').style = 'display: block;'
-}
-
-const checkToCopy = (iconId) => {
-  document.getElementById(iconId + 'Check').style = 'display: none;'
-  document.getElementById(iconId + 'Clone').style = 'display: block;'
-}
 
  // Plugin
 const injectCSS = () => {
@@ -66,10 +26,12 @@ const initPlugins = (buttonArray) => {
   for (let i = 0; i < buttonArray.length; i++) {
     let { address, display, theme } = buttonArray[i].dataset
     theme = !(theme === 'none')
-    const displayShort = !(display === 'full')
-    const addressDisplay = displayShort ? getShortAddress(address) : address
+    const addressDisplay = getAddressDisplay(address, display)
     const html = theme ? undefined : buttonArray[i].innerHTML
-    buttonArray[i].innerHTML = loadingTemplate({address, addressDisplay: addressDisplay.toLowerCase(), imgSrc: makeBlockie(address)}, {html})
+    setProfileContent(buttonArray[i], LoadingTemplate({
+      data: {address, addressDisplay, imgSrc: makeBlockie(address)},
+      opts: {html}
+    }))
   }
 }
 
@@ -79,55 +41,53 @@ const loadPluginData = async (buttonArray) => {
     // get addresss, maybe do map instead, add other options here after
     let { address, display, theme } = buttonArray[i].dataset
     theme = !(theme === 'none')
-    const displayShort = !(display === 'full')
-    const addressDisplay = displayShort ? getShortAddress(address) : address
-    // TODO clean up and seperate all this if try etc stuff
-    try {
-      const cacheProfile = await store.get(address)
-      let profile, verified
-      if (cacheProfile === '404') {
-        buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase(), imgSrc: makeBlockie(address)})
-      } else {
-        if (!cacheProfile) {
-          profile = await getProfile(address)
-          verified = await getVerifiedAccounts(profile)
-          const setCacheProfile = Object.assign(profile, { verified })
-          store.set(address, JSON.stringify(setCacheProfile), expireAt())
-        } else {
-          profile = JSON.parse(cacheProfile)
-          verified = profile.verified
-        }
-        const imgSrc = (hash) => `https://ipfs.infura.io/ipfs/${hash}`
-        const websiteUrl = formatUrl(profile.website);
-        const data = {
-          imgSrc: profile.image ? imgSrc(profile.image[0].contentUrl['/']) : makeBlockie(address),
-          address: address,
-          addressDisplay: addressDisplay.toLowerCase(),
-          github: verified.github ? verified.github.username : undefined,
-          twitter: verified.twitter ? verified.twitter.username : undefined,
-          emoji: profile.emoji,
-          name: profile.name,
-          website: profile.website,
-          websiteUrl: websiteUrl
-        }
-        const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
-        buttonArray[i].innerHTML = baseTemplate(data, {html})
-      }
-    } catch (e) {
-      store.set(address, '404', expireAt())
-      buttonArray[i].innerHTML = emptyProfileTemplate({ address: address, addressDisplay: addressDisplay.toLowerCase(), imgSrc: makeBlockie(address)})
+    const addressDisplay = getAddressDisplay(address, display)
+
+    const profile = await retrieveProfile(address)
+    const verified = profile.verified
+    const data = formatProfileData(profile, verified, address, addressDisplay);
+    const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
+
+    if (profile.status === 'error') {
+      setProfileContent(buttonArray[i], EmptyProfileTemplate({ data }))
+    } else {
+      setProfileContent(buttonArray[i], BaseTemplate({ data, opts: {html} }))
     }
   }
 }
 
-const injectIcons = () => {
-  library.add(faCheck, faArrowRight, faGithub, faTwitter, faGlobeAmericas, faClone);
-  dom.watch()
+const retrieveProfile = async (address) => {
+  const cacheProfile = await store.get(address)
+  if (profile) {
+    return JSON.parse(cacheProfile)
+  }
+
+  const profile = await getProfile(address)
+  const verified = await getVerifiedAccounts(profile)
+  const setCacheProfile = Object.assign(profile, { verified })
+  store.set(address, JSON.stringify(setCacheProfile), expireAt())
+
+  return profile
+}
+
+const copyAddress = (target, address) => {
+  addToClipboard(address)
+  copyToCheck(target)
+  setTimeout(() => checkToCopy(target), 2000)
+}
+
+const copyToCheck = (target) => {
+  target.querySelector('.clone').style = 'display: none;'
+  target.querySelector('.check').style = 'display: block;'
+}
+
+const checkToCopy = (target) => {
+  target.querySelector('.check').style = 'display: none;'
+  target.querySelector('.clone').style = 'display: block;'
 }
 
 const createPlugins = () => {
   injectCSS()
-  injectIcons()
 
   window['boxCopyAddress_f1kx'] = copyAddress
 
@@ -146,7 +106,6 @@ const pluginAddedListener = () => {
     childList: true,
   }
   function subscriber(mutations) {
-    const node = mutations.addedNodes ? mutations.addedNodes[0] : null
     mutations.forEach((mutation) => {
       if (mutation.addedNodes.length > 0) {
         const newElements = Array.from(mutation.addedNodes)
@@ -160,6 +119,11 @@ const pluginAddedListener = () => {
   const observer = new MutationObserver(subscriber);
 
   observer.observe(target, config);
+}
+
+const setProfileContent = (element, newChild) => {
+  element.childNodes.forEach(child => child.remove());
+  element.appendChild(newChild);
 }
 
 pluginAddedListener()

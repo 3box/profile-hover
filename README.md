@@ -8,13 +8,44 @@ A drop in profile hover for any ethereum address.
 
 ![Profile Hover](./example/profile-hover.gif)
 
+### React component
+Installation:
+
+```shell
+npm i -S profile-hover
+```
+
+Usage:
+
+```jsx
+import ProfileHover from 'profile-hover';
+
+const MyComponent = () => (<ProfileHover address={'0xa8ee0babe72cd9a80ae45dd74cd3eae7a82fd5d1'} />);
+```
+
+Add `displayFull` property to show the entire address instead of the shorten display.
+
+```jsx
+<ProfileHover address={'0xa8ee0...'} displayFull />
+```
+
+Add `noTheme` property to not use any of our address bar styling. Allows you to wrap any existing elements in an address hover.
+
+```jsx
+<ProfileHover address={'0xa8ee0...'} noTheme>
+  ... your own html and styling
+</ProfileHover>
+```
+
+### HTML element
+
 First add the script at the end of your page.
 
 ```html
   <script type="text/javascript" src="https://unpkg.com/profile-hover"></script>
 ```
 
-Then add the the following tag where ever you display an address.
+Then add the following tag where ever you display an address.
 
 ```html
   <threebox-address data-address='0xa8ee0babe72cd9a80ae45dd74cd3eae7a82fd5d1'></threebox-address>
@@ -35,3 +66,4 @@ Add `data-theme='none'` to not use any of our address bar styling. Allows you to
     ... your own html and styling
   </threebox-address>
 ```
+
