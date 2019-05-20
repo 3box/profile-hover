@@ -10,7 +10,7 @@ module.exports = ({ dom, React, Fragment }) => {
             <div>
               {opts.html}
             </div>
-            {opts.empty ? <EmptyHoverTemplate data={data} /> : <HoverTemplate data={data} opts={opts} />}
+            {opts.empty ? <EmptyHoverTemplate data={data} opts={opts} /> : <HoverTemplate data={data} opts={opts} />}
           </Fragment>
         ) : <AddressBarTemplate data={data} opts={opts} />}
       </div>
@@ -62,7 +62,7 @@ module.exports = ({ dom, React, Fragment }) => {
     )
   }
 
-  const AddressBarTemplate = ({ data = {}, opts = {} }) => {
+  const AddressBarTemplate = ({ data = {}, opts = {}, empty }) => {
     return (
       <div className={`${style.boxAddress} ${data.addressDisplay.length >= 15 ? style.boxAddressFull : ''}`}>
         <div className={style.boxImg}>
@@ -74,7 +74,7 @@ module.exports = ({ dom, React, Fragment }) => {
         </div>
 
         <CopyButton address={data.address} />
-        {opts.empty ? <EmptyHoverTemplate data={data} /> : <HoverTemplate data={data} opts={opts} />}
+        {empty ? <EmptyHoverTemplate data={data} opts={opts} /> : <HoverTemplate data={data} opts={opts} />}
       </div>
     )
   }
@@ -152,24 +152,23 @@ module.exports = ({ dom, React, Fragment }) => {
         {opts.html ? (
           <Fragment>
             <div id="orginal_html_f1kx">{opts.html}</div>
-            {opts.empty ? <EmptyHoverTemplate data={data} /> : <HoverTemplate data={data} opts={{ loading: true }} />}
+            {opts.empty ? <EmptyHoverTemplate data={data} opts={opts} /> : <HoverTemplate data={data} opts={{ loading: true }} />}
           </Fragment>
         ) : <AddressBarTemplate data={data} opts={{ loading: true }} />}
       </div>
     )
   }
 
-
-  const EmptyProfileTemplate = ({ data }) => {
+  const EmptyProfileTemplate = ({ data, opts }) => {
     return (
       <div className={style.boxAddressWrap}>
-        {<AddressBarTemplate data={data} opts={{ empty: true }} />}
+        {<AddressBarTemplate data={data} opts={opts} empty />}
       </div>
     )
   }
 
-  const EmptyHoverTemplate = ({ data }) => (
-    <div className={`${style.hoverProfile} ${style.hoverProfileEmpty} ${style[opts.orientation]}`}>
+  const EmptyHoverTemplate = ({ data = {}, opts = {} }) => (
+    <div className={`${style.hoverProfile} ${style.hoverProfileEmpty} ${opts ? style[opts.orientation] : ''}`}>
       <div className={style.boxLinkEmpty}>
         <div className={style.boxLinkEmpty_text}>
           <span> Profile at <a href={'https://3box.io/' + data.address} target="_blank">3box.io</a></span>

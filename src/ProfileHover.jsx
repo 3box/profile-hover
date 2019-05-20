@@ -63,10 +63,8 @@ export default class ProfileHover extends React.PureComponent {
       noImg,
       noProfileImg,
       noCoverImg,
-      orientation: orientation || 'bottom',
+      orientation: orientation || 'right',
     };
-
-    console.log(profile);
 
     const addressDisplay = getAddressDisplay(address, fullDisplay ? 'full' : undefined)
     const data = formatProfileData(profile, verified, address, addressDisplay);
