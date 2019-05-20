@@ -42,7 +42,10 @@ export default class ProfileHover extends React.PureComponent {
       address,
       fullDisplay,
       noTheme,
-      children
+      children,
+      noImg,
+      noProfileImg,
+      noCoverImg
     } = this.props;
 
     const {
@@ -55,7 +58,10 @@ export default class ProfileHover extends React.PureComponent {
     }
 
     const opts = {
-      html: noTheme ? children : undefined
+      html: noTheme ? children : undefined,
+      noImg: noImg,
+      noProfileImg: noProfileImg,
+      noCoverImg: noCoverImg
     };
 
     const addressDisplay = getAddressDisplay(address, fullDisplay ? 'full' : undefined)

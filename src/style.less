@@ -1,11 +1,16 @@
+@threeBoxBlack: #181F21;
+@lighterFont: #747677;
+@coverHeight: 70px;
+
 .boxAddress {
-  background: rgba(251, 251, 255, 1);;
+  background: rgba(251, 251, 255, 1);
+  ;
   height: 32px;
   padding: 0px;
-  border:  1px solid rgb(237, 242, 251);
+  border: 1px solid rgb(237, 242, 251);
   border-radius: 3px;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
-  font-family:  Arial, sans-serif;
+  font-family: Arial, sans-serif;
   position: relative;
   float: left;
   display: block;
@@ -22,7 +27,7 @@
   height: 50px;
   float: left;
   position: relative;
-  font-family:  Arial, sans-serif;
+  font-family: Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -69,56 +74,141 @@
 }
 
 .hoverProfile {
-  display: none;
   position: relative;
   bottom: -10px;
   left: -15px;
-  border-radius: 3px;
+  border-radius: 10px;
   border: 1px solid rgb(237, 242, 251);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
-  background: rgba(251, 251, 255, 1);
-  color: rgb(124, 138, 167);
+  box-shadow: 0 3px 8px 0 rgba(87, 87, 87, 0.15);
+  background: white;
+  color: @threeBoxBlack;
   width: 230px;
   z-index: 1111;
+  display: none;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 20px 20px 20px 20px;
+}
+
+.hoverProfileEmpty {
+  padding: 20px;
+}
+
+.hoverProfile p {
+  letter-spacing: .4px;
+}
+
+.hoverProfile .coverPicture {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: @coverHeight;
+  z-index: 1;
+  margin-left: -20px;
+}
+
+.hoverProfile .coverPicture_image {
+  min-width: 100%;
+  min-height: @coverHeight;
+  max-width: 100%;
+  max-height: @coverHeight;
+  object-fit: cover;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #f5f5f5;
 }
 
 .hoverProfile .profileValue {
-  padding: 5px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
 }
 
 .hoverProfile .profileValue a {
   text-decoration: none;
   color: rgb(72, 125, 236);
-  font-size: 15px;
+  font-size: 14px;
+  width: 80%;
 }
 
+.hoverProfile p {
+  margin: 0;
+  color: @lighterFont;
+}
 
-.hoverProfile .profileValue .profileText{
+.hoverProfile .profileValuePicture {
+  z-index: 2;
+  margin-top: 10px;
+}
+
+.hoverProfile .profileValuePicture img {
+  background: rgb(7, 73, 136);
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 3px solid white;
+}
+
+.hoverProfile .noProfileImgSpacer {
+  margin-top: 65px;
+}
+
+.hoverProfile .profileDescription p {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.hoverProfile .profileValue .profileText {
   padding-left: 6px;
 }
 
 .hoverProfile .profileValueName {
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgb(237, 242, 251);
   font-weight: 600;
-  font-size: 16px;
-  margin-bottom:10px;
+  font-size: 20px;
+  letter-spacing: 1px;
+  width: 100%;
 }
 
-
-.hoverProfile .profileValueName .profileText{
-  padding-left:4px;
+.hoverProfile .profileValueName .profileText {
+  text-decoration: none;
+  color: @threeBoxBlack;
 }
 
-.hoverProfile .boxLink{
-  background: rgba(245, 245, 253, 0.9);
-  border-top: 1px solid rgb(237, 242, 255);
-  padding-top: 10px;
-  padding-bottom: 10px;
+.hoverProfile .profileValueName .profileText:hover {
+  text-decoration: underline;
+}
+
+.hoverProfile .profileValueName .profileText:visited {
+  color: @threeBoxBlack;
+}
+
+.hoverProfile .boxLink {
   font-size: 11px;
-  text-align: center;
   border-radius: 0px 0px 3px 3px;
   margin-top: 7px;
+  color: @lighterFont;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.hoverProfile .boxLink a {
+  margin-right: 5px;
+}
+
+.hoverProfile .boxLink img {
+  opacity: .1;
+}
+
+.hoverProfile .BoxLinkText {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .hoverProfile .boxLinkEmpty {
@@ -150,24 +240,34 @@
   color: rgb(72, 125, 236);
 }
 
-.hoverProfile:after{
-  content:'';
-  position:absolute;
-  top:-6px;
-  width:10px;
-  height:10px;
-  border-bottom:1px solid rgb(237, 242, 251);
-  border-right:1px solid rgb(237, 242, 251);
+.hoverProfile .profileDetails {
+  margin: 22px 0 18px 0;
+  width: 100%;
+}
+
+.hoverProfile .profileDetails p {
+  font-size: 11px;
+  width: 20%;
+}
+
+.hoverProfile:after {
+  content: '';
+  position: absolute;
+  top: -6px;
+  width: 10px;
+  height: 10px;
+  border-bottom: 1px solid rgb(237, 242, 251);
+  border-right: 1px solid rgb(237, 242, 251);
   background: rgba(251, 251, 255, 1);
-  left:50%;
-  margin-left:-10px;
-  -moz-transform:rotate(225deg);
-  -webkit-transform:rotate(225deg);
-  transform:rotate(225deg);
+  left: 50%;
+  margin-left: -10px;
+  -moz-transform: rotate(225deg);
+  -webkit-transform: rotate(225deg);
+  transform: rotate(225deg);
 }
 
 .boxAddressWrap:hover .hoverProfile {
-  display:inline-block;
+  display: flex;
 }
 
 .loadingText {
@@ -176,6 +276,6 @@
   font-size: 13px;
 }
 
-.paddingWrap {
-  padding: 12px 19px 3px 19px;
-}
+// .paddingWrap {
+//   padding: 12px 19px 3px 19px;
+// }

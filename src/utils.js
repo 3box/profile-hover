@@ -19,20 +19,20 @@ export const getAddressDisplay = (address, display) => {
 
 const getShortAddress = (address) => {
   return address.substr(0,6) + '...' + address.substr(-4);
-}
+};
 
 const formatUrl = (url) => {
   if (!url) {
     return undefined;
   }
   return url.includes('http') ?  url : `http://${url}`;
-}
+};
 
-const getImgSrc = (profile, address) => {
-  if (!profile.image) {
+const getImgSrc = (profile, address, type) => {
+  if (!profile.image && type === 'image') {
     return makeBlockie(address);
   }
-  const hash = profile.image[0].contentUrl["/"];
+  const hash = profile[type][0].contentUrl["/"];
   return `https://ipfs.infura.io/ipfs/${hash}`;
 };
 
@@ -43,12 +43,12 @@ export const addToClipboard = (address) => {
   el.select();
   document.execCommand('copy');
   document.body.removeChild(el);
-}
+};
 
 export const formatProfileData = (profile = {}, verified = {}, address, addressDisplay) => {
   try {
     return {
-      imgSrc: getImgSrc(profile, address),
+      imgSrc: getImgSrc(profile, address, 'image'),
       address: address,
       addressDisplay: addressDisplay,
       github: verified.github ? verified.github.username : undefined,
@@ -56,7 +56,9 @@ export const formatProfileData = (profile = {}, verified = {}, address, addressD
       emoji: profile.emoji,
       name: profile.name,
       website: profile.website,
-      websiteUrl: formatUrl(profile.website)
+      description: profile.description,
+      coverPhoto: getImgSrc(profile, address, 'coverPhoto'),
+      websiteUrl: formatUrl(profile.website),
     };
   } catch (e) {
     return {
@@ -66,4 +68,3 @@ export const formatProfileData = (profile = {}, verified = {}, address, addressD
     }
   }
 };
-
