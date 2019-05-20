@@ -3,8 +3,6 @@ const style = require('style-loader!./style.less')
 
 module.exports = ({ dom, React, Fragment }) => {
   const BaseTemplate = ({ data = {}, opts = {} }) => {
-    { console.log('opts', opts) }
-
     return (
       <div className={style.boxAddressWrap}>
         {opts.html ? (
@@ -21,7 +19,7 @@ module.exports = ({ dom, React, Fragment }) => {
 
   const HoverTemplate = ({ data = {}, opts = {} }) => {
     return (
-      <div className={style.hoverProfile}>
+      <div className={`${style.hoverProfile} ${style[opts.orientation]}`}>
         {opts.loading && <div className={style.loadingText}> Loading ... </div>}
 
         {data.coverPhoto && <CoverPictureTemplate data={data} opts={opts} />}
@@ -29,11 +27,12 @@ module.exports = ({ dom, React, Fragment }) => {
 
         {data.name && <NameTemplate data={data} />}
         {data.description && <DescriptionTemplate data={data} />}
-        <div className={style.profileDetails}>
-          {data.twitter && <TwitterTemplate data={data} />}
-          {data.github && <GithubTemplate data={data} />}
-          {data.website && <WebsiteTemplate data={data} />}
-        </div>
+        {(data.twitter || data.github || data.website) && (
+          <div className={style.profileDetails}>
+            {data.twitter && <TwitterTemplate data={data} />}
+            {data.github && <GithubTemplate data={data} />}
+            {data.website && <WebsiteTemplate data={data} />}
+          </div>)}
         <HoverFooterTemplate data={data} />
       </div>
     )
@@ -45,7 +44,7 @@ module.exports = ({ dom, React, Fragment }) => {
         <span> Profile at <a href={'https://3box.io/' + data.address} target="_blank">3box.io</a></span>
         <i className="fas fa-arrow-right"></i>
       </div>
-      <img src="https://i.imgur.com/uRCbJMP.png" height="18px" width="18px" />
+      <img src="https://i.imgur.com/uRCbJMP.png" className={style.logo} />
     </div>
   )
 
@@ -170,10 +169,13 @@ module.exports = ({ dom, React, Fragment }) => {
   }
 
   const EmptyHoverTemplate = ({ data }) => (
-    <div className={`${style.hoverProfile} ${style.hoverProfileEmpty}`}>
+    <div className={`${style.hoverProfile} ${style.hoverProfileEmpty} ${style[opts.orientation]}`}>
       <div className={style.boxLinkEmpty}>
-        <span> Create a profile at <a href={'https://3box.io/'} target="_blank">3box.io</a></span>
-        <i className="fas fa-arrow-right"></i>
+        <div className={style.boxLinkEmpty_text}>
+          <span> Profile at <a href={'https://3box.io/' + data.address} target="_blank">3box.io</a></span>
+          <i className="fas fa-arrow-right"></i>
+        </div>
+        <img src="https://i.imgur.com/uRCbJMP.png" className={style.logo} />
       </div>
     </div>
   )

@@ -4,7 +4,6 @@
 
 .boxAddress {
   background: rgba(251, 251, 255, 1);
-  ;
   height: 32px;
   padding: 0px;
   border: 1px solid rgb(237, 242, 251);
@@ -74,9 +73,7 @@
 }
 
 .hoverProfile {
-  position: relative;
-  bottom: -10px;
-  left: -15px;
+  position: absolute;
   border-radius: 10px;
   border: 1px solid rgb(237, 242, 251);
   box-shadow: 0 3px 8px 0 rgba(87, 87, 87, 0.15);
@@ -89,6 +86,26 @@
   justify-content: flex-start;
   align-items: flex-start;
   padding: 20px 20px 20px 20px;
+}
+
+.hoverProfile.bottom {
+  top: 46px;
+  left: -15px;
+}
+
+.hoverProfile.top {
+  bottom: 46px;
+  left: -15px;
+}
+
+.hoverProfile.right {
+  top: -50%;
+  left: calc(100% + 15px);
+}
+
+.hoverProfile.left {
+  top: -50%;
+  right: calc(100% + 15px);
 }
 
 .hoverProfileEmpty {
@@ -189,7 +206,7 @@
 .hoverProfile .boxLink {
   font-size: 11px;
   border-radius: 0px 0px 3px 3px;
-  margin-top: 7px;
+  // margin-top: 7px;
   color: @lighterFont;
   display: flex;
   justify-content: space-between;
@@ -197,12 +214,14 @@
   width: 100%;
 }
 
-.hoverProfile .boxLink a {
-  margin-right: 5px;
+.hoverProfile .logo {
+  opacity: .1 !important;
+  height: 18px;
+  width: 18px;
 }
 
-.hoverProfile .boxLink img {
-  opacity: .1;
+.hoverProfile .boxLink a {
+  margin-right: 5px;
 }
 
 .hoverProfile .BoxLinkText {
@@ -212,12 +231,13 @@
 }
 
 .hoverProfile .boxLinkEmpty {
-  padding-bottom: 10px;
   font-size: 11px;
   text-align: center;
   border-radius: 0px 0px 3px 3px;
-  margin-top: 7px;
-  padding-top: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
 
 .hoverProfile .boxLink a {
@@ -230,10 +250,21 @@
   color: rgb(72, 125, 236);
 }
 
+.hoverProfile .boxLinkEmpty_text {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .hoverProfile .boxLinkEmpty a {
   text-decoration: none;
   color: rgb(72, 125, 236);
   font-weight: 600;
+  margin-right: 5px;
+}
+
+.hoverProfile .boxLinkEmpty span {
+  color: @lighterFont;
 }
 
 .hoverProfile .boxLinkEmpty svg {
@@ -253,17 +284,47 @@
 .hoverProfile:after {
   content: '';
   position: absolute;
-  top: -6px;
   width: 10px;
   height: 10px;
   border-bottom: 1px solid rgb(237, 242, 251);
   border-right: 1px solid rgb(237, 242, 251);
-  background: rgba(251, 251, 255, 1);
+  background: white;
+}
+
+.hoverProfile.bottom:after {
+  top: -6px;
   left: 50%;
   margin-left: -10px;
   -moz-transform: rotate(225deg);
   -webkit-transform: rotate(225deg);
   transform: rotate(225deg);
+}
+
+.hoverProfile.top:after {
+  bottom: -6px;
+  left: 50%;
+  margin-left: -10px;
+  -moz-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.hoverProfile.right:after {
+  top: 37px;
+  left: -6px;
+  margin-top: -10px;
+  -moz-transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+
+.hoverProfile.left:after {
+  top: 37px;
+  right: -6px;
+  margin-top: -10px;
+  -moz-transform: rotate(315deg);
+  -webkit-transform: rotate(315deg);
+  transform: rotate(315deg);
 }
 
 .boxAddressWrap:hover .hoverProfile {
