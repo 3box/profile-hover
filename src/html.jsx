@@ -2,41 +2,44 @@ const { CopyButton } = require('./CopyButton')
 const style = require('style-loader!./style.less')
 
 module.exports = ({ dom, React, Fragment }) => {
-  const BaseTemplate = ({ data = {}, opts = {} }) => {
+  const BaseTemplate = React.forwardRef(({ data = {}, opts = {}, checkWindowSize }, ref) => {
     return (
-      <div className={style.boxAddressWrap}>
+      <div className={style.boxAddressWrap} onMouseEnter={checkWindowSize}>
         {opts.html ? (
           <Fragment>
             <div>
               {opts.html}
             </div>
-            {opts.empty ? <EmptyHoverTemplate data={data} opts={opts} /> : <HoverTemplate data={data} opts={opts} />}
+
+            <HoverTemplate data={data} opts={opts} ref={ref} />
           </Fragment>
-        ) : <AddressBarTemplate data={data} opts={opts} />}
+        ) : <AddressBarTemplate data={data} opts={opts} ref={ref} />}
       </div>
     )
-  }
+  });
 
-  const HoverTemplate = ({ data = {}, opts = {} }) => {
+  const HoverTemplate = React.forwardRef(({ data = {}, opts = {} }, ref) => {
     return (
-      <div className={`${style.hoverProfile} ${style[opts.orientation]}`}>
-        {opts.loading && <div className={style.loadingText}> Loading ... </div>}
+      <div className={`${style.hoverWrap} ${style[opts.orientation]}`}>
+        <div className={style.hoverProfile} ref={ref}>
+          {opts.loading && <div className={style.loadingText}> Loading ... </div>}
 
-        {data.coverPhoto && <CoverPictureTemplate data={data} opts={opts} />}
-        {data.imgSrc && <ProfilePictureTemplate data={data} opts={opts} />}
+          {data.coverPhoto && <CoverPictureTemplate data={data} opts={opts} />}
+          {data.imgSrc && <ProfilePictureTemplate data={data} opts={opts} />}
 
-        {data.name && <NameTemplate data={data} />}
-        {data.description && <DescriptionTemplate data={data} />}
-        {(data.twitter || data.github || data.website) && (
-          <div className={style.profileDetails}>
-            {data.twitter && <TwitterTemplate data={data} />}
-            {data.github && <GithubTemplate data={data} />}
-            {data.website && <WebsiteTemplate data={data} />}
-          </div>)}
-        <HoverFooterTemplate data={data} />
+          {data.name && <NameTemplate data={data} />}
+          {data.description && <DescriptionTemplate data={data} />}
+          {(data.twitter || data.github || data.website) && (
+            <div className={style.profileDetails}>
+              {data.twitter && <TwitterTemplate data={data} />}
+              {data.github && <GithubTemplate data={data} />}
+              {data.website && <WebsiteTemplate data={data} />}
+            </div>)}
+          <HoverFooterTemplate data={data} />
+        </div>
       </div>
     )
-  }
+  })
 
   const HoverFooterTemplate = ({ data = {} }) => (
     <div className={style.boxLink}>
@@ -62,7 +65,7 @@ module.exports = ({ dom, React, Fragment }) => {
     )
   }
 
-  const AddressBarTemplate = ({ data = {}, opts = {}, empty }) => {
+  const AddressBarTemplate = React.forwardRef(({ data = {}, opts = {}, empty }, ref) => {
     return (
       <div className={`${style.boxAddress} ${data.addressDisplay.length >= 15 ? style.boxAddressFull : ''}`}>
         <div className={style.boxImg}>
@@ -74,10 +77,10 @@ module.exports = ({ dom, React, Fragment }) => {
         </div>
 
         <CopyButton address={data.address} />
-        {empty ? <EmptyHoverTemplate data={data} opts={opts} /> : <HoverTemplate data={data} opts={opts} />}
+        <HoverTemplate data={data} opts={opts} ref={ref} />
       </div>
     )
-  }
+  })
 
   const ProfilePictureTemplate = ({ data = {}, opts = {} }) => {
     return (
@@ -152,33 +155,16 @@ module.exports = ({ dom, React, Fragment }) => {
         {opts.html ? (
           <Fragment>
             <div id="orginal_html_f1kx">{opts.html}</div>
-            {opts.empty ? <EmptyHoverTemplate data={data} opts={opts} /> : <HoverTemplate data={data} opts={{ loading: true }} />}
+            <HoverTemplate data={data} opts={{ loading: true }} />
           </Fragment>
         ) : <AddressBarTemplate data={data} opts={{ loading: true }} />}
       </div>
     )
   }
 
-  const EmptyProfileTemplate = ({ data, opts }) => {
-    return (
-      <div className={style.boxAddressWrap}>
-        {<AddressBarTemplate data={data} opts={opts} empty />}
-      </div>
-    )
+  return {
+    BaseTemplate,
+    LoadingTemplate,
   }
-
-  const EmptyHoverTemplate = ({ data = {}, opts = {} }) => (
-    <div className={`${style.hoverProfile} ${style.hoverProfileEmpty} ${opts ? style[opts.orientation] : ''}`}>
-      <div className={style.boxLinkEmpty}>
-        <div className={style.boxLinkEmpty_text}>
-          <span> Profile at <a href={'https://3box.io/' + data.address} target="_blank">3box.io</a></span>
-          <i className="fas fa-arrow-right"></i>
-        </div>
-        <img src="https://i.imgur.com/uRCbJMP.png" className={style.logo} />
-      </div>
-    </div>
-  )
-
-  return { BaseTemplate, LoadingTemplate, EmptyProfileTemplate }
 }
 

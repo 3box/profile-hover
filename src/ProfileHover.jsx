@@ -9,8 +9,11 @@ export default class ProfileHover extends React.PureComponent {
 
     this.state = {
       profile: undefined,
-      verified: undefined
+      verified: undefined,
+      adjustOrientation: null
     };
+    this.selector = React.createRef();
+    this.checkWindowSize = this.checkWindowSize.bind(this);
   }
 
   componentDidCatch(error, info) {
@@ -37,6 +40,39 @@ export default class ProfileHover extends React.PureComponent {
     }
   }
 
+  checkWindowSize() {
+    const { hasUpdated } = this.state;
+    // const { orientation } = this.props;
+
+    if (!hasUpdated) {
+      const { adjustOrientation } = this.state;
+      const height = window.innerHeight;
+      // const width = window.innerWidth;
+      const rect = this.selector.current.getBoundingClientRect();
+      const elHeight = rect.height;
+      const elY = rect.y;
+
+      // const elWidth = rect.width;
+      // const elX = rect.x;
+
+      let updateOrientation = adjustOrientation;
+
+      // if (elWidth + elX > width) {
+      //   if(orientation === ) updateOrientation = 'left';
+      // } else if (elX < 0) {
+      //   updateOrientation = 'right';
+      // }
+
+      if (elHeight + elY > height) {
+        updateOrientation = 'top';
+      } else if (elY < 0) {
+        updateOrientation = 'bottom';
+      }
+
+      this.setState({ adjustOrientation: updateOrientation, hasUpdated: true });
+    }
+  };
+
   render() {
     const {
       address,
@@ -51,7 +87,8 @@ export default class ProfileHover extends React.PureComponent {
 
     const {
       profile,
-      verified
+      verified,
+      adjustOrientation
     } = this.state;
 
     if (address == null) {
@@ -63,7 +100,7 @@ export default class ProfileHover extends React.PureComponent {
       noImg,
       noProfileImg,
       noCoverImg,
-      orientation: orientation || 'right',
+      orientation: adjustOrientation || orientation || 'right',
     };
 
     const addressDisplay = getAddressDisplay(address, fullDisplay ? 'full' : undefined)
@@ -72,10 +109,21 @@ export default class ProfileHover extends React.PureComponent {
       return <LoadingTemplate data={data} opts={opts} />;
     }
     if (profile.status === 'error') {
-      return <EmptyProfileTemplate data={data} opts={opts} />;
+      return <BaseTemplate
+        data={data}
+        opts={opts}
+        id={address}
+        checkWindowSize={this.checkWindowSize}
+        ref={this.selector}
+      />;
     }
 
-    return <BaseTemplate data={data} opts={opts} />;
+    return <BaseTemplate
+      data={data}
+      opts={opts}
+      id={address}
+      checkWindowSize={this.checkWindowSize}
+      ref={this.selector}
+    />;
   }
 }
-

@@ -23,11 +23,11 @@
 
 .boxAddressWrap {
   display: block;
-  height: 50px;
   float: left;
   position: relative;
   font-family: Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  background-clip: padding-box;
 }
 
 .boxAddress .boxImg {
@@ -72,8 +72,38 @@
   background-color: #f7f7fb;
 }
 
-.hoverProfile {
+.boxAddressWrap .hoverWrap {
+  height: fit-content;
+  width: fit-content;
   position: absolute;
+  z-index: 1;
+}
+
+.boxAddressWrap .hoverWrap.top {
+  padding-bottom: 20px;
+  bottom: 26px;
+  left: -15px;
+}
+
+.boxAddressWrap .hoverWrap.bottom {
+  padding-top: 20px;
+  top: 26px;
+  left: -15px;
+}
+
+.boxAddressWrap .hoverWrap.right {
+  padding-left: 20px;
+  top: -50%;
+  left: calc(100% + -5px);
+}
+
+.boxAddressWrap .hoverWrap.left {
+  padding-right: 20px;
+  top: -50%;
+  right: calc(100% + -5px);
+}
+
+.hoverProfile {
   border-radius: 10px;
   border: 1px solid rgb(237, 242, 251);
   box-shadow: 0 3px 8px 0 rgba(87, 87, 87, 0.15);
@@ -86,27 +116,28 @@
   justify-content: flex-start;
   align-items: flex-start;
   padding: 20px 20px 20px 20px;
+  position: relative;
 }
 
-.hoverProfile.bottom {
-  top: 46px;
-  left: -15px;
-}
+// .hoverProfile.bottom {
+//   top: 46px;
+//   left: -15px;
+// }
 
-.hoverProfile.top {
-  bottom: 46px;
-  left: -15px;
-}
+// .hoverProfile.top {
+//   bottom: 46px;
+//   left: -15px;
+// }
 
-.hoverProfile.right {
-  top: -50%;
-  left: calc(100% + 15px);
-}
+// .hoverProfile.right {
+//   top: -50%;
+//   left: calc(100% + 15px);
+// }
 
-.hoverProfile.left {
-  top: -50%;
-  right: calc(100% + 15px);
-}
+// .hoverProfile.left {
+//   top: -50%;
+//   right: calc(100% + 15px);
+// }
 
 .hoverProfileEmpty {
   padding: 20px;
@@ -206,7 +237,6 @@
 .hoverProfile .boxLink {
   font-size: 11px;
   border-radius: 0px 0px 3px 3px;
-  // margin-top: 7px;
   color: @lighterFont;
   display: flex;
   justify-content: space-between;
@@ -291,7 +321,7 @@
   background: white;
 }
 
-.hoverProfile.bottom:after {
+.hoverWrap.bottom .hoverProfile:after {
   top: -6px;
   left: 50%;
   margin-left: -10px;
@@ -300,7 +330,7 @@
   transform: rotate(225deg);
 }
 
-.hoverProfile.top:after {
+.hoverWrap.top .hoverProfile:after {
   bottom: -6px;
   left: 50%;
   margin-left: -10px;
@@ -309,7 +339,7 @@
   transform: rotate(45deg);
 }
 
-.hoverProfile.right:after {
+.hoverWrap.right .hoverProfile:after {
   top: 37px;
   left: -6px;
   margin-top: -10px;
@@ -318,7 +348,7 @@
   transform: rotate(135deg);
 }
 
-.hoverProfile.left:after {
+.hoverWrap.left .hoverProfile:after {
   top: 37px;
   right: -6px;
   margin-top: -10px;
@@ -336,7 +366,3 @@
   padding: 2px;
   font-size: 13px;
 }
-
-// .paddingWrap {
-//   padding: 12px 19px 3px 19px;
-// }
