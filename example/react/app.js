@@ -12,10 +12,10 @@ const Example = ({}) => {
         <ProfileHover orientation="top" noImg address='0xf3b281F3Dd2b87c7b3EAcC0402a4FD7d827F2956' />
       </div>
       <div className='ethAddress'>
-        <ProfileHover orientation="top" address='0xa8ee0babe72cd9a80ae45dd74cd3eae7a82fd5d1' />
+        <ProfileHover orientation="top" noCoverImg address='0xa8ee0babe72cd9a80ae45dd74cd3eae7a82fd5d1' />
       </div>
       <div className='ethAddress'>
-        <ProfileHover orientation="top" address='0x258ddd84abf61ba1d1e39f95d8863ee9ca218c06' />
+        <ProfileHover orientation="top" noCoverImg address='0x258ddd84abf61ba1d1e39f95d8863ee9ca218c06' />
       </div>
       <div className='ethAddress'>
         <ProfileHover orientation="top" noImg address='0xbaebb7d18f8b16b0a970fda91f1efa626d67423e' />

@@ -1,19 +1,23 @@
 import React, { Fragment } from 'react';
 import { getProfile, getVerifiedAccounts } from "3box/lib/api";
 import { getAddressDisplay, formatProfileData } from './utils';
-const { BaseTemplate, LoadingTemplate, EmptyProfileTemplate } = require('./html')({ React, Fragment });
+const { BaseTemplate, LoadingTemplate } = require('./html')({ React, Fragment });
 
 export default class ProfileHover extends React.PureComponent {
   constructor(props) {
     super(props);
-
     this.state = {
       profile: undefined,
       verified: undefined,
-      adjustOrientation: null
+      adjustOrientation: null,
+      isMobile: false,
+      showHover: false
     };
+
     this.selector = React.createRef();
     this.checkWindowSize = this.checkWindowSize.bind(this);
+    this.isMobileDevice = this.isMobileDevice.bind(this);
+    this.handleShowHover = this.handleShowHover.bind(this);
   }
 
   componentDidCatch(error, info) {
@@ -21,6 +25,7 @@ export default class ProfileHover extends React.PureComponent {
   }
 
   componentDidMount() {
+    this.isMobileDevice();
     this._fetchProfile();
   }
 
@@ -40,11 +45,10 @@ export default class ProfileHover extends React.PureComponent {
     }
   }
 
-  checkWindowSize() {
+  checkWindowSize(shouldRun) {
     const { hasUpdated } = this.state;
     // const { orientation } = this.props;
-
-    if (!hasUpdated) {
+    if (!hasUpdated && shouldRun) {
       const { adjustOrientation } = this.state;
       const height = window.innerHeight;
       // const width = window.innerWidth;
@@ -73,6 +77,20 @@ export default class ProfileHover extends React.PureComponent {
     }
   };
 
+  isMobileDevice() {
+    let isMobile = false;
+    if ((typeof window.orientation !== "undefined")
+      || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+      isMobile = true;
+    };
+    this.setState({ isMobile });
+  };
+
+  handleShowHover(isMobile) {
+    const { showHover } = this.state;
+    if (isMobile) this.setState({ showHover: !showHover }, () => this.checkWindowSize(true));
+  }
+
   render() {
     const {
       address,
@@ -88,7 +106,9 @@ export default class ProfileHover extends React.PureComponent {
     const {
       profile,
       verified,
-      adjustOrientation
+      adjustOrientation,
+      isMobile,
+      showHover
     } = this.state;
 
     if (address == null) {
@@ -106,15 +126,24 @@ export default class ProfileHover extends React.PureComponent {
     const addressDisplay = getAddressDisplay(address, fullDisplay ? 'full' : undefined)
     const data = formatProfileData(profile, verified, address, addressDisplay);
     if (profile == null) {
-      return <LoadingTemplate data={data} opts={opts} />;
+      return <LoadingTemplate
+        data={data}
+        opts={opts}
+        isMobile={isMobile}
+        showHover={showHover}
+        handleShowHover={this.handleShowHover}
+      />;
     }
     if (profile.status === 'error') {
       return <BaseTemplate
         data={data}
         opts={opts}
         id={address}
+        isMobile={isMobile}
+        showHover={showHover}
         checkWindowSize={this.checkWindowSize}
         ref={this.selector}
+        handleShowHover={this.handleShowHover}
       />;
     }
 
@@ -123,7 +152,10 @@ export default class ProfileHover extends React.PureComponent {
       opts={opts}
       id={address}
       checkWindowSize={this.checkWindowSize}
+      isMobile={isMobile}
+      showHover={showHover}
       ref={this.selector}
+      handleShowHover={this.handleShowHover}
     />;
   }
 }

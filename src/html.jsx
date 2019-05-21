@@ -2,25 +2,40 @@ const { CopyButton } = require('./CopyButton')
 const style = require('style-loader!./style.less')
 
 module.exports = ({ dom, React, Fragment }) => {
-  const BaseTemplate = React.forwardRef(({ data = {}, opts = {}, checkWindowSize }, ref) => {
+  const BaseTemplate = React.forwardRef(({ data = {}, opts = {}, checkWindowSize, showHover, isMobile, handleShowHover }, ref) => {
     return (
-      <div className={style.boxAddressWrap} onMouseEnter={checkWindowSize}>
+      <div
+        className={`${style.boxAddressWrap} ${!isMobile ? style.isDesktop : ''}`}
+        onMouseEnter={() => checkWindowSize(!isMobile)}
+        onClick={() => handleShowHover(isMobile)}
+      >
         {opts.html ? (
           <Fragment>
             <div>
               {opts.html}
             </div>
 
-            <HoverTemplate data={data} opts={opts} ref={ref} />
+            <HoverTemplate
+              data={data}
+              opts={opts}
+              ref={ref}
+              showHover={showHover}
+            />
           </Fragment>
-        ) : <AddressBarTemplate data={data} opts={opts} ref={ref} />}
+        ) : <AddressBarTemplate
+            data={data}
+            opts={opts}
+            ref={ref}
+            showHover={showHover}
+          />}
+        {showHover && <div className={style.onClickOutsideMobile} onClick={() => handleShowHover(true)} />}
       </div>
-    )
+    );
   });
 
-  const HoverTemplate = React.forwardRef(({ data = {}, opts = {} }, ref) => {
+  const HoverTemplate = React.forwardRef(({ data = {}, opts = {}, showHover }, ref) => {
     return (
-      <div className={`${style.hoverWrap} ${style[opts.orientation]}`}>
+      <div className={`${style.hoverWrap} ${style[opts.orientation]} ${showHover ? style.showHoverMobile : ''}`}>
         <div className={style.hoverProfile} ref={ref}>
           {opts.loading && <div className={style.loadingText}> Loading ... </div>}
 
@@ -39,7 +54,7 @@ module.exports = ({ dom, React, Fragment }) => {
         </div>
       </div>
     )
-  })
+  });
 
   const HoverFooterTemplate = ({ data = {} }) => (
     <div className={style.boxLink}>
@@ -65,7 +80,7 @@ module.exports = ({ dom, React, Fragment }) => {
     )
   }
 
-  const AddressBarTemplate = React.forwardRef(({ data = {}, opts = {}, empty }, ref) => {
+  const AddressBarTemplate = React.forwardRef(({ data = {}, opts = {}, showHover }, ref) => {
     return (
       <div className={`${style.boxAddress} ${data.addressDisplay.length >= 15 ? style.boxAddressFull : ''}`}>
         <div className={style.boxImg}>
@@ -77,7 +92,12 @@ module.exports = ({ dom, React, Fragment }) => {
         </div>
 
         <CopyButton address={data.address} />
-        <HoverTemplate data={data} opts={opts} ref={ref} />
+        <HoverTemplate
+          data={data}
+          opts={opts}
+          ref={ref}
+          showHover={showHover}
+        />
       </div>
     )
   })
@@ -87,7 +107,7 @@ module.exports = ({ dom, React, Fragment }) => {
       <React.Fragment>
         {
           (!opts.noProfileImg && !opts.noImg) && (
-            <div className={style.profileValuePicture}>
+            <div className={`${style.profileValuePicture} ${opts.noCoverImg ? style.noMargin : ''}`}>
               <img src={data.imgSrc} height="32px" width="32px" />
             </div>
           )
@@ -149,15 +169,24 @@ module.exports = ({ dom, React, Fragment }) => {
     </div>
   )
 
-  const LoadingTemplate = ({ data = {}, opts = {} }) => {
+  const LoadingTemplate = ({ data = {}, opts = {}, showHover }) => {
     return (
       <div className={style.boxAddressWrap}>
         {opts.html ? (
           <Fragment>
             <div id="orginal_html_f1kx">{opts.html}</div>
-            <HoverTemplate data={data} opts={{ loading: true }} />
+            <HoverTemplate
+              data={data}
+              opts={{ loading: true }}
+              showHover={showHover}
+            />
           </Fragment>
-        ) : <AddressBarTemplate data={data} opts={{ loading: true }} />}
+        ) : (
+            <AddressBarTemplate
+              data={data}
+              opts={{ loading: true }}
+              showHover={showHover}
+            />)}
       </div>
     )
   }

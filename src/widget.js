@@ -3,7 +3,7 @@ import { getProfile, getVerifiedAccounts } from "3box/lib/api";
 import { getAddressDisplay, formatProfileData, addToClipboard } from './utils';
 import store from 'store'
 import makeBlockie from 'ethereum-blockies-base64';
-const { BaseTemplate, LoadingTemplate, EmptyProfileTemplate } = require('./html')({ dom, Fragment });
+const { BaseTemplate, LoadingTemplate } = require('./html')({ dom, Fragment });
 
 import style from './style.less';
 const css = style.toString()
@@ -49,7 +49,7 @@ const loadPluginData = async (buttonArray) => {
     const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
 
     if (profile.status === 'error') {
-      setProfileContent(buttonArray[i], EmptyProfileTemplate({ data }))
+      setProfileContent(buttonArray[i], BaseTemplate({ data }))
     } else {
       setProfileContent(buttonArray[i], BaseTemplate({ data, opts: {html} }))
     }
