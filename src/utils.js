@@ -36,11 +36,32 @@ export const formatUrl = (url) => {
   return url.includes('http') ?  url : `http://${url}`;
 };
 
+export const addToClipBoardLinks = (link, copySuccessfulFunc, key) => {
+  addToClipboard(link);
+  copySuccessfulFunc(key);
+}
+
 export const addToClipboard = (address) => {
   const el = document.createElement('textarea');
+  el.readOnly = true; // prevent zoom on iPhone
   el.value = address
   document.body.appendChild(el);
-  el.select();
+
+
+  let selection;
+  let range;
+  
+  if (navigator.userAgent.match(/ipad|iphone/i)) {
+    range = document.createRange();
+    range.selectNodeContents(el);
+    selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    el.setSelectionRange(0, 999999);
+  } else {
+    el.select();
+  }
+
   document.execCommand('copy');
   document.body.removeChild(el);
 };
@@ -68,3 +89,11 @@ export const formatProfileData = (profile = {}, verified = {}, address, addressD
     }
   }
 };
+
+export const checkIsMobile = () => {
+  if ((typeof window.orientation !== "undefined")
+  || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+  return true;
+  };
+  return false;
+}

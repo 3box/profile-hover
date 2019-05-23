@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { getProfile, getVerifiedAccounts } from "3box/lib/api";
-import { getAddressDisplay, formatProfileData, formatUrl } from './utils';
+import { getAddressDisplay, formatProfileData, formatUrl, checkIsMobile } from './utils';
 const { BaseTemplate, LoadingTemplate } = require('./html')({ React, Fragment });
 
 export default class ProfileHover extends React.PureComponent {
@@ -11,13 +11,20 @@ export default class ProfileHover extends React.PureComponent {
       verified: undefined,
       adjustOrientation: undefined,
       isMobile: false,
-      showHover: false
+      showHover: false,
+      hasWeb3Mobile: false,
+      twitterCopied: false,
+      websiteCopied: false,
+      githubCopied: false,
+      threeBoxCopied: false,
+      threeBoxFooterCopied: false,
     };
 
     this.selector = React.createRef();
     this.checkWindowSize = this.checkWindowSize.bind(this);
-    this.isMobileDevice = this.isMobileDevice.bind(this);
     this.handleShowHover = this.handleShowHover.bind(this);
+    this.handleCopySuccessful = this.handleCopySuccessful.bind(this);
+    this.checkHasWeb3Mobile = this.checkHasWeb3Mobile.bind(this);
   }
 
   componentDidCatch(error, info) {
@@ -25,7 +32,8 @@ export default class ProfileHover extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.isMobileDevice();
+    this.setState({ isMobile: checkIsMobile() });
+    this.checkHasWeb3Mobile();
     this._fetchProfile();
   }
 
@@ -66,18 +74,23 @@ export default class ProfileHover extends React.PureComponent {
     }
   };
 
-  isMobileDevice() {
-    let isMobile = false;
-    if ((typeof window.orientation !== "undefined")
-      || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
-      isMobile = true;
-    };
-    this.setState({ isMobile });
+  checkHasWeb3Mobile() {
+    const hasWeb3Mobile = checkIsMobile() && (typeof window.web3 !== 'undefined' || typeof window.ethereum !== 'undefined');
+    this.setState({ hasWeb3Mobile });
   };
 
   handleShowHover(isMobile) {
-    const { showHover } = this.state;
-    if (isMobile) this.setState({ showHover: !showHover }, () => this.checkWindowSize(true));
+    const { showHover, hasUpdated } = this.state;
+    if (isMobile) this.setState({ showHover: !showHover },
+      () => { if (!hasUpdated) this.checkWindowSize(true) });
+  }
+
+  handleCopySuccessful(key) {
+    this.setState({ [key]: true },
+      () => setTimeout(() => {
+        this.setState({ [key]: false });
+      }, 2000)
+    );
   }
 
   render() {
@@ -98,7 +111,13 @@ export default class ProfileHover extends React.PureComponent {
       verified,
       adjustOrientation,
       isMobile,
-      showHover
+      showHover,
+      hasWeb3Mobile,
+      twitterCopied,
+      githubCopied,
+      websiteCopied,
+      threeBoxCopied,
+      threeBoxFooterCopied,
     } = this.state;
 
     if (address == null) {
@@ -125,6 +144,7 @@ export default class ProfileHover extends React.PureComponent {
         handleShowHover={this.handleShowHover}
       />;
     }
+
     if (profile.status === 'error') {
       return <BaseTemplate
         data={data}
@@ -142,11 +162,18 @@ export default class ProfileHover extends React.PureComponent {
       data={data}
       opts={opts}
       id={address}
-      checkWindowSize={this.checkWindowSize}
+      hasWeb3Mobile={hasWeb3Mobile}
       isMobile={isMobile}
       showHover={showHover}
       ref={this.selector}
       handleShowHover={this.handleShowHover}
+      checkWindowSize={this.checkWindowSize}
+      handleCopySuccessful={this.handleCopySuccessful}
+      twitterCopied={twitterCopied}
+      githubCopied={githubCopied}
+      websiteCopied={websiteCopied}
+      threeBoxCopied={threeBoxCopied}
+      threeBoxFooterCopied={threeBoxFooterCopied}
     />;
   }
 }

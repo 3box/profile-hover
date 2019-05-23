@@ -13,8 +13,7 @@ export class CopyButton extends React.Component {
     };
   }
 
-  _onClick(e) {
-    e.stopPropagation();
+  _onClick() {
     addToClipboard(this.props.address);
     this.setState({ showCheck: true });
     setTimeout(() => {
@@ -26,7 +25,7 @@ export class CopyButton extends React.Component {
     const icon = this.state.showCheck ? faCheck : null;
     return (
       <div className={style.addressAndCheck}>
-        <div className={style.addressWrapper} onClick={(e) => this._onClick(e)} >
+        <div className={style.addressWrapper} onClick={() => this._onClick()} >
           <img src="https://i.imgur.com/zs8M8dg.png" alt="Wallet" />
           <p className={style.address}>
             {`${this.props.address.substr(0, 5)}...${this.props.address.substr(-5)}`}
