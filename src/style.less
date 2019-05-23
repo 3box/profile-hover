@@ -1,24 +1,37 @@
 @threeBoxBlack: #181F21;
-@lighterFont: #747677;
+@lighterFont: #949494;
+@lightestFont: #ababab;
 @coverHeight: 70px;
+@baseTileHeight: 45px;
 
 .boxAddress {
-  background: rgba(251, 251, 255, 1);
-  height: 32px;
+  background: white;
+  height: fit-content;
   padding: 0px;
   border: 1px solid rgb(237, 242, 251);
   border-radius: 3px;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
   font-family: Arial, sans-serif;
   position: relative;
-  float: left;
   display: block;
-  width: 172px;
+  width: fit-content;
   -webkit-font-smoothing: antialiased;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.boxAddressContentWrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.boxAddressContentWrapper.boxAddressLink {
+  cursor: pointer;
 }
 
 .boxAddressFull {
-  width: 400px;
+  width: fit-content;
 }
 
 .boxAddressWrap {
@@ -32,23 +45,39 @@
 
 .boxAddress .boxImg {
   background: rgb(7, 73, 136);
-  height: 32px;
-  width: 32px;
+  height: @baseTileHeight;
+  width: @baseTileHeight;
   border-radius: 3px 0px 0px 3px;
-  overflow: hidden;
-  display: inline-block;
-  float: left;
+}
+
+.boxAddress .boxImg img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
 
 .boxShortAddress {
-  cursor: default;
   color: rgb(124, 138, 167);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.015em;
   display: block;
-  padding: 8px 11px;
-  float: left;
+  padding: 0 16px;
+  // float: left;
+}
+
+.openHover_mobile {
+  height: @baseTileHeight;
+  background-color: rgb(249, 249, 249);
+  border: none;
+  border-left: 1px solid rgb(237, 242, 251);
+  width: @baseTileHeight;
+  color: #b7bece;
+}
+
+.openHover_mobile svg {
+  height: 14px !important;
+  width: 14px !important;
 }
 
 .addressCopy {
@@ -58,8 +87,7 @@
   width: 16px;
   font-size: 12px;
   height: 20px;
-  color: #b7bece;
-  float: left;
+  // float: left;
   display: inline-block;
 }
 
@@ -68,38 +96,38 @@
   color: #7c8aa7;
 }
 
-// .addressCopy:active {
-//   background-color: #f7f7fb;
-// }
+.addressCopy:active {
+  background-color: #f7f7fb;
+}
 
 .boxAddressWrap .hoverWrap {
   height: fit-content;
   width: fit-content;
   position: absolute;
-  z-index: 1;
+  z-index: 2;
 }
 
 .boxAddressWrap .hoverWrap.top {
   padding-bottom: 20px;
-  bottom: 26px;
+  bottom: 90%;
   left: -15px;
 }
 
 .boxAddressWrap .hoverWrap.bottom {
   padding-top: 20px;
-  top: 26px;
+  top: 90%;
   left: -15px;
 }
 
 .boxAddressWrap .hoverWrap.right {
   padding-left: 20px;
-  top: -50%;
+  top: -22%;
   left: calc(100% + -5px);
 }
 
 .boxAddressWrap .hoverWrap.left {
   padding-right: 20px;
-  top: -50%;
+  top: -22%;
   right: calc(100% + -5px);
 }
 
@@ -171,7 +199,7 @@
 
 .hoverProfile p {
   margin: 0;
-  color: @lighterFont;
+  color: @lightestFont;
 }
 
 .hoverProfile .profileValuePicture {
@@ -196,6 +224,7 @@
 .hoverProfile .profileDescription p {
   font-size: 14px;
   margin-top: 4px;
+  color: @lighterFont;
 }
 
 .hoverProfile .profileValue .profileText {
@@ -207,6 +236,7 @@
   font-size: 20px;
   letter-spacing: 1px;
   width: 100%;
+  overflow: hidden;
 }
 
 .hoverProfile .profileValueName .profileText {
@@ -223,23 +253,46 @@
 }
 
 .hoverProfile .boxLink {
-  font-size: 11px;
+  font-size: 12px;
   border-radius: 0px 0px 3px 3px;
-  color: @lighterFont;
+  color: @lightestFont;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
 }
 
+.hoverProfile .boxLink .boxLinkText {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  transition: .3s all ease-in-out;
+}
+
+.hoverProfile .boxLink .boxLinkText:hover {
+  color: #1168df !important;
+}
+
+.hoverProfile .boxLink .boxLinkText:hover .logo {
+  opacity: 1 !important;
+  filter: saturate(100%)
+}
+
+.hoverProfile .boxLink .boxLinkText img {
+  margin-left: 12px;
+}
+
 .hoverProfile .logo {
   opacity: .1 !important;
   height: 18px;
   width: 18px;
+  filter: saturate(0%);
+  transition: .3s all ease-in-out;
 }
 
 .hoverProfile .boxLink a {
-  margin-right: 5px;
+  color: @lightestFont  !important;
+  font-weight: 300 !important;
 }
 
 .hoverProfile .BoxLinkText {
@@ -249,7 +302,7 @@
 }
 
 .hoverProfile .boxLinkEmpty {
-  font-size: 11px;
+  font-size: 12px;
   text-align: center;
   border-radius: 0px 0px 3px 3px;
   display: flex;
@@ -260,8 +313,6 @@
 
 .hoverProfile .boxLink a {
   text-decoration: none;
-  color: rgb(72, 125, 236);
-  font-weight: 600;
 }
 
 .hoverProfile .boxLink svg {
@@ -282,7 +333,7 @@
 }
 
 .hoverProfile .boxLinkEmpty span {
-  color: @lighterFont;
+  color: @lightestFont;
 }
 
 .hoverProfile .boxLinkEmpty svg {
@@ -290,12 +341,12 @@
 }
 
 .hoverProfile .profileDetails {
-  margin: 22px 0 18px 0;
+  margin: 24px 0;
   width: 100%;
 }
 
 .hoverProfile .profileDetails p {
-  font-size: 11px;
+  font-size: 12px;
   width: 20%;
 }
 
@@ -307,6 +358,7 @@
   border-bottom: 1px solid rgb(237, 242, 251);
   border-right: 1px solid rgb(237, 242, 251);
   background: white;
+  z-index: 0;
 }
 
 .hoverWrap.bottom .hoverProfile:after {
@@ -343,6 +395,34 @@
   -moz-transform: rotate(315deg);
   -webkit-transform: rotate(315deg);
   transform: rotate(315deg);
+}
+
+.hoverProfile .addressAndCheck {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.hoverProfile .addressWrapper {
+  background-color: rgb(249, 249, 249);
+  padding: 4px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.hoverProfile .addressWrapper img {
+  width: 13px;
+  height: 13px;
+  opacity: .3;
+  margin-right: 6px;
+}
+
+.hoverProfile .address {
+  font-size: 12px;
+  color: @lightestFont;
 }
 
 .loadingText {

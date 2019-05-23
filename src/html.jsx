@@ -1,11 +1,14 @@
-const { CopyButton } = require('./CopyButton')
+const { CopyButton } = require('./CopyButton');
 const style = require('style-loader!./style.less')
 
 module.exports = ({ dom, React, Fragment }) => {
   const BaseTemplate = React.forwardRef(({ data = {}, opts = {}, checkWindowSize, showHover, isMobile, handleShowHover }, ref) => {
     return (
       <div
-        className={`${style.boxAddressWrap} ${!isMobile ? style.isDesktop : ''}`}
+        className={`
+        ${style.boxAddressWrap} 
+        ${!isMobile ? style.isDesktop : ''}
+        `}
         onMouseEnter={() => checkWindowSize(!isMobile)}
         onClick={() => handleShowHover(isMobile)}
       >
@@ -27,6 +30,8 @@ module.exports = ({ dom, React, Fragment }) => {
             opts={opts}
             ref={ref}
             showHover={showHover}
+            isMobile={isMobile}
+            handleShowHover={handleShowHover}
           />}
         {showHover && <div className={style.onClickOutsideMobile} onClick={() => handleShowHover(true)} />}
       </div>
@@ -44,25 +49,33 @@ module.exports = ({ dom, React, Fragment }) => {
 
           {data.name && <NameTemplate data={data} />}
           {data.description && <DescriptionTemplate data={data} />}
+
           {(data.twitter || data.github || data.website) && (
             <div className={style.profileDetails}>
               {data.twitter && <TwitterTemplate data={data} />}
               {data.github && <GithubTemplate data={data} />}
               {data.website && <WebsiteTemplate data={data} />}
             </div>)}
+
           <HoverFooterTemplate data={data} />
         </div>
       </div>
-    )
+    );
   });
 
   const HoverFooterTemplate = ({ data = {} }) => (
     <div className={style.boxLink}>
-      <div className={style.boxLinkText}>
-        <span> Profile at <a href={'https://3box.io/' + data.address} target="_blank">3box.io</a></span>
-        <i className="fas fa-arrow-right"></i>
-      </div>
-      <img src="https://i.imgur.com/uRCbJMP.png" className={style.logo} />
+      <CopyButton address={data.address} />
+
+      <a
+        className={style.boxLinkText}
+        href={'https://3box.io/' + data.address}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        View 3Box
+        <img src="https://i.imgur.com/bT9PQlL.png" className={style.logo} />
+      </a>
     </div>
   )
 
@@ -80,18 +93,40 @@ module.exports = ({ dom, React, Fragment }) => {
     )
   }
 
-  const AddressBarTemplate = React.forwardRef(({ data = {}, opts = {}, showHover }, ref) => {
+  const AddressBarTemplate = React.forwardRef(({ data = {}, opts = {}, showHover, isMobile, handleShowHover }, ref) => {
     return (
-      <div className={`${style.boxAddress} ${data.addressDisplay.length >= 15 ? style.boxAddressFull : ''}`}>
-        <div className={style.boxImg}>
-          {data.imgSrc && <img src={data.imgSrc} height="32px" width="32px" />}
+      <div
+        className={`
+        ${style.boxAddress} 
+        ${data.addressDisplay.length >= 15 ? style.boxAddressFull : ''}
+        `}
+      >
+        <div
+          className={`
+          ${style.boxAddressContentWrapper}
+          ${opts.url ? style.boxAddressLink : ''}
+          `}
+          onClick={() => {
+            if (opts.url) window.location = `${opts.url}`;
+          }}
+        >
+          <div className={style.boxImg}>
+            {data.imgSrc && <img src={data.imgSrc} />}
+          </div>
+
+          <div className={style.boxShortAddress}>
+            {data.addressDisplay}
+          </div>
         </div>
 
-        <div className={style.boxShortAddress}>
-          {data.addressDisplay}
-        </div>
+        {isMobile && (
+          <button
+            className={style.openHover_mobile}
+            onClick={() => handleShowHover(true)}
+          >
+            <div className="far fa-clone clone" />
+          </button>)}
 
-        <CopyButton address={data.address} />
         <HoverTemplate
           data={data}
           opts={opts}
@@ -130,7 +165,7 @@ module.exports = ({ dom, React, Fragment }) => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        {data.name}
+        {`${data.name} `}
       </a>
       {data.emoji && <span>{data.emoji}</span>}
     </div>
@@ -169,7 +204,7 @@ module.exports = ({ dom, React, Fragment }) => {
     </div>
   )
 
-  const LoadingTemplate = ({ data = {}, opts = {}, showHover }) => {
+  const LoadingTemplate = ({ data = {}, opts = {}, showHover, isMobile }) => {
     return (
       <div className={style.boxAddressWrap}>
         {opts.html ? (
@@ -185,7 +220,7 @@ module.exports = ({ dom, React, Fragment }) => {
             <AddressBarTemplate
               data={data}
               opts={{ loading: true }}
-              showHover={showHover}
+              isMobile={isMobile}
             />)}
       </div>
     )

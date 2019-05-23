@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { getProfile, getVerifiedAccounts } from "3box/lib/api";
-import { getAddressDisplay, formatProfileData } from './utils';
+import { getAddressDisplay, formatProfileData, formatUrl } from './utils';
 const { BaseTemplate, LoadingTemplate } = require('./html')({ React, Fragment });
 
 export default class ProfileHover extends React.PureComponent {
@@ -9,7 +9,7 @@ export default class ProfileHover extends React.PureComponent {
     this.state = {
       profile: undefined,
       verified: undefined,
-      adjustOrientation: null,
+      adjustOrientation: undefined,
       isMobile: false,
       showHover: false
     };
@@ -47,25 +47,14 @@ export default class ProfileHover extends React.PureComponent {
 
   checkWindowSize(shouldRun) {
     const { hasUpdated } = this.state;
-    // const { orientation } = this.props;
     if (!hasUpdated && shouldRun) {
       const { adjustOrientation } = this.state;
       const height = window.innerHeight;
-      // const width = window.innerWidth;
       const rect = this.selector.current.getBoundingClientRect();
       const elHeight = rect.height;
       const elY = rect.y;
 
-      // const elWidth = rect.width;
-      // const elX = rect.x;
-
       let updateOrientation = adjustOrientation;
-
-      // if (elWidth + elX > width) {
-      //   if(orientation === ) updateOrientation = 'left';
-      // } else if (elX < 0) {
-      //   updateOrientation = 'right';
-      // }
 
       if (elHeight + elY > height) {
         updateOrientation = 'top';
@@ -101,6 +90,7 @@ export default class ProfileHover extends React.PureComponent {
       noProfileImg,
       noCoverImg,
       orientation,
+      url
     } = this.props;
 
     const {
@@ -120,6 +110,7 @@ export default class ProfileHover extends React.PureComponent {
       noImg,
       noProfileImg,
       noCoverImg,
+      url: formatUrl(url),
       orientation: adjustOrientation || orientation || 'right',
     };
 

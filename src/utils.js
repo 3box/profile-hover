@@ -21,19 +21,19 @@ const getShortAddress = (address) => {
   return address.substr(0,6) + '...' + address.substr(-4);
 };
 
-const formatUrl = (url) => {
-  if (!url) {
-    return undefined;
-  }
-  return url.includes('http') ?  url : `http://${url}`;
-};
-
 const getImgSrc = (profile, address, type) => {
   if (!profile.image && type === 'image') {
     return makeBlockie(address);
   }
   const hash = profile[type][0].contentUrl["/"];
   return `https://ipfs.infura.io/ipfs/${hash}`;
+};
+
+export const formatUrl = (url) => {
+  if (!url) {
+    return undefined;
+  }
+  return url.includes('http') ?  url : `http://${url}`;
 };
 
 export const addToClipboard = (address) => {
