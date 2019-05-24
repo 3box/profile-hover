@@ -25,6 +25,18 @@ const MyComponent = () => (<ProfileHover address={'0xa8ee0babe72cd9a80ae45dd74cd
 
 #### Prop Types
 
+| Property | Type          | Default  | Description |
+| :-------------------------------- | :-------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| address    | String        |    | `Address` property value is required to work.  Provide an Ethereum address to this property. |
+| displayFull    | Boolean        | False   | Add `displayFull` property to show the entire address instead of the shorten display.|
+| noTheme    | Boolean       |  False   | Add `noTheme` property to not use any of our address bar styling. Allows you to wrap any existing elements in an address hover.                                                                                                                                                                                                                                                                                                             |
+| noImgs    | Boolean        | False   | Add `noImgs` property to prevent displaying of profile image and cover image in the hover element.                                                                                                                    |
+| noProfileImg    | Boolean       |  False   | Add `noProfileImg` property to prevent displaying of just the profile image. |
+| noCoverImg    | Boolean       |  False   | Add `noCoverImg` property to prevent displaying of just the cover image. |
+| orientation    | String       |  `'Right'`   | Provide property `orientation` with string `'top'`, `'bottom'`, `'right'` or `'left'` to set which way the hover element will pop up from the base tile.|
+| url    | String       |   | Provide property `url` with url string to set where clicking on the base tile will redirect to.|
+
+##### Prop Types example
 ```jsx
 <ProfileHover 
   address={'0xa8ee0...'}
@@ -41,17 +53,6 @@ const MyComponent = () => (<ProfileHover address={'0xa8ee0babe72cd9a80ae45dd74cd
   ... your own html and styling
 </ProfileHover>
 ```
-
-| Property | Type          | Default  | Description |
-| :-------------------------------- | :-------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| address    | String        |    | `Address` property value is required to work.  Provide an Ethereum address to this property. |
-| displayFull    | Boolean        | False   | Add `displayFull` property to show the entire address instead of the shorten display.|
-| noTheme    | Boolean       |  False   | Add `noTheme` property to not use any of our address bar styling. Allows you to wrap any existing elements in an address hover.                                                                                                                                                                                                                                                                                                             |
-| noImgs    | Boolean        | False   | Add `noImgs` property to prevent displaying of profile image and cover image in the hover element.                                                                                                                    |
-| noProfileImg    | Boolean       |  False   | Add `noProfileImg` property to prevent displaying of just the profile image. |
-| noCoverImg    | Boolean       |  False   | Add `noCoverImg` property to prevent displaying of just the cover image. |
-| orientation    | String       |  `'Right'`   | Provide property `orientation` with string `'top'`, `'bottom'`, `'right'` or `'left'` to set which way the hover element will pop up from the base tile.|
-| url    | String       |   | Provide property `url` with url string to set where clicking on the base tile will redirect to.|
 
 ### HTML element
 
