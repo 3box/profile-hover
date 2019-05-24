@@ -91,9 +91,13 @@ export const formatProfileData = (profile = {}, verified = {}, address, addressD
 };
 
 export const checkIsMobile = () => {
-  if ((typeof window.orientation !== "undefined")
-  || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
-  return true;
-  };
-  return false;
+  try {
+    if ((typeof window.orientation !== "undefined")
+    || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+    return true;
+    };
+    return false;
+  } catch (error) {
+    console.error(error);
+  }
 }

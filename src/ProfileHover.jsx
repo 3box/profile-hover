@@ -54,28 +54,33 @@ export default class ProfileHover extends React.PureComponent {
   }
 
   checkWindowSize(shouldRun) {
-    const { hasUpdated } = this.state;
-    if (!hasUpdated && shouldRun) {
-      const { adjustOrientation } = this.state;
-      const height = window.innerHeight;
-      const rect = this.selector.current.getBoundingClientRect();
-      const elHeight = rect.height;
-      const elY = rect.y;
+    try {
+      const { hasUpdated } = this.state;
+      if (!hasUpdated && shouldRun) {
+        const { adjustOrientation } = this.state;
+        const height = window.innerHeight;
+        const rect = this.selector.current.getBoundingClientRect();
+        const elHeight = rect.height;
+        const elY = rect.y;
 
-      let updateOrientation = adjustOrientation;
+        let updateOrientation = adjustOrientation;
 
-      if (elHeight + elY > height) {
-        updateOrientation = 'top';
-      } else if (elY < 0) {
-        updateOrientation = 'bottom';
+        if (elHeight + elY > height) {
+          updateOrientation = 'top';
+        } else if (elY < 0) {
+          updateOrientation = 'bottom';
+        }
+
+        this.setState({ adjustOrientation: updateOrientation, hasUpdated: true });
       }
-
-      this.setState({ adjustOrientation: updateOrientation, hasUpdated: true });
+    } catch (error) {
+      console.error(error);
     }
   };
 
   checkHasWeb3Mobile() {
-    const hasWeb3Mobile = checkIsMobile() && (typeof window.web3 !== 'undefined' || typeof window.ethereum !== 'undefined');
+    const hasWeb3Mobile = checkIsMobile() && (
+      typeof window.web3 !== 'undefined' || typeof window.ethereum !== 'undefined');
     this.setState({ hasWeb3Mobile });
   };
 
@@ -99,7 +104,7 @@ export default class ProfileHover extends React.PureComponent {
       fullDisplay,
       noTheme,
       children,
-      noImg,
+      noImgs,
       noProfileImg,
       noCoverImg,
       orientation,
@@ -126,7 +131,7 @@ export default class ProfileHover extends React.PureComponent {
 
     const opts = {
       html: noTheme ? children : undefined,
-      noImg,
+      noImgs,
       noProfileImg,
       noCoverImg,
       url: formatUrl(url),

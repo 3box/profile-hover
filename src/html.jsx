@@ -1,5 +1,5 @@
 const { CopyButton } = require('./CopyButton');
-const { addToClipboard, addToClipBoardLinks } = require('./utils');
+const { addToClipBoardLinks } = require('./utils');
 const { FontAwesomeIcon } = require('@fortawesome/react-fontawesome');
 const { faCheck } = require('@fortawesome/free-solid-svg-icons/faCheck');
 const style = require('style-loader!./style.less');
@@ -169,7 +169,7 @@ module.exports = ({ dom, React, Fragment }) => {
     return (
       <React.Fragment>
         {
-          (!opts.noCoverImg && !opts.noImg) && (
+          (!opts.noCoverImg && !opts.noImgs) && (
             <div className={style.coverPicture}>
               {data.coverPhoto ? <img src={data.coverPhoto} className={style.coverPicture_image} />
                 : <div className={style.coverPicture_image} />}
@@ -250,13 +250,13 @@ module.exports = ({ dom, React, Fragment }) => {
     return (
       <React.Fragment>
         {
-          (!opts.noProfileImg && !opts.noImg) && (
+          (!opts.noProfileImg && !opts.noImgs) && (
             <div className={`${style.profileValuePicture} ${opts.noCoverImg ? style.noMargin : ''}`}>
               <img src={data.imgSrc} height="32px" width="32px" />
             </div>
           )
         }
-        {(opts.noProfileImg && !opts.noImg) && (<div className={style.noProfileImgSpacer} />)}
+        {(opts.noProfileImg && !opts.noImgs) && (<div className={style.noProfileImgSpacer} />)}
       </React.Fragment>)
   }
 
