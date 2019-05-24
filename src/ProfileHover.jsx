@@ -132,6 +132,7 @@ export default class ProfileHover extends React.PureComponent {
 
     const addressDisplay = getAddressDisplay(address, fullDisplay ? 'full' : undefined)
     const data = formatProfileData(profile, verified, address, addressDisplay);
+    console.log('data', data);
     if (profile == null) {
       return <LoadingTemplate
         data={data}

@@ -6,7 +6,7 @@ const Example = ({}) => {
   return (
     <>
       <div className='ethAddress'>
-        <ProfileHover orientation="top" url="www.yahoo.com" noImgs address='0xE3b281F3Dd2b87c7b3EAcC0402a4FD7d827F2956' />
+        <ProfileHover orientation="top" url="www.yahoo.com" address='0xE3b281F3Dd2b87c7b3EAcC0402a4FD7d827F2956' />
       </div>
       <div className='ethAddress'>
         <ProfileHover orientation="top" noImgs address='0xf3b281F3Dd2b87c7b3EAcC0402a4FD7d827F2956' />

@@ -20,10 +20,7 @@ module.exports = ({ dom, React, Fragment }) => {
       ref) => {
       return (
         <div
-          className={`
-        ${style.boxAddressWrap} 
-        ${!isMobile ? style.isDesktop : ''}
-        `}
+          className={`${style.boxAddressWrap} ${!isMobile ? style.isDesktop : ''}`}
           onMouseEnter={() => checkWindowSize(!isMobile)}
         >
           {opts.html ? (
@@ -124,34 +121,43 @@ module.exports = ({ dom, React, Fragment }) => {
     <div className={style.boxLink}>
       <CopyButton address={data.address} />
 
-      {hasWeb3Mobile ? (
-        <p onClick={() => addToClipBoardLinks(
-          `https://3box.io/${data.address}`,
-          handleCopySuccessful,
-          'footer'
-        )}
-          className={style.boxLinkText}
-        >
-          View 3Box
-          <img src="https://i.imgur.com/bT9PQlL.png" className={style.logo} />
-        </p>
-      ) : (<a
-        className={style.boxLinkText}
-        href={`https://3box.io/${data.address}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        View 3Box
-        <img src="https://i.imgur.com/bT9PQlL.png" className={style.logo} />
-      </a>)}
+      {hasWeb3Mobile
+        ? <HoverFooterWeb3MobileLink data={data} handleCopySuccessful={handleCopySuccessful} />
+        : <HoverFooterLink data={data} />}
 
       {copySuccessful === 'footer' && <FontAwesomeIcon icon={faCheck} className={style.profileCheck} />}
     </div>
-  )
+  );
+
+  const HoverFooterWeb3MobileLink = ({ data, handleCopySuccessful }) => (
+    <p
+      onClick={() => addToClipBoardLinks(
+        `https://3box.io/${data.address}`,
+        handleCopySuccessful,
+        'footer'
+      )}
+      className={style.boxLinkText}
+    >
+      View 3Box
+    <img src="https://i.imgur.com/bT9PQlL.png" className={style.logo} />
+    </p>
+  );
+
+  const HoverFooterLink = ({ data }) => (
+    <a
+      className={style.boxLinkText}
+      href={`https://3box.io/${data.address}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View 3Box
+      <img src="https://i.imgur.com/bT9PQlL.png" className={style.logo} />
+    </a>
+  );
 
   const CoverPictureTemplate = ({ data = {}, opts = {} }) => {
     return (
-      <React.Fragment>
+      <Fragment>
         {
           (!opts.noCoverImg && !opts.noImgs) && (
             <div className={style.coverPicture}>
@@ -159,7 +165,7 @@ module.exports = ({ dom, React, Fragment }) => {
                 : <div className={style.coverPicture_image} />}
             </div>)
         }
-      </React.Fragment>
+      </Fragment>
     )
   }
 
@@ -178,19 +184,11 @@ module.exports = ({ dom, React, Fragment }) => {
     ) => {
       return (
         <div
-          className={`
-        ${style.boxAddress} 
-        ${data.addressDisplay.length >= 15 ? style.boxAddressFull : ''}
-        `}
+          className={`${style.boxAddress} ${data.addressDisplay.length >= 15 ? style.boxAddressFull : ''}`}
         >
           <div
-            className={`
-          ${style.boxAddressContentWrapper}
-          ${opts.url ? style.boxAddressLink : ''}
-          `}
-            onClick={() => {
-              if (opts.url) window.location = `${opts.url}`;
-            }}
+            className={`${style.boxAddressContentWrapper} ${opts.url ? style.boxAddressLink : ''}`}
+            onClick={() => { if (opts.url) window.location = `${opts.url}`; }}
           >
             <div className={style.boxImg}>
               {data.imgSrc && <img src={data.imgSrc} />}
@@ -224,16 +222,14 @@ module.exports = ({ dom, React, Fragment }) => {
 
   const ProfilePictureTemplate = ({ data = {}, opts = {} }) => {
     return (
-      <React.Fragment>
-        {
-          (!opts.noProfileImg && !opts.noImgs) && (
-            <div className={`${style.profileValuePicture} ${opts.noCoverImg ? style.noMargin : ''}`}>
-              <img src={data.imgSrc} height="32px" width="32px" />
-            </div>
-          )
-        }
+      <Fragment>
+        {(!opts.noProfileImg && !opts.noImgs) && (
+          <div className={`${style.profileValuePicture} ${(opts.noCoverImg || !data.coverPhoto) ? style.noMargin : ''}`}>
+            <img src={data.imgSrc} height="32px" width="32px" />
+          </div>
+        )}
         {(opts.noProfileImg && !opts.noImgs) && (<div className={style.noProfileImgSpacer} />)}
-      </React.Fragment>)
+      </Fragment>)
   }
 
   const DescriptionTemplate = ({ data = {} }) => (
@@ -273,13 +269,12 @@ module.exports = ({ dom, React, Fragment }) => {
       <p className={style.profileValueKey}>Website</p>
       <span className={style.profileText}>
         {hasWeb3Mobile ? (
-          <p onClick={() => addToClipBoardLinks(
-            data.websiteUrl,
-            handleCopySuccessful,
-            'website'
-          )}>
-            {data.website}
-          </p>
+          <SocialWeb3Link
+            handleCopySuccessful={handleCopySuccessful}
+            link={data.websiteUrl}
+            field="website"
+            handle={data.website}
+          />
         ) : (<a href={data.websiteUrl} target="_blank">
           {data.website}
         </a>)}
@@ -293,13 +288,12 @@ module.exports = ({ dom, React, Fragment }) => {
       <p className={style.profileValueKey}>Github</p>
       <span className={style.profileText}>
         {hasWeb3Mobile ? (
-          <p onClick={() => addToClipBoardLinks(
-            'https://www.github.com/' + data.github,
-            handleCopySuccessful,
-            'github'
-          )}>
-            {data.github}
-          </p>
+          <SocialWeb3Link
+            handleCopySuccessful={handleCopySuccessful}
+            link={'https://www.github.com/' + data.github}
+            field="github"
+            handle={data.github}
+          />
         ) : (<a href={'https://www.github.com/' + data.github} target="_blank">
           {data.github}
         </a>)}
@@ -313,22 +307,25 @@ module.exports = ({ dom, React, Fragment }) => {
       <p className={style.profileValueKey}>Twitter</p>
       <span className={style.profileText}>
         {hasWeb3Mobile ? (
-          <p
-            onClick={() => addToClipBoardLinks(
-              `https://www.twitter.com/${data.twitter}`,
-              handleCopySuccessful,
-              'twitter'
-            )}
-          >
-            {`@${data.twitter}`}
-          </p>
+          <SocialWeb3Link
+            handleCopySuccessful={handleCopySuccessful}
+            link={`https://www.twitter.com/${data.twitter}`}
+            field="twitter"
+            handle={`@${data.twitter}`}
+          />
         ) : <a href={'https://www.twitter.com/' + data.twitter} target="_blank">
             {`@${data.twitter}`}
           </a>}
       </span>
       {copySuccessful === 'twitter' && <FontAwesomeIcon icon={faCheck} />}
     </div >
-  )
+  );
+
+  const SocialWeb3Link = ({ handleCopySuccessful, link, field, handle }) => (
+    <p onClick={() => addToClipBoardLinks(link, handleCopySuccessful, field)}>
+      {handle}
+    </p>
+  );
 
   const LoadingTemplate = ({ data = {}, opts = {}, showHover, isMobile }) => {
     return (

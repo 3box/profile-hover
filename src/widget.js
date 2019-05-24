@@ -38,7 +38,7 @@ const initPlugins = (buttonArray) => {
 const loadPluginData = async (buttonArray) => {
   store.removeExpiredKeys()
   for (let i = 0; i < buttonArray.length; i++) {
-    // get addresss, maybe do map instead, add other options here after
+    // get address, maybe do map instead, add other options here after
     let { address, display, theme } = buttonArray[i].dataset
     theme = !(theme === 'none')
     const addressDisplay = getAddressDisplay(address, display)
