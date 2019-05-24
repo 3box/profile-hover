@@ -14,12 +14,8 @@ module.exports = ({ dom, React, Fragment }) => {
       isMobile,
       handleShowHover,
       hasWeb3Mobile,
-      twitterCopied,
-      githubCopied,
-      websiteCopied,
-      threeBoxCopied,
-      threeBoxFooterCopied,
-      handleCopySuccessful
+      handleCopySuccessful,
+      copySuccessful
     },
       ref) => {
       return (
@@ -43,11 +39,7 @@ module.exports = ({ dom, React, Fragment }) => {
                 showHover={showHover}
                 hasWeb3Mobile={hasWeb3Mobile}
                 handleCopySuccessful={handleCopySuccessful}
-                twitterCopied={twitterCopied}
-                githubCopied={githubCopied}
-                websiteCopied={websiteCopied}
-                threeBoxCopied={threeBoxCopied}
-                threeBoxFooterCopied={threeBoxFooterCopied}
+                copySuccessful={copySuccessful}
               />
             </Fragment>
           ) : <AddressBarTemplate
@@ -59,11 +51,7 @@ module.exports = ({ dom, React, Fragment }) => {
               handleShowHover={handleShowHover}
               handleCopySuccessful={handleCopySuccessful}
               hasWeb3Mobile={hasWeb3Mobile}
-              twitterCopied={twitterCopied}
-              githubCopied={githubCopied}
-              websiteCopied={websiteCopied}
-              threeBoxCopied={threeBoxCopied}
-              threeBoxFooterCopied={threeBoxFooterCopied}
+              copySuccessful={copySuccessful}
             />}
           {showHover && <div className={style.onClickOutsideMobile} onClick={() => handleShowHover(true)} />}
         </div>
@@ -76,12 +64,8 @@ module.exports = ({ dom, React, Fragment }) => {
       opts = {},
       showHover,
       hasWeb3Mobile,
-      githubCopied,
-      websiteCopied,
-      threeBoxCopied,
-      threeBoxFooterCopied,
-      twitterCopied,
-      handleCopySuccessful
+      handleCopySuccessful,
+      copySuccessful
     },
       ref) => {
       return (
@@ -96,7 +80,7 @@ module.exports = ({ dom, React, Fragment }) => {
               data={data}
               hasWeb3Mobile={hasWeb3Mobile}
               handleCopySuccessful={handleCopySuccessful}
-              threeBoxCopied={threeBoxCopied}
+              copySuccessful={copySuccessful}
             />}
 
             {data.description && <DescriptionTemplate data={data} />}
@@ -107,21 +91,21 @@ module.exports = ({ dom, React, Fragment }) => {
                   data={data}
                   hasWeb3Mobile={hasWeb3Mobile}
                   handleCopySuccessful={handleCopySuccessful}
-                  twitterCopied={twitterCopied}
+                  copySuccessful={copySuccessful}
                 />}
 
                 {data.github && <GithubTemplate
                   data={data}
                   hasWeb3Mobile={hasWeb3Mobile}
                   handleCopySuccessful={handleCopySuccessful}
-                  githubCopied={githubCopied}
+                  copySuccessful={copySuccessful}
                 />}
 
                 {data.website && <WebsiteTemplate
                   data={data}
                   hasWeb3Mobile={hasWeb3Mobile}
                   handleCopySuccessful={handleCopySuccessful}
-                  websiteCopied={websiteCopied}
+                  copySuccessful={copySuccessful}
                 />}
               </div>)}
 
@@ -129,14 +113,14 @@ module.exports = ({ dom, React, Fragment }) => {
               data={data}
               hasWeb3Mobile={hasWeb3Mobile}
               handleCopySuccessful={handleCopySuccessful}
-              threeBoxFooterCopied={threeBoxFooterCopied}
+              copySuccessful={copySuccessful}
             />
           </div>
         </div>
       );
     });
 
-  const HoverFooterTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, threeBoxFooterCopied }) => (
+  const HoverFooterTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, copySuccessful }) => (
     <div className={style.boxLink}>
       <CopyButton address={data.address} />
 
@@ -144,7 +128,7 @@ module.exports = ({ dom, React, Fragment }) => {
         <p onClick={() => addToClipBoardLinks(
           `https://3box.io/${data.address}`,
           handleCopySuccessful,
-          'threeBoxFooterCopied'
+          'footer'
         )}
           className={style.boxLinkText}
         >
@@ -161,7 +145,7 @@ module.exports = ({ dom, React, Fragment }) => {
         <img src="https://i.imgur.com/bT9PQlL.png" className={style.logo} />
       </a>)}
 
-      {threeBoxFooterCopied && <FontAwesomeIcon icon={faCheck} className={style.profileCheck} />}
+      {copySuccessful === 'footer' && <FontAwesomeIcon icon={faCheck} className={style.profileCheck} />}
     </div>
   )
 
@@ -188,11 +172,7 @@ module.exports = ({ dom, React, Fragment }) => {
       handleShowHover,
       hasWeb3Mobile,
       handleCopySuccessful,
-      twitterCopied,
-      githubCopied,
-      websiteCopied,
-      threeBoxCopied,
-      threeBoxFooterCopied,
+      copySuccessful
     },
       ref
     ) => {
@@ -235,12 +215,8 @@ module.exports = ({ dom, React, Fragment }) => {
             ref={ref}
             showHover={showHover}
             hasWeb3Mobile={hasWeb3Mobile}
-            twitterCopied={twitterCopied}
-            githubCopied={githubCopied}
-            websiteCopied={websiteCopied}
-            threeBoxCopied={threeBoxCopied}
-            threeBoxFooterCopied={threeBoxFooterCopied}
             handleCopySuccessful={handleCopySuccessful}
+            copySuccessful={copySuccessful}
           />
         </div>
       )
@@ -266,14 +242,14 @@ module.exports = ({ dom, React, Fragment }) => {
     </div>
   )
 
-  const NameTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, threeBoxCopied }) => (
+  const NameTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, copySuccessful }) => (
     <div className={style.profileValueName}>
       {hasWeb3Mobile ? (
         <p
           onClick={() => addToClipBoardLinks(
             `https://3box.io/${data.address}`,
             handleCopySuccessful,
-            'threeBoxCopied'
+            'threeBoxProfile'
           )}
           className={style.profileText}>
           {data.name}
@@ -288,11 +264,11 @@ module.exports = ({ dom, React, Fragment }) => {
       </a>)}
       {data.emoji && <span>{data.emoji}</span>}
 
-      {threeBoxCopied && <FontAwesomeIcon icon={faCheck} />}
+      {copySuccessful === 'threeBoxProfile' && <FontAwesomeIcon icon={faCheck} />}
     </div>
   )
 
-  const WebsiteTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, websiteCopied }) => (
+  const WebsiteTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, copySuccessful }) => (
     <div className={style.profileValue}>
       <p className={style.profileValueKey}>Website</p>
       <span className={style.profileText}>
@@ -300,7 +276,7 @@ module.exports = ({ dom, React, Fragment }) => {
           <p onClick={() => addToClipBoardLinks(
             data.websiteUrl,
             handleCopySuccessful,
-            'websiteCopied'
+            'website'
           )}>
             {data.website}
           </p>
@@ -308,11 +284,11 @@ module.exports = ({ dom, React, Fragment }) => {
           {data.website}
         </a>)}
       </span>
-      {websiteCopied && <FontAwesomeIcon icon={faCheck} />}
+      {copySuccessful === 'website' && <FontAwesomeIcon icon={faCheck} />}
     </div>
   )
 
-  const GithubTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, githubCopied }) => (
+  const GithubTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, copySuccessful }) => (
     <div className={style.profileValue}>
       <p className={style.profileValueKey}>Github</p>
       <span className={style.profileText}>
@@ -320,7 +296,7 @@ module.exports = ({ dom, React, Fragment }) => {
           <p onClick={() => addToClipBoardLinks(
             'https://www.github.com/' + data.github,
             handleCopySuccessful,
-            'githubCopied'
+            'github'
           )}>
             {data.github}
           </p>
@@ -328,11 +304,11 @@ module.exports = ({ dom, React, Fragment }) => {
           {data.github}
         </a>)}
       </span>
-      {githubCopied && <FontAwesomeIcon icon={faCheck} />}
+      {copySuccessful === 'github' && <FontAwesomeIcon icon={faCheck} />}
     </div>
   )
 
-  const TwitterTemplate = ({ data = {}, hasWeb3Mobile, twitterCopied, handleCopySuccessful }) => (
+  const TwitterTemplate = ({ data = {}, hasWeb3Mobile, copySuccessful, handleCopySuccessful }) => (
     <div className={style.profileValue}>
       <p className={style.profileValueKey}>Twitter</p>
       <span className={style.profileText}>
@@ -341,7 +317,7 @@ module.exports = ({ dom, React, Fragment }) => {
             onClick={() => addToClipBoardLinks(
               `https://www.twitter.com/${data.twitter}`,
               handleCopySuccessful,
-              'twitterCopied'
+              'twitter'
             )}
           >
             {`@${data.twitter}`}
@@ -350,7 +326,7 @@ module.exports = ({ dom, React, Fragment }) => {
             {`@${data.twitter}`}
           </a>}
       </span>
-      {twitterCopied && <FontAwesomeIcon icon={faCheck} />}
+      {copySuccessful === 'twitter' && <FontAwesomeIcon icon={faCheck} />}
     </div >
   )
 

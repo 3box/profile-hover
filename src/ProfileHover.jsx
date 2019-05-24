@@ -13,11 +13,7 @@ export default class ProfileHover extends React.PureComponent {
       isMobile: false,
       showHover: false,
       hasWeb3Mobile: false,
-      twitterCopied: false,
-      websiteCopied: false,
-      githubCopied: false,
-      threeBoxCopied: false,
-      threeBoxFooterCopied: false,
+      copySuccessful: ''
     };
 
     this.selector = React.createRef();
@@ -90,10 +86,10 @@ export default class ProfileHover extends React.PureComponent {
       () => { if (!hasUpdated) this.checkWindowSize(true) });
   }
 
-  handleCopySuccessful(key) {
-    this.setState({ [key]: true },
+  handleCopySuccessful(field) {
+    this.setState({ copySuccessful: field },
       () => setTimeout(() => {
-        this.setState({ [key]: false });
+        this.setState({ copySuccessful: '' });
       }, 2000)
     );
   }
@@ -118,11 +114,7 @@ export default class ProfileHover extends React.PureComponent {
       isMobile,
       showHover,
       hasWeb3Mobile,
-      twitterCopied,
-      githubCopied,
-      websiteCopied,
-      threeBoxCopied,
-      threeBoxFooterCopied,
+      copySuccessful
     } = this.state;
 
     if (address == null) {
@@ -174,11 +166,7 @@ export default class ProfileHover extends React.PureComponent {
       handleShowHover={this.handleShowHover}
       checkWindowSize={this.checkWindowSize}
       handleCopySuccessful={this.handleCopySuccessful}
-      twitterCopied={twitterCopied}
-      githubCopied={githubCopied}
-      websiteCopied={websiteCopied}
-      threeBoxCopied={threeBoxCopied}
-      threeBoxFooterCopied={threeBoxFooterCopied}
+      copySuccessful={copySuccessful}
     />;
   }
 }
