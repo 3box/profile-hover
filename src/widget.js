@@ -77,13 +77,11 @@ const copyAddress = (target, address) => {
 }
 
 const copyToCheck = (target) => {
-  target.querySelector('.clone').style = 'display: none;'
   target.querySelector('.check').style = 'display: block;'
 }
 
 const checkToCopy = (target) => {
   target.querySelector('.check').style = 'display: none;'
-  target.querySelector('.clone').style = 'display: block;'
 }
 
 const createPlugins = () => {
