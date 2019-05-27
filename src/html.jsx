@@ -5,7 +5,7 @@ const { faCheck } = require('@fortawesome/free-solid-svg-icons/faCheck');
 const style = require('style-loader!./style.less');
 
 module.exports = ({ dom, React, Fragment }) => {
-  const BaseTemplate = React.forwardRef(
+  let BaseTemplate =
     ({
       data = {},
       opts = {},
@@ -53,9 +53,10 @@ module.exports = ({ dom, React, Fragment }) => {
           {showHover && <div className={style.onClickOutsideMobile} onClick={() => handleShowHover(true)} />}
         </div>
       );
-    });
+    }
+  if (React) BaseTemplate = React.forwardRef(BaseTemplate)
 
-  const HoverTemplate = React.forwardRef(
+  let HoverTemplate =
     ({
       data = {},
       opts = {},
@@ -66,7 +67,7 @@ module.exports = ({ dom, React, Fragment }) => {
     },
       ref) => {
       return (
-        <div className={`${style.hoverWrap} ${style[opts.orientation]} ${showHover ? style.showHoverMobile : ''}`}>
+        <div className={`${style.hoverWrap} ${style[opts.orientation || 'right']} ${showHover ? style.showHoverMobile : ''}`}>
           <div className={style.hoverProfile} ref={ref}>
             {opts.loading && <div className={style.loadingText}> Loading ... </div>}
 
@@ -115,7 +116,8 @@ module.exports = ({ dom, React, Fragment }) => {
           </div>
         </div>
       );
-    });
+    }
+  if (React) HoverTemplate = React.forwardRef(HoverTemplate)
 
   const HoverFooterTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, copySuccessful }) => (
     <div className={style.boxLink}>
@@ -169,7 +171,7 @@ module.exports = ({ dom, React, Fragment }) => {
     )
   }
 
-  const AddressBarTemplate = React.forwardRef(
+  let AddressBarTemplate =
     ({
       data = {},
       opts = {},
@@ -218,7 +220,8 @@ module.exports = ({ dom, React, Fragment }) => {
           />
         </div>
       )
-    })
+    }
+  if (React) AddressBarTemplate = React.forwardRef(AddressBarTemplate)
 
   const ProfilePictureTemplate = ({ data = {}, opts = {} }) => {
     return (
@@ -354,4 +357,3 @@ module.exports = ({ dom, React, Fragment }) => {
     LoadingTemplate,
   }
 }
-
