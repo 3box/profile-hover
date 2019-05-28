@@ -70,7 +70,6 @@ module.exports = ({ dom, React, Fragment }) => {
       return (
         <div className={`${style.hoverWrap} ${style[opts.orientation || 'right']} ${showHover ? style.showHoverMobile : ''}`}>
           <div className={style.hoverProfile} ref={ref}>
-            {console.log('isLoading', loading)}
             {loading && <div className={style.loadingText}> Loading ... </div>}
 
             {data.coverPhoto && <CoverPictureTemplate data={data} opts={opts} />}
