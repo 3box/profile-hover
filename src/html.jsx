@@ -334,10 +334,12 @@ module.exports = ({ dom, React, Fragment }) => {
     </p>
   );
 
-  const LoadingTemplate = ({ data = {}, opts = {}, showHover, isMobile }) => {
+  let LoadingTemplate = ({ data = {}, opts = {}, showHover, isMobile, checkWindowSize }, ref) => {
     return (
-      <div className={style.boxAddressWrap}>
-        {console.log('loadingtemp')}
+      <div
+        className={`${style.boxAddressWrap} ${!isMobile ? style.isDesktop : ''}`}
+        onMouseEnter={() => checkWindowSize(!isMobile)}
+      >
         {opts.html ? (
           <Fragment>
             <div id="orginal_html_f1kx">{opts.html}</div>
@@ -346,6 +348,7 @@ module.exports = ({ dom, React, Fragment }) => {
               opts={opts}
               showHover={showHover}
               loading
+              ref={ref}
             />
           </Fragment>
         ) : (
@@ -354,10 +357,12 @@ module.exports = ({ dom, React, Fragment }) => {
               opts={opts}
               isMobile={isMobile}
               loading
+              ref={ref}
             />)}
       </div>
     )
   }
+  if (React) LoadingTemplate = React.forwardRef(LoadingTemplate)
 
   return {
     BaseTemplate,
