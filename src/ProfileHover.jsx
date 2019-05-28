@@ -15,7 +15,6 @@ export default class ProfileHover extends React.PureComponent {
       hasWeb3Mobile: false,
       copySuccessful: ''
     };
-
     this.selector = React.createRef();
     this.checkWindowSize = this.checkWindowSize.bind(this);
     this.handleShowHover = this.handleShowHover.bind(this);
@@ -116,6 +115,8 @@ export default class ProfileHover extends React.PureComponent {
       hasWeb3Mobile,
       copySuccessful
     } = this.state;
+
+    console.log('isMobile', isMobile);
 
     if (address == null) {
       return null;
