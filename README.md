@@ -4,7 +4,7 @@
 
 # Profile Hover
 
-A drop-in profile hover component that displays profile metadata for any ethereum address. Available in React and HTML/CSS versions.
+`profile-hover` is a drop-in component that displays profile metadata for any ethereum address. Available in React and HTML/CSS versions.
 
 ![Profile Hover](./example/profile-hover.gif)
 
