@@ -9,14 +9,6 @@ A drop-in profile hover component that displays profile metadata for any ethereu
 ![Profile Hover](./example/profile-hover.gif)
 
 
-#### TABLE OF CONTENTS
-1. Component Overview
-2. Getting Started
-3. How to Customize
-4. Differences Between Desktop and Mobile
-
---
-
 ## Component Overview
 The Profile Hover consists of two components: the `Tile`, which is displayed on the page, and the `Hover`, which is displayed when the Tile is hovered. Profile Hover is available for React and HTML/CSS apps.
 
