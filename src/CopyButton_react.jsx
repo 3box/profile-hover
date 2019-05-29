@@ -1,7 +1,6 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck"
-import { faClone } from '@fortawesome/free-regular-svg-icons/faClone'
 import { addToClipboard } from './utils';
 const style = require('style-loader!./style.less')
 
@@ -23,10 +22,16 @@ export class CopyButton extends React.Component {
   }
 
   render() {
-    const icon = this.state.showCheck ? faCheck : faClone;
+    const icon = this.state.showCheck ? faCheck : null;
     return (
-      <div className={style.addressCopy} onClick={() => this._onClick()}>
-        <FontAwesomeIcon icon={icon} />
+      <div className={style.addressAndCheck}>
+        <div className={style.addressWrapper} onClick={() => this._onClick()} >
+          <img src="https://i.imgur.com/zs8M8dg.png" alt="Wallet" />
+          <p className={style.address}>
+            {`${this.props.address.substr(0, 5)}...${this.props.address.substr(-5)}`}
+          </p>
+        </div>
+        {icon && <FontAwesomeIcon icon={icon} />}
       </div>
     );
   }

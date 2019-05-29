@@ -3,7 +3,7 @@ import { getProfile, getVerifiedAccounts } from "3box/lib/api";
 import { getAddressDisplay, formatProfileData, addToClipboard } from './utils';
 import store from 'store'
 import makeBlockie from 'ethereum-blockies-base64';
-const { BaseTemplate, LoadingTemplate, EmptyProfileTemplate } = require('./html')({ dom, Fragment });
+const { BaseTemplate, LoadingTemplate } = require('./html')({ dom, Fragment });
 
 import style from './style.less';
 const css = style.toString()
@@ -38,7 +38,7 @@ const initPlugins = (buttonArray) => {
 const loadPluginData = async (buttonArray) => {
   store.removeExpiredKeys()
   for (let i = 0; i < buttonArray.length; i++) {
-    // get addresss, maybe do map instead, add other options here after
+    // get address, maybe do map instead, add other options here after
     let { address, display, theme } = buttonArray[i].dataset
     theme = !(theme === 'none')
     const addressDisplay = getAddressDisplay(address, display)
@@ -49,7 +49,7 @@ const loadPluginData = async (buttonArray) => {
     const html = theme ? undefined : buttonArray[i].querySelector("#orginal_html_f1kx").innerHTML
 
     if (profile.status === 'error') {
-      setProfileContent(buttonArray[i], EmptyProfileTemplate({ data }))
+      setProfileContent(buttonArray[i], BaseTemplate({ data }))
     } else {
       setProfileContent(buttonArray[i], BaseTemplate({ data, opts: {html} }))
     }
@@ -77,13 +77,11 @@ const copyAddress = (target, address) => {
 }
 
 const copyToCheck = (target) => {
-  target.querySelector('.clone').style = 'display: none;'
   target.querySelector('.check').style = 'display: block;'
 }
 
 const checkToCopy = (target) => {
   target.querySelector('.check').style = 'display: none;'
-  target.querySelector('.clone').style = 'display: block;'
 }
 
 const createPlugins = () => {

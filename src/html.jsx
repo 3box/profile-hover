@@ -1,132 +1,370 @@
-const { CopyButton } = require('./CopyButton')
-const style = require('style-loader!./style.less')
+const { CopyButton } = require('./CopyButton');
+const { addToClipBoardLinks } = require('./utils');
+const { FontAwesomeIcon } = require('@fortawesome/react-fontawesome');
+const { faCheck } = require('@fortawesome/free-solid-svg-icons/faCheck');
+const style = require('style-loader!./style.less');
 
 module.exports = ({ dom, React, Fragment }) => {
-  const BaseTemplate = ({ data = {}, opts={} }) => {
-    return (
-      <div className={style.boxAddressWrap}>
-        {opts.html ? (
-          <Fragment>
-            <div>
-              {opts.html}
-            </div>
-            {opts.empty ? <EmptyHoverTemplate data={data} /> : <HoverTemplate data={data} opts={opts} />}
-          </Fragment>
-        ) : <AddressBarTemplate data={data} />}
-      </div>
-    )
-  }
+  let BaseTemplate =
+    ({
+      data = {},
+      opts = {},
+      checkWindowSize,
+      showHover,
+      isMobile,
+      handleShowHover,
+      hasWeb3Mobile,
+      handleCopySuccessful,
+      copySuccessful
+    },
+      ref) => {
+      return (
+        <div
+          className={`${style.boxAddressWrap} ${!isMobile ? style.isDesktop : ''}`}
+          onMouseEnter={() => checkWindowSize(!isMobile)}
+        >
+          {opts.html ? (
+            <Fragment>
+              <div>
+                {opts.html}
+              </div>
 
-  const HoverTemplate = ({ data = {}, opts = {} }) => {
-    return (
-      <div className={style.hoverProfile}>
-        <div className={style.paddingWrap}>
-            {opts.loading && <div className={style.loadingText}> Loading ... </div>}
-            {data.name && <NameTemplate data={data} />}
-            {data.twitter && <TwitterTemplate data={data} />}
-            {data.github && <GithubTemplate data={data} />}
-            {data.website && <WebsiteTemplate data={data} />}
+              <HoverTemplate
+                data={data}
+                opts={opts}
+                ref={ref}
+                showHover={showHover}
+                hasWeb3Mobile={hasWeb3Mobile}
+                handleCopySuccessful={handleCopySuccessful}
+                copySuccessful={copySuccessful}
+              />
+            </Fragment>
+          ) : <AddressBarTemplate
+              data={data}
+              opts={opts}
+              ref={ref}
+              showHover={showHover}
+              isMobile={isMobile}
+              handleShowHover={handleShowHover}
+              handleCopySuccessful={handleCopySuccessful}
+              hasWeb3Mobile={hasWeb3Mobile}
+              copySuccessful={copySuccessful}
+            />}
+          {showHover && <div className={style.onClickOutsideMobile} onClick={() => handleShowHover(true)} />}
         </div>
-        <HoverFooterTemplate data={data} />
-      </div>
-    )
-  }
+      );
+    }
+  if (React) BaseTemplate = React.forwardRef(BaseTemplate)
 
-  const HoverFooterTemplate = ({ data={} }) => (
+  let HoverTemplate =
+    ({
+      data = {},
+      opts = {},
+      showHover,
+      hasWeb3Mobile,
+      handleCopySuccessful,
+      copySuccessful,
+      loading
+    },
+      ref) => {
+      return (
+        <div className={`${style.hoverWrap} ${style[opts.orientation || 'right']} ${showHover ? style.showHoverMobile : ''}`}>
+          <div className={style.hoverProfile} ref={ref}>
+            {loading && <div className={style.loadingText}> Loading ... </div>}
+
+            {data.coverPhoto && <CoverPictureTemplate data={data} opts={opts} />}
+            {data.imgSrc && <ProfilePictureTemplate data={data} opts={opts} />}
+
+            {data.name && <NameTemplate
+              data={data}
+              hasWeb3Mobile={hasWeb3Mobile}
+              handleCopySuccessful={handleCopySuccessful}
+              copySuccessful={copySuccessful}
+            />}
+
+            {data.description && <DescriptionTemplate data={data} />}
+
+            {(data.twitter || data.github || data.website) && (
+              <div className={style.profileDetails}>
+                {data.twitter && <TwitterTemplate
+                  data={data}
+                  hasWeb3Mobile={hasWeb3Mobile}
+                  handleCopySuccessful={handleCopySuccessful}
+                  copySuccessful={copySuccessful}
+                />}
+
+                {data.github && <GithubTemplate
+                  data={data}
+                  hasWeb3Mobile={hasWeb3Mobile}
+                  handleCopySuccessful={handleCopySuccessful}
+                  copySuccessful={copySuccessful}
+                />}
+
+                {data.website && <WebsiteTemplate
+                  data={data}
+                  hasWeb3Mobile={hasWeb3Mobile}
+                  handleCopySuccessful={handleCopySuccessful}
+                  copySuccessful={copySuccessful}
+                />}
+              </div>)}
+
+            <HoverFooterTemplate
+              data={data}
+              hasWeb3Mobile={hasWeb3Mobile}
+              handleCopySuccessful={handleCopySuccessful}
+              copySuccessful={copySuccessful}
+            />
+          </div>
+        </div>
+      );
+    }
+  if (React) HoverTemplate = React.forwardRef(HoverTemplate)
+
+  const HoverFooterTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, copySuccessful }) => (
     <div className={style.boxLink}>
-      <span> Profile at <a href={'https://3box.io/' + data.address} target="_blank">3box.io</a></span>
-      <i className="fas fa-arrow-right"></i>
+      <CopyButton address={data.address} />
+
+      {hasWeb3Mobile
+        ? <HoverFooterWeb3MobileLink data={data} handleCopySuccessful={handleCopySuccessful} />
+        : <HoverFooterLink data={data} />}
+
+      {copySuccessful === 'footer' && <FontAwesomeIcon icon={faCheck} className={style.profileCheck} />}
     </div>
-  )
+  );
 
-  const AddressBarTemplate = ({ data = {}, opts = {} }) => {
+  const HoverFooterWeb3MobileLink = ({ data, handleCopySuccessful }) => (
+    <p
+      onClick={() => addToClipBoardLinks(
+        `https://3box.io/${data.address}`,
+        handleCopySuccessful,
+        'footer'
+      )}
+      className={style.boxLinkText}
+    >
+      View 3Box
+    <img src="https://i.imgur.com/bT9PQlL.png" className={style.logo} />
+    </p>
+  );
+
+  const HoverFooterLink = ({ data }) => (
+    <a
+      className={style.boxLinkText}
+      href={`https://3box.io/${data.address}`}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      View 3Box
+      <img src="https://i.imgur.com/bT9PQlL.png" className={style.logo} />
+    </a>
+  );
+
+  const CoverPictureTemplate = ({ data = {}, opts = {} }) => {
     return (
-      <div className={`${style.boxAddress} ${data.addressDisplay.length >= 15 ? style.boxAddressFull : ''}`}>
-        <div className={style.boxImg}>
-          {data.imgSrc && <img src={data.imgSrc}  height="32px" width="32px" />}
-        </div>
-
-        <div className={style.boxShortAddress}>
-          {data.addressDisplay}
-        </div>
-
-        <CopyButton address={data.address} />
-        {opts.empty ? <EmptyHoverTemplate data={data} /> : <HoverTemplate data={data} opts={opts} />}
-      </div>
+      <Fragment>
+        {
+          (!opts.noCoverImg && !opts.noImgs) && (
+            <div className={style.coverPicture}>
+              {data.coverPhoto ? <img src={data.coverPhoto} className={style.coverPicture_image} />
+                : <div className={style.coverPicture_image} />}
+            </div>)
+        }
+      </Fragment>
     )
   }
 
-  const NameTemplate = ({ data = {} }) => (
-    <div className={style.profileValueName}>
-      <span className={style.profileText}> {data.name} </span>
-      {data.emoji && <span>{data.emoji}</span>}
-    </div>
-  )
+  let AddressBarTemplate =
+    ({
+      data = {},
+      opts = {},
+      showHover,
+      isMobile,
+      handleShowHover,
+      hasWeb3Mobile,
+      handleCopySuccessful,
+      copySuccessful,
+      loading
+    },
+      ref
+    ) => {
+      return (
+        <div
+          className={`${style.boxAddress} ${data.addressDisplay.length >= 15 ? style.boxAddressFull : ''}`}
+        >
+          <div
+            className={`${style.boxAddressContentWrapper} ${opts.url ? style.boxAddressLink : ''}`}
+            onClick={() => { if (opts.url) window.location = `${opts.url}`; }}
+          >
+            <div className={style.boxImg}>
+              {data.imgSrc && <img src={data.imgSrc} />}
+            </div>
 
-  const WebsiteTemplate = ({ data = {} }) => (
-    <div className={style.profileValue}>
-      <i className="fas fa-globe-americas"></i>
-      <span className={style.profileText}>
-        <a href={data.websiteUrl} target="_blank">
-          {data.website}
-        </a>
-      </span>
-    </div>
-  )
+            <div className={style.boxShortAddress}>
+              {data.addressDisplay}
+            </div>
+          </div>
 
-  const GithubTemplate = ({ data = {} }) => (
-    <div className={style.profileValue}>
-      <i className="fab fa-github"></i>
-      <span className={style.profileText}>
-        <a href={'https://www.github.com/' + data.github} target="_blank">
-          {data.github}
-        </a>
-      </span>
-    </div>
-  )
+          {isMobile && (
+            <button
+              className={style.openHover_mobile}
+              onClick={() => handleShowHover(true)}
+            >
+              <div className="far fa-clone clone" />
+            </button>)}
 
-  const TwitterTemplate = ({ data = {} }) => (
-    <div className={style.profileValue}>
-      <i className="fab fa-twitter"></i>
-      <span className={style.profileText}>
-        <a href={'https://www.twitter.com/' + data.twitter} target="_blank">
-          {'@' + data.twitter}
-        </a>
-      </span>
-    </div>
-  )
+          <HoverTemplate
+            data={data}
+            opts={opts}
+            ref={ref}
+            showHover={showHover}
+            hasWeb3Mobile={hasWeb3Mobile}
+            handleCopySuccessful={handleCopySuccessful}
+            copySuccessful={copySuccessful}
+            loading={loading}
+          />
+        </div>
+      )
+    }
+  if (React) AddressBarTemplate = React.forwardRef(AddressBarTemplate)
 
-  const LoadingTemplate = ({ data = {}, opts={} }) => {
+  const ProfilePictureTemplate = ({ data = {}, opts = {} }) => {
     return (
-      <div className={style.boxAddressWrap}>
+      <Fragment>
+        {(!opts.noProfileImg && !opts.noImgs) && (
+          <div className={`${style.profileValuePicture} ${(opts.noCoverImg || !data.coverPhoto) ? style.noMargin : ''}`}>
+            <img src={data.imgSrc} height="32px" width="32px" />
+          </div>
+        )}
+        {(opts.noProfileImg && !opts.noImgs) && (<div className={style.noProfileImgSpacer} />)}
+      </Fragment>)
+  }
+
+  const DescriptionTemplate = ({ data = {} }) => (
+    <div className={style.profileDescription}>
+      <p>{data.description}</p>
+    </div>
+  )
+
+  const NameTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, copySuccessful }) => (
+    <div className={style.profileValueName}>
+      {hasWeb3Mobile ? (
+        <p
+          onClick={() => addToClipBoardLinks(
+            `https://3box.io/${data.address}`,
+            handleCopySuccessful,
+            'threeBoxProfile'
+          )}
+          className={style.profileText}>
+          {data.name}
+        </p>
+      ) : (<a
+        href={`https://3box.io/${data.address}`}
+        className={style.profileText}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {data.name}
+      </a>)}
+      {data.emoji && <span>{data.emoji}</span>}
+
+      {copySuccessful === 'threeBoxProfile' && <FontAwesomeIcon icon={faCheck} />}
+    </div>
+  )
+
+  const WebsiteTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, copySuccessful }) => (
+    <div className={style.profileValue}>
+      <p className={style.profileValueKey}>Website</p>
+      <span className={style.profileText}>
+        {hasWeb3Mobile ? (
+          <SocialWeb3Link
+            handleCopySuccessful={handleCopySuccessful}
+            link={data.websiteUrl}
+            field="website"
+            handle={data.website}
+          />
+        ) : (<a href={data.websiteUrl} target="_blank">
+          {data.website}
+        </a>)}
+      </span>
+      {copySuccessful === 'website' && <FontAwesomeIcon icon={faCheck} />}
+    </div>
+  )
+
+  const GithubTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, copySuccessful }) => (
+    <div className={style.profileValue}>
+      <p className={style.profileValueKey}>Github</p>
+      <span className={style.profileText}>
+        {hasWeb3Mobile ? (
+          <SocialWeb3Link
+            handleCopySuccessful={handleCopySuccessful}
+            link={'https://www.github.com/' + data.github}
+            field="github"
+            handle={data.github}
+          />
+        ) : (<a href={'https://www.github.com/' + data.github} target="_blank">
+          {data.github}
+        </a>)}
+      </span>
+      {copySuccessful === 'github' && <FontAwesomeIcon icon={faCheck} />}
+    </div>
+  )
+
+  const TwitterTemplate = ({ data = {}, hasWeb3Mobile, copySuccessful, handleCopySuccessful }) => (
+    <div className={style.profileValue}>
+      <p className={style.profileValueKey}>Twitter</p>
+      <span className={style.profileText}>
+        {hasWeb3Mobile ? (
+          <SocialWeb3Link
+            handleCopySuccessful={handleCopySuccessful}
+            link={`https://www.twitter.com/${data.twitter}`}
+            field="twitter"
+            handle={`@${data.twitter}`}
+          />
+        ) : <a href={'https://www.twitter.com/' + data.twitter} target="_blank">
+            {`@${data.twitter}`}
+          </a>}
+      </span>
+      {copySuccessful === 'twitter' && <FontAwesomeIcon icon={faCheck} />}
+    </div >
+  );
+
+  const SocialWeb3Link = ({ handleCopySuccessful, link, field, handle }) => (
+    <p onClick={() => addToClipBoardLinks(link, handleCopySuccessful, field)}>
+      {handle}
+    </p>
+  );
+
+  let LoadingTemplate = ({ data = {}, opts = {}, showHover, isMobile, checkWindowSize }, ref) => {
+    return (
+      <div
+        className={`${style.boxAddressWrap} ${!isMobile ? style.isDesktop : ''}`}
+        onMouseEnter={() => checkWindowSize(!isMobile)}
+      >
         {opts.html ? (
           <Fragment>
             <div id="orginal_html_f1kx">{opts.html}</div>
-            {opts.empty ? <EmptyHoverTemplate data={data} /> : <HoverTemplate data={data} opts={{loading: true}} />}
+            <HoverTemplate
+              data={data}
+              opts={opts}
+              showHover={showHover}
+              loading
+              ref={ref}
+            />
           </Fragment>
-        ) : <AddressBarTemplate data={data} opts={{loading: true}} />}
+        ) : (
+            <AddressBarTemplate
+              data={data}
+              opts={opts}
+              isMobile={isMobile}
+              loading
+              ref={ref}
+            />)}
       </div>
     )
   }
+  if (React) LoadingTemplate = React.forwardRef(LoadingTemplate)
 
-
-  const EmptyProfileTemplate = ({ data }) => {
-    return (
-      <div className={style.boxAddressWrap}>
-        {<AddressBarTemplate data={data} opts={{empty:true}} />}
-      </div>
-    )
+  return {
+    BaseTemplate,
+    LoadingTemplate,
   }
-
-  const EmptyHoverTemplate = ({ data }) => (
-    <div className={style.hoverProfile}>
-      <div className={style.boxLinkEmpty}>
-        <span> Create a profile at <a href={'https://3box.io/'} target="_blank">3box.io</a></span>
-        <i className="fas fa-arrow-right"></i>
-      </div>
-    </div>
-  )
-
-  return { BaseTemplate, LoadingTemplate, EmptyProfileTemplate }
 }
-

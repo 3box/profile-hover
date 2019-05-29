@@ -19,36 +19,57 @@ export const getAddressDisplay = (address, display) => {
 
 const getShortAddress = (address) => {
   return address.substr(0,6) + '...' + address.substr(-4);
-}
+};
 
-const formatUrl = (url) => {
+const getImgSrc = (profile, address, type) => {
+  if (!profile.image && type === 'image') {
+    return makeBlockie(address);
+  }
+  const hash = profile[type][0].contentUrl["/"];
+  return `https://ipfs.infura.io/ipfs/${hash}`;
+};
+
+export const formatUrl = (url) => {
   if (!url) {
     return undefined;
   }
   return url.includes('http') ?  url : `http://${url}`;
-}
-
-const getImgSrc = (profile, address) => {
-  if (!profile.image) {
-    return makeBlockie(address);
-  }
-  const hash = profile.image[0].contentUrl["/"];
-  return `https://ipfs.infura.io/ipfs/${hash}`;
 };
+
+export const addToClipBoardLinks = (link, copySuccessfulFunc, key) => {
+  addToClipboard(link);
+  copySuccessfulFunc(key);
+}
 
 export const addToClipboard = (address) => {
   const el = document.createElement('textarea');
+  el.readOnly = true; // prevent zoom on iPhone
   el.value = address
   document.body.appendChild(el);
-  el.select();
+
+
+  let selection;
+  let range;
+  
+  if (navigator.userAgent.match(/ipad|iphone/i)) {
+    range = document.createRange();
+    range.selectNodeContents(el);
+    selection = window.getSelection();
+    selection.removeAllRanges();
+    selection.addRange(range);
+    el.setSelectionRange(0, 999999);
+  } else {
+    el.select();
+  }
+
   document.execCommand('copy');
   document.body.removeChild(el);
-}
+};
 
 export const formatProfileData = (profile = {}, verified = {}, address, addressDisplay) => {
   try {
     return {
-      imgSrc: getImgSrc(profile, address),
+      imgSrc: getImgSrc(profile, address, 'image'),
       address: address,
       addressDisplay: addressDisplay,
       github: verified.github ? verified.github.username : undefined,
@@ -56,7 +77,9 @@ export const formatProfileData = (profile = {}, verified = {}, address, addressD
       emoji: profile.emoji,
       name: profile.name,
       website: profile.website,
-      websiteUrl: formatUrl(profile.website)
+      description: profile.description,
+      coverPhoto: getImgSrc(profile, address, 'coverPhoto'),
+      websiteUrl: formatUrl(profile.website),
     };
   } catch (e) {
     return {
@@ -67,3 +90,14 @@ export const formatProfileData = (profile = {}, verified = {}, address, addressD
   }
 };
 
+export const checkIsMobile = () => {
+  try {
+    if ((typeof window.orientation !== "undefined")
+    || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+    return true;
+    };
+    return false;
+  } catch (error) {
+    console.error(error);
+  }
+}
