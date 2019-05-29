@@ -19,6 +19,11 @@
   "bugs": {
     "url": "https://github.com/3box/profile-hover/issues"
   },
+  "contributors": [
+    "Zach Ferland <zachferland@gmail.com>"
+    "Oskar Nyberg <oskar@oskarnyberg.com>",
+    "Kenzo Nakamura <presto12321@gmail.com>"
+  ],
   "homepage": "https://github.com/3box/profile-hover#readme",
   "dependencies": {
     "3box": "^1.3.0",
