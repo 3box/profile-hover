@@ -63,13 +63,14 @@ module.exports = ({ dom, React, Fragment }) => {
       showHover,
       hasWeb3Mobile,
       handleCopySuccessful,
-      copySuccessful
+      copySuccessful,
+      loading
     },
       ref) => {
       return (
         <div className={`${style.hoverWrap} ${style[opts.orientation || 'right']} ${showHover ? style.showHoverMobile : ''}`}>
           <div className={style.hoverProfile} ref={ref}>
-            {opts.loading && <div className={style.loadingText}> Loading ... </div>}
+            {loading && <div className={style.loadingText}> Loading ... </div>}
 
             {data.coverPhoto && <CoverPictureTemplate data={data} opts={opts} />}
             {data.imgSrc && <ProfilePictureTemplate data={data} opts={opts} />}
@@ -180,7 +181,8 @@ module.exports = ({ dom, React, Fragment }) => {
       handleShowHover,
       hasWeb3Mobile,
       handleCopySuccessful,
-      copySuccessful
+      copySuccessful,
+      loading
     },
       ref
     ) => {
@@ -217,6 +219,7 @@ module.exports = ({ dom, React, Fragment }) => {
             hasWeb3Mobile={hasWeb3Mobile}
             handleCopySuccessful={handleCopySuccessful}
             copySuccessful={copySuccessful}
+            loading={loading}
           />
         </div>
       )
@@ -330,27 +333,35 @@ module.exports = ({ dom, React, Fragment }) => {
     </p>
   );
 
-  const LoadingTemplate = ({ data = {}, opts = {}, showHover, isMobile }) => {
+  let LoadingTemplate = ({ data = {}, opts = {}, showHover, isMobile, checkWindowSize }, ref) => {
     return (
-      <div className={style.boxAddressWrap}>
+      <div
+        className={`${style.boxAddressWrap} ${!isMobile ? style.isDesktop : ''}`}
+        onMouseEnter={() => checkWindowSize(!isMobile)}
+      >
         {opts.html ? (
           <Fragment>
             <div id="orginal_html_f1kx">{opts.html}</div>
             <HoverTemplate
               data={data}
-              opts={{ loading: true }}
+              opts={opts}
               showHover={showHover}
+              loading
+              ref={ref}
             />
           </Fragment>
         ) : (
             <AddressBarTemplate
               data={data}
-              opts={{ loading: true }}
+              opts={opts}
               isMobile={isMobile}
+              loading
+              ref={ref}
             />)}
       </div>
     )
   }
+  if (React) LoadingTemplate = React.forwardRef(LoadingTemplate)
 
   return {
     BaseTemplate,

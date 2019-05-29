@@ -54,6 +54,12 @@ const MyComponent = () => (<ProfileHover address={'0xa8ee0babe72cd9a80ae45dd74cd
 </ProfileHover>
 ```
 
+##### Desktop Behavior VS Mobile Behavior
+Given the current state of Web 3 mobile dapp browsers and the absence of browser tab support, the behavior of the profile-hover React component has minor differences depending on device context. 
+On desktop, out-bound links within the pop-out hover element work as usual and open a new tab.
+On Web3 mobile dapp browsers however, since tabs do not exist, clicking on a link within the hover component will, instead, copy that URL to your clipboard.
+Web2 mobile browsers, like on desktop, will open links in a new tab.
+
 ### HTML element
 
 First add the script at the end of your page.

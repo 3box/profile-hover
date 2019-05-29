@@ -15,7 +15,6 @@ export default class ProfileHover extends React.PureComponent {
       hasWeb3Mobile: false,
       copySuccessful: ''
     };
-
     this.selector = React.createRef();
     this.checkWindowSize = this.checkWindowSize.bind(this);
     this.handleShowHover = this.handleShowHover.bind(this);
@@ -43,7 +42,7 @@ export default class ProfileHover extends React.PureComponent {
     try {
       const profile = await getProfile(this.props.address);
       const verified = await getVerifiedAccounts(profile);
-      this.setState({ profile, verified });
+      this.setState({ profile, verified, hasUpdated: false });
     } catch (error) {
       console.error('3box profile fetch failed', error);
     }
@@ -140,6 +139,8 @@ export default class ProfileHover extends React.PureComponent {
         isMobile={isMobile}
         showHover={showHover}
         handleShowHover={this.handleShowHover}
+        ref={this.selector}
+        checkWindowSize={this.checkWindowSize}
       />;
     }
 
