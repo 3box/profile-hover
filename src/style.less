@@ -74,6 +74,7 @@
   border-left: 1px solid rgb(237, 242, 251);
   width: @baseTileHeight;
   color: #b7bece;
+  border-radius: 0 5px 5px 0;
 }
 
 .openHover_mobile svg {
@@ -115,13 +116,13 @@
 .boxAddressWrap .hoverWrap.top {
   padding-bottom: 20px;
   bottom: 90%;
-  left: -15px;
+  left: 0;
 }
 
 .boxAddressWrap .hoverWrap.bottom {
   padding-top: 20px;
   top: 90%;
-  left: -15px;
+  left: 0;
 }
 
 .boxAddressWrap .hoverWrap.right {
@@ -485,4 +486,26 @@
   width: 100%;
   height: 100%;
   z-index: 1;
+}
+
+@media (max-width: 600px) {
+  .boxAddressContentWrapper {
+    max-width: calc(200px + @baseTileHeight + 40px);
+    min-width: calc(100px + @baseTileHeight + 40px);
+  }
+
+  .boxShortAddress {
+    font-size: 14px;
+    padding: 0 20px;
+    max-width: 200px;
+    min-width: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .openHover_mobile svg {
+    height: 16px !important;
+    width: 16px !important;
+  }
 }
