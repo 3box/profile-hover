@@ -1,5 +1,8 @@
 # Release Notes
 
+## v1.0.1 - 2019-05-30
+* Fix(CSS): tile sizing in mobile
+
 ## v1.0.0 - 2019-05-29
 * Support in React with a React component :tada: :zap: Huge thanks to @raksooo for making this happen!
 * A new redesigned hover and address bar. Along with much improved mobile support and new configuration options. Nice work by @oznekenzo :fire:
