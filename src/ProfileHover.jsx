@@ -97,13 +97,15 @@ export default class ProfileHover extends React.PureComponent {
     const {
       address,
       fullDisplay,
-      noTheme,
       children,
+      noTheme,
       noImgs,
       noProfileImg,
       noCoverImg,
       orientation,
-      url
+      url,
+      showName,
+      tileStyle
     } = this.props;
 
     const {
@@ -125,6 +127,8 @@ export default class ProfileHover extends React.PureComponent {
       noImgs,
       noProfileImg,
       noCoverImg,
+      showName,
+      tileStyle,
       url: formatUrl(url),
       orientation: adjustOrientation || orientation || 'right',
     };

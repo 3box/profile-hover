@@ -39,17 +39,20 @@ module.exports = ({ dom, React, Fragment }) => {
                 copySuccessful={copySuccessful}
               />
             </Fragment>
-          ) : <AddressBarTemplate
-              data={data}
-              opts={opts}
-              ref={ref}
-              showHover={showHover}
-              isMobile={isMobile}
-              handleShowHover={handleShowHover}
-              handleCopySuccessful={handleCopySuccessful}
-              hasWeb3Mobile={hasWeb3Mobile}
-              copySuccessful={copySuccessful}
-            />}
+          ) : (
+              <AddressBarTemplate
+                data={data}
+                opts={opts}
+                ref={ref}
+                showHover={showHover}
+                isMobile={isMobile}
+                handleShowHover={handleShowHover}
+                handleCopySuccessful={handleCopySuccessful}
+                hasWeb3Mobile={hasWeb3Mobile}
+                copySuccessful={copySuccessful}
+              />
+            )}
+
           {showHover && <div className={style.onClickOutsideMobile} onClick={() => handleShowHover(true)} />}
         </div>
       );
@@ -188,7 +191,7 @@ module.exports = ({ dom, React, Fragment }) => {
     ) => {
       return (
         <div
-          className={`${style.boxAddress} ${data.addressDisplay.length >= 15 ? style.boxAddressFull : ''}`}
+          className={`${style.boxAddress} ${data.addressDisplay.length >= 15 ? style.boxAddressFull : ''} ${opts.tileStyle ? style.tileStyle : ''}`}
         >
           <div
             className={`${style.boxAddressContentWrapper} ${opts.url ? style.boxAddressLink : ''}`}
@@ -199,7 +202,7 @@ module.exports = ({ dom, React, Fragment }) => {
             </div>
 
             <div className={style.boxShortAddress}>
-              {data.addressDisplay}
+              {(opts.showName && data.name) ? data.name : data.addressDisplay}
             </div>
           </div>
 
