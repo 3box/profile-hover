@@ -248,7 +248,12 @@ module.exports = ({ dom, React, Fragment }) => {
   )
 
   const NameTemplate = ({ data = {}, hasWeb3Mobile, handleCopySuccessful, copySuccessful }) => (
-    <div className={style.profileValueName}>
+    <div className=
+      {`
+      ${style.profileValueName} 
+      ${(!data.description && !data.twitter && !data.github && !data.website) ? style.noContent : ''}
+      `}
+    >
       {hasWeb3Mobile ? (
         <p
           onClick={() => addToClipBoardLinks(

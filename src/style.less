@@ -33,17 +33,13 @@
   cursor: pointer;
 }
 
-.boxAddressContentWrapper {
+.tileStyle .boxAddressContentWrapper {
   max-width: calc(200px + @baseTileHeight + 40px);
   min-width: calc(92px + @baseTileHeight + 40px);
 }
 
-.boxShortAddress {
-  max-width: 200px;
-  min-width: 100px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+.boxAddressContentWrapper {
+  max-width: calc(200px + @baseTileHeight + 40px);
 }
 
 .boxAddressFull {
@@ -85,6 +81,14 @@
   letter-spacing: 0.015em;
   display: block;
   padding: 0 16px;
+  max-width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.tileStyle .boxShortAddress {
+  min-width: 100px;
 }
 
 .openHover_mobile {
@@ -93,6 +97,7 @@
   color: #b7bece;
   padding: 0;
   border: none;
+  background-color: transparent;  
 }
 
 .tileStyle .openHover_mobile {
@@ -285,6 +290,10 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+}
+
+.hoverProfile .profileValueName.noContent {
+  margin-bottom: 20px;
 }
 
 .hoverProfile .profileValueName span {

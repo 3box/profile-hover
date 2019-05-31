@@ -48,10 +48,10 @@ export default class ProfileHover extends React.PureComponent {
     }
   }
 
-  checkWindowSize(shouldRun) {
+  checkWindowSize(isNotMobile) {
     try {
       const { hasUpdated } = this.state;
-      if (!hasUpdated && shouldRun) {
+      if (!hasUpdated && isNotMobile) {
         const { adjustOrientation } = this.state;
         const height = window.innerHeight;
         const rect = this.selector.current.getBoundingClientRect();

@@ -22,11 +22,15 @@ const getShortAddress = (address) => {
 };
 
 const getImgSrc = (profile, address, type) => {
-  if (!profile.image && type === 'image') {
-    return makeBlockie(address);
+  try {
+    if (!profile.image && type === 'image') {
+      return makeBlockie(address);
+    }
+    const hash = profile[type][0].contentUrl["/"];
+    return `https://ipfs.infura.io/ipfs/${hash}`;
+  } catch (error) {
+    console.log(error);
   }
-  const hash = profile[type][0].contentUrl["/"];
-  return `https://ipfs.infura.io/ipfs/${hash}`;
 };
 
 export const formatUrl = (url) => {
