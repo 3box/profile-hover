@@ -25,9 +25,7 @@ module.exports = ({ dom, React, Fragment }) => {
         >
           {opts.html ? (
             <Fragment>
-              <div>
-                {opts.html}
-              </div>
+              {opts.html}
 
               <HoverTemplate
                 data={data}
