@@ -22,10 +22,10 @@ const getShortAddress = (address) => {
 };
 
 const getImgSrc = (profile, address, type) => {
-  if (!profile.image && type === 'image') {
+  if (!profile.image && type === 'image' && address) {
     return makeBlockie(address);
   }
-  const hash = profile[type][0].contentUrl["/"];
+  const hash = profile[type] ? profile[type][0].contentUrl["/"] : '';
   return `https://ipfs.infura.io/ipfs/${hash}`;
 };
 

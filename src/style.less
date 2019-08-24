@@ -159,6 +159,8 @@
 
 .boxAddressWrap .hoverWrap.showHoverMobile .hoverProfile {
   display: flex;
+  box-sizing: border-box;
+  min-width: 270px;
 }
 
 .hoverProfileEmpty {
@@ -216,15 +218,16 @@
 .hoverProfile .profileValuePicture {
   z-index: 2;
   margin-top: 10px;
+  display: flex;
 }
 
-.hoverProfile .profileValuePicture img {
+.hoverProfile .profileValuePicture .profileValuePicture_image {
   background: white;
   height: 60px;
   width: 60px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
   border: 3px solid white;
 }
 
@@ -232,11 +235,12 @@
   margin-top: 65px;
 }
 
-.hoverProfile .profileDescription p {
+.hoverProfile .profileDescription .profileDescription_text {
   font-size: 14px;
   margin-top: 4px;
   color: @lighterFont;
   line-height: 18px;
+  text-align: left;
 }
 
 .hoverProfile .profileValue .profileText {
@@ -391,6 +395,7 @@
 .hoverProfile .profileValueKey {
   font-size: 12px;
   width: 20%;
+  text-align: left;
 }
 
 .hoverProfile:after {
@@ -444,6 +449,7 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  width: fit-content;
 }
 
 .hoverProfile .addressWrapper {
