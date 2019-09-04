@@ -25,9 +25,7 @@ module.exports = ({ dom, React, Fragment }) => {
         >
           {opts.html ? (
             <Fragment>
-              <div>
-                {opts.html}
-              </div>
+              {opts.html}
 
               <HoverTemplate
                 data={data}
@@ -234,7 +232,7 @@ module.exports = ({ dom, React, Fragment }) => {
       <Fragment>
         {(!opts.noProfileImg && !opts.noImgs) && (
           <div className={`${style.profileValuePicture} ${(opts.noCoverImg || !data.coverPhoto) ? style.noMargin : ''}`}>
-            <img src={data.imgSrc} height="32px" width="32px" />
+            <img className={`${style.profileValuePicture_image}`} src={data.imgSrc} height="32px" width="32px" />
           </div>
         )}
         {(opts.noProfileImg && !opts.noImgs) && (<div className={style.noProfileImgSpacer} />)}
@@ -243,7 +241,7 @@ module.exports = ({ dom, React, Fragment }) => {
 
   const DescriptionTemplate = ({ data = {} }) => (
     <div className={style.profileDescription}>
-      <p>{data.description}</p>
+      <p className={style.profileDescription_text}>{data.description}</p>
     </div>
   )
 
