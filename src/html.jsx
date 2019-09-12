@@ -167,7 +167,8 @@ module.exports = ({ dom, React, Fragment }) => {
             <div className={style.coverPicture}>
               {data.coverPhoto ? <img src={data.coverPhoto} className={style.coverPicture_image} />
                 : <div className={style.coverPicture_image} />}
-            </div>)
+            </div>
+            )
         }
       </Fragment>
     )

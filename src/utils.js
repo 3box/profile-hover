@@ -1,12 +1,27 @@
 import makeBlockie from 'ethereum-blockies-base64';
 
-import { library, dom as faDom } from "@fortawesome/fontawesome-svg-core"
-import { faCheck } from "@fortawesome/free-solid-svg-icons/faCheck"
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons/faArrowRight"
-import { faGlobeAmericas } from "@fortawesome/free-solid-svg-icons/faGlobeAmericas"
-import { faTwitter } from "@fortawesome/free-brands-svg-icons/faTwitter"
-import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub"
-import { faClone } from '@fortawesome/free-regular-svg-icons/faClone'
+import {
+  library,
+  dom as faDom
+} from "@fortawesome/fontawesome-svg-core"
+import {
+  faCheck
+} from "@fortawesome/free-solid-svg-icons/faCheck"
+import {
+  faArrowRight
+} from "@fortawesome/free-solid-svg-icons/faArrowRight"
+import {
+  faGlobeAmericas
+} from "@fortawesome/free-solid-svg-icons/faGlobeAmericas"
+import {
+  faTwitter
+} from "@fortawesome/free-brands-svg-icons/faTwitter"
+import {
+  faGithub
+} from "@fortawesome/free-brands-svg-icons/faGithub"
+import {
+  faClone
+} from '@fortawesome/free-regular-svg-icons/faClone'
 
 library.add(faCheck, faArrowRight, faGithub, faTwitter, faGlobeAmericas, faClone);
 faDom.watch()
@@ -18,14 +33,13 @@ export const getAddressDisplay = (address, display) => {
 }
 
 const getShortAddress = (address) => {
-  return address.substr(0,6) + '...' + address.substr(-4);
+  return address.substr(0, 6) + '...' + address.substr(-4);
 };
 
 const getImgSrc = (profile, address, type) => {
   try {
-    if (!profile.image && type === 'image' && address) {
-      return makeBlockie(address);
-    }
+    if (!profile.image && type === 'image' && address) return makeBlockie(address);
+    if (!profile.coverPhoto && type === 'coverPhoto' && address) return null;
     const hash = profile[type] ? profile[type][0].contentUrl["/"] : '';
     return `https://ipfs.infura.io/ipfs/${hash}`;
   } catch (error) {
@@ -37,7 +51,7 @@ export const formatUrl = (url) => {
   if (!url) {
     return undefined;
   }
-  return url.includes('http') ?  url : `http://${url}`;
+  return url.includes('http') ? url : `http://${url}`;
 };
 
 export const addToClipBoardLinks = (link, copySuccessfulFunc, key) => {
@@ -54,7 +68,7 @@ export const addToClipboard = (address) => {
 
   let selection;
   let range;
-  
+
   if (navigator.userAgent.match(/ipad|iphone/i)) {
     range = document.createRange();
     range.selectNodeContents(el);
@@ -96,9 +110,9 @@ export const formatProfileData = (profile = {}, verified = {}, address, addressD
 
 export const checkIsMobile = () => {
   try {
-    if ((typeof window.orientation !== "undefined")
-    || (navigator.userAgent.indexOf('IEMobile') !== -1)) {
-    return true;
+    if ((typeof window.orientation !== "undefined") ||
+      (navigator.userAgent.indexOf('IEMobile') !== -1)) {
+      return true;
     };
     return false;
   } catch (error) {
