@@ -23,9 +23,9 @@ const getShortAddress = (address) => {
 
 const getImgSrc = (profile, address, type) => {
   try {
-    if (!profile.image && type === 'image' && address) {
-      return makeBlockie(address);
-    }
+    if (!profile.image && type === 'image' && address) return makeBlockie(address);
+    if (!profile.coverPhoto && type === 'coverPhoto' && address) return null;
+    
     const hash = profile[type] ? profile[type][0].contentUrl["/"] : '';
     return `https://ipfs.infura.io/ipfs/${hash}`;
   } catch (error) {
