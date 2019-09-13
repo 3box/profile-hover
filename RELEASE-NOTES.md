@@ -1,5 +1,10 @@
 # Release Notes
 
+## v1.1.1 - 2019-09-13
+
+* fix: return null for cover image if there isn't one
+* fix: more css rules for varying edge cases
+
 ## v1.0.2 - 2019-05-31
 
 * fix: align hover arrow
