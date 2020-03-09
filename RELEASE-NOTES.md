@@ -1,5 +1,9 @@
 # Release Notes
 
+## v1.1.2 - 2020-03-09
+
+* chore: update to 3box@1.17.1
+
 ## v1.1.1 - 2019-09-13
 
 * fix: return null for cover image if there isn't one
