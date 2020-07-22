@@ -98,3 +98,5 @@ Here are the ways you can customize the profile hover to better suit your app's 
 ## Differences Between Desktop and Mobile
 Given the current state of Web3 mobile dapp browsers and their lack of browser tab support, the behavior of the profile-hover React component has minor differences depending on device context. On desktop web and web2 mobile browsers, out-bound links within the hover element work as usual and open a new tab. However on Web3 mobile dapp browsers, since tabs do not exist, clicking on a link within the hover component will, instead, copy that URL to a users clipboard.
 
+## Maintainers
+[@zachferland](https://github.com/zachferland)
