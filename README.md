@@ -4,6 +4,8 @@
 
 # Profile Hover
 
+> ⚠️ This plugin is now deprecated - see the [migration FAQ](https://www.notion.so/threebox/FAQ-3Box-Migration-to-Ceramic-9db767a0aded46279fce9eab97920a4f) for more details
+
 `profile-hover` is a drop-in component that displays profile metadata for any ethereum address. Available in React and HTML/CSS versions.
 
 ![Profile Hover](./example/profile-hover.gif)
