@@ -1,0 +1,30 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+  open-pull-requests-limit: 10
+  target-branch: develop
+  reviewers:
+  - zachferland
+  assignees:
+  - zachferland
+  allow:
+  - dependency-type: production
+  ignore:
+  - dependency-name: "@fortawesome/free-regular-svg-icons"
+    versions:
+    - 5.15.2
+  - dependency-name: "@fortawesome/free-brands-svg-icons"
+    versions:
+    - 5.15.2
+  - dependency-name: "@fortawesome/fontawesome-svg-core"
+    versions:
+    - 1.2.34
+  - dependency-name: "@fortawesome/free-solid-svg-icons"
+    versions:
+    - 5.15.2
+  - dependency-name: 3box
+    versions:
+    - 1.22.2
